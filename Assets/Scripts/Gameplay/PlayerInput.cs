@@ -7,23 +7,26 @@ public class PlayerInput : MonoBehaviour {
 	private const System.SByte LEFT = -1;
 	// Movement direction - basically just simplifies setting the sign of movement velocity (negative = left)
 	private System.SByte MOVE_DIR = NONE;
-	private const float moveSpeed = 10;
+	private const float MOVESPEED = 10;
 	private float halfScreenWidth;
+	// screen bounds converted to world space. Positive is right edge, negative is left
+	private float worldSpaceScreenBound;
 
-	private const float SMOOTHING_TIME_ACCELERATING = 0.04f;
-	private const float SMOOTHING_TIME_DECELERATING = 0.06f;
+	private const float SMOOTHING_TIME_ACCELERATING = 0.03f;
+	private const float SMOOTHING_TIME_DECELERATING = 0.05f;
 	private float SMOOTHING_TIME = SMOOTHING_TIME_ACCELERATING;
 
 	private float velocity, targetVelocity;
 	private float velocitySmoothing;
 
 	Timer bombTriggerDelayTimer;
-	float bombTriggerDelayDuration = 1f;
+	private const float BOMB_TRIGGER_DELAY_DURATION = 1f;
 
 	// Use this for initialization
 	void Start() {
 		halfScreenWidth = Screen.width / 2;
-		bombTriggerDelayTimer = TimerManager.Instance.CreateTimerOneshot(bombTriggerDelayDuration);
+		worldSpaceScreenBound = -Camera.main.ScreenToWorldPoint(Vector3.zero).x;
+		bombTriggerDelayTimer = TimerManager.Instance.CreateTimerOneshot(BOMB_TRIGGER_DELAY_DURATION);
 		bombTriggerDelayTimer.onFinish += bombTriggerDelayTimer_onFinish;
 	}
 
@@ -57,9 +60,12 @@ public class PlayerInput : MonoBehaviour {
 		}
 
 		// Move character based on input. Smooth out acceleration using SmoothDamp
-		targetVelocity = MOVE_DIR * moveSpeed;
+		targetVelocity = MOVE_DIR * MOVESPEED;
 		velocity = Mathf.SmoothDamp(velocity, targetVelocity, ref velocitySmoothing, SMOOTHING_TIME);
 		transform.Translate(Vector3.right * velocity * Time.deltaTime);
+
+		transform.position = new Vector3(Mathf.Clamp(transform.position.x, -worldSpaceScreenBound, worldSpaceScreenBound), transform.position.y, transform.position.z);
+
 	}
 
 	void bombTriggerDelayTimer_onFinish() {
