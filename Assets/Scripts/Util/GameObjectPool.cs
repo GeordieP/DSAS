@@ -10,9 +10,15 @@ public class GameObjectPool {
 
         _inUse = new List<GameObject>();
         _available = new List<GameObject>();
+        GameObject parent, temp;
+
+        parent = MonoBehaviour.Instantiate(new GameObject(), Vector3.zero, Quaternion.identity) as GameObject;
+        parent.name = _initialStateItem.name + "_pool";
         
         for (int i = 0; i < length; i++) {
-            _available.Add(MonoBehaviour.Instantiate(initialStateItem, Vector3.zero, Quaternion.identity) as GameObject);
+            temp = MonoBehaviour.Instantiate(initialStateItem, Vector3.zero, Quaternion.identity) as GameObject;
+            temp.transform.parent = parent.transform;
+            _available.Add(temp);
         }
     }
 
