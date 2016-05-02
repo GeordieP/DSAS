@@ -32,7 +32,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &414920
 Transform:
   m_ObjectHideFlags: 1
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 113962, guid: cf85082b438929c45b07996396132a0f, type: 2}
-  _shooting: 1
+  _shooting: 0
 --- !u!212 &21269456
 SpriteRenderer:
   m_ObjectHideFlags: 1
