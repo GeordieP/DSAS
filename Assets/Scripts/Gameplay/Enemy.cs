@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void Update() {
-        transform.Translate(new Vector3(0f, -2 * Time.deltaTime, 0f));
+        transform.Translate(new Vector3(Mathf.Sin(Time.time * 2) * 0.02f, -2 * Time.deltaTime, 0f));
         if (transform.position.y < -5) {
             GameManager.Instance.EnemyReturnToPool(gameObject);
         }

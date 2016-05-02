@@ -80,8 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 549ee7f24efce4c479468bb028d06687, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab: {fileID: 113962, guid: cf85082b438929c45b07996396132a0f, type: 2}
-  _shooting: 1
+  _bulletPrefab: {fileID: 195234, guid: 1102852e90d48054bad85d3cfae16cc1, type: 2}
+  _shooting: 0
 --- !u!212 &21269456
 SpriteRenderer:
   m_ObjectHideFlags: 1
