@@ -81,7 +81,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 113962, guid: cf85082b438929c45b07996396132a0f, type: 2}
-  _shooting: 0
+  _shooting: 1
 --- !u!212 &21269456
 SpriteRenderer:
   m_ObjectHideFlags: 1

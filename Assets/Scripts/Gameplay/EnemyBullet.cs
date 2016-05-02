@@ -2,14 +2,11 @@
 
 
 public class EnemyBullet : Bullet {
-    private int enemyType;
-
     void Start() {
         MOVE_SPEED = -30f;
     }
 
     public void SetType(int enemyTypeIndex) {
-        enemyType = enemyTypeIndex;
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemyBulletSprites[enemyTypeIndex];        
     }
 

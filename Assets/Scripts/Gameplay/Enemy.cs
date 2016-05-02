@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour {
         enemyType = Random.Range(0, GameManager.Instance.EnemySprites.Length);
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemySprites[enemyType];
     }
-    
+
     public void Spawn() {
         if (!initialized) Init();
         transform.position = new Vector3(0f, 5.0f, 0f);
@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour {
         transform.position = new Vector3(-50f, -50f, 0f);
     }
 
-    public void shootTimer_onFinish() {
+    private void shootTimer_onFinish() {
         GameObject bullet = enemyBulletPool.Borrow();
         bullet.GetComponent<EnemyBullet>().SetType(enemyType);
         bullet.GetComponent<EnemyBullet>().Spawn(transform);

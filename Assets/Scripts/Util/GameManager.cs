@@ -80,7 +80,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     * Timer Tick / Finish event callbacks
     ---*/
     
-    void enemySpawnTimer_onFinish() {
+    private void enemySpawnTimer_onFinish() {
         GameObject enemy = enemyPool.Borrow();
         enemy.SetActive(true);
         enemy.GetComponent<Enemy>().Spawn();
