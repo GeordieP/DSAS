@@ -2,7 +2,7 @@
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Bullet : MonoBehaviour {
-    protected float MOVE_SPEED = 40;
+    protected float MOVE_SPEED = Balance.BULLET_INITIAL_SPEED;
 
     public virtual void Spawn(Transform shooterTransform) {
         transform.position = shooterTransform.position;

@@ -2,7 +2,7 @@
 
 public class PlayerBullet : Bullet {
 	void Start () {
-        MOVE_SPEED = 40f;
+        MOVE_SPEED = Balance.PLAYER_BULLET_INITIAL_SPEED;
 	}
 
     public void SetType(int pickupTypeIndex) {
@@ -11,7 +11,7 @@ public class PlayerBullet : Bullet {
 	
 	void Update () {
         transform.Translate(0f, MOVE_SPEED * Time.deltaTime, 0f);
-        if (transform.position.y > 10) {
+        if (transform.position.y > Balance.ScreenBounds.top) {
             GameManager.Instance.PlayerBulletReturnToPool(gameObject);
         }
 	}

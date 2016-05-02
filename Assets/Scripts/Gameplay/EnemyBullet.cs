@@ -3,7 +3,7 @@
 
 public class EnemyBullet : Bullet {
     void Start() {
-        MOVE_SPEED = -30f;
+        MOVE_SPEED = Balance.ENEMY_BULLET_INITIAL_SPEED;
     }
 
     public void SetType(int enemyTypeIndex) {
