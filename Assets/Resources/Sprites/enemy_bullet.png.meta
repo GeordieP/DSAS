@@ -1,0 +1,174 @@
+fileFormatVersion: 2
+guid: affadb916590d484bba340f95674993f
+timeCreated: 1462173512
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: enemy_bullet_0
+    21300002: enemy_bullet_1
+    21300004: enemy_bullet_2
+    21300006: enemy_bullet_3
+    21300008: enemy_bullet_4
+    21300010: enemy_bullet_5
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 48
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: enemy_bullet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 2}
+        - {x: -14, y: 1}
+        - {x: -14, y: -23}
+        - {x: -13, y: -24}
+        - {x: 10, y: -24}
+        - {x: 14, y: -20}
+        - {x: 14, y: -4}
+        - {x: 11, y: 2}
+    - name: enemy_bullet_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -12, y: -2}
+        - {x: -12, y: -20}
+        - {x: -11, y: -24}
+        - {x: 8, y: -24}
+        - {x: 12, y: -20}
+        - {x: 12, y: -2}
+    - name: enemy_bullet_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 2, y: 10}
+        - {x: -3, y: 10}
+        - {x: -7, y: 5}
+        - {x: -10, y: -6}
+        - {x: -10, y: -24}
+        - {x: 10, y: -24}
+        - {x: 10, y: -3}
+        - {x: 9, y: 6}
+    - name: enemy_bullet_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -9, y: 6}
+        - {x: -14, y: -4}
+        - {x: -14, y: -24}
+        - {x: 14, y: -24}
+        - {x: 14, y: -8}
+        - {x: 8, y: 6}
+    - name: enemy_bullet_4
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -8, y: 6}
+        - {x: -12, y: -1}
+        - {x: -12, y: -16}
+        - {x: -10, y: -20}
+        - {x: -6, y: -24}
+        - {x: 7, y: -24}
+        - {x: 12, y: -18}
+        - {x: 12, y: 3}
+        - {x: 4, y: 6}
+    - name: enemy_bullet_5
+      rect:
+        serializedVersion: 2
+        x: 240
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -2, y: 10}
+        - {x: -8, y: 4}
+        - {x: -8, y: -22}
+        - {x: -6, y: -24}
+        - {x: 6, y: -24}
+        - {x: 8, y: -22}
+        - {x: 8, y: 4}
+        - {x: 2, y: 10}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
