@@ -2,22 +2,34 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour {
     public GameObject _bulletPrefab;
-    public bool _shooting;
+    private bool _shooting = true;
+    public bool Shooting {
+        get { return _shooting; }
+        set {
+            _shooting = value;
+            if (value && !shootTimer.running)
+                shootTimer.Start();
+            else if (!value && shootTimer.running)
+                shootTimer.Stop();
+        }
+    }
 
     private const float FIRE_RATE = 5;
-    private float timeUntilNextShot;
-    private float betweenShotCounter;
+    private Timer shootTimer;
+    private GameObjectPool playerBulletPool;
 
 	void Start () {
-        timeUntilNextShot = 1 / FIRE_RATE;
+        playerBulletPool = GameManager.Instance.PlayerBulletPool;
+        shootTimer = TimerManager.Instance.CreateTimerRepeat(1 / FIRE_RATE);
+        shootTimer.onFinish += shootTimer_onFinish;
+
+        if (_shooting) shootTimer.Start();
 	}
 	
-	void Update () {
-        if (_shooting) {
-            if ((betweenShotCounter += Time.deltaTime) > timeUntilNextShot) {
-                betweenShotCounter = 0f;
-                Instantiate(_bulletPrefab, transform.position, Quaternion.identity);
-            }
-        }
-	}
+    private void shootTimer_onFinish() {
+        GameObject bullet = playerBulletPool.Borrow();
+        bullet.GetComponent<PlayerBullet>().SetType(0);
+        bullet.GetComponent<PlayerBullet>().Spawn(transform);
+        bullet.SetActive(true);
+    }
 }

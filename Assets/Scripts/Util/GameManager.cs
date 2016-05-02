@@ -21,6 +21,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     private GameObjectPool enemyBulletPool;
     public GameObjectPool EnemyBulletPool { get { return enemyBulletPool; } }
     private GameObjectPool playerBulletPool;
+    public GameObjectPool PlayerBulletPool { get { return playerBulletPool; } }
 
     // Timers
     private const float enemySpawnTimerDuration = 5f;
@@ -98,9 +99,15 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemyPool.Restore(enemy);
     }
 
-    public void BulletReturnToPool(GameObject bullet) {
+    public void EnemyBulletReturnToPool(GameObject bullet) {
         bullet.SetActive(false);
         bullet.GetComponent<EnemyBullet>().Despawn();
         enemyBulletPool.Restore(bullet);
+    }
+
+    public void PlayerBulletReturnToPool(GameObject bullet) {
+        bullet.SetActive(false);
+        bullet.GetComponent<PlayerBullet>().Despawn();
+        playerBulletPool.Restore(bullet);
     }
 }
