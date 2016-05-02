@@ -10,7 +10,7 @@ public class EnemyBullet : Bullet {
 
     public void SetType(int enemyTypeIndex) {
         enemyType = enemyTypeIndex;
-        // GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemyBulletSprites[enemyTypeIndex];        
+        GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemyBulletSprites[enemyTypeIndex];        
     }
 
 	void Update () {

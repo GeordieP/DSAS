@@ -48,6 +48,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
         // Populate sprite storage
         enemySprites = Resources.LoadAll<Sprite>("Sprites/enemy_ship");
+        enemyBulletSprites = Resources.LoadAll<Sprite>("Sprites/enemy_bullet");
+        playerBulletSprites = Resources.LoadAll<Sprite>("Sprites/player_bullet");
 
         // Prefabs
         _enemyPrefab.SetActive(false);
