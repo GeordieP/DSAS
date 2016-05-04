@@ -4,6 +4,7 @@
 public class EnemyBullet : Bullet {
     void Start() {
         MOVE_SPEED = Balance.ENEMY_BULLET_INITIAL_SPEED;
+        dmg_value = Balance.ENEMY_BULLET_BASE_DMG;
     }
 
     public void SetType(int enemyTypeIndex) {

@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour {
     private GameObjectPool enemyBulletPool;
     private bool initialized;
 
+    private float health = Balance.ENEMY_INITIAL_HEALTH;
+
     Timer shootTimer;
 
     public void Init() {
@@ -41,6 +43,19 @@ public class Enemy : MonoBehaviour {
         bullet.GetComponent<EnemyBullet>().SetType(enemyType);
         bullet.GetComponent<EnemyBullet>().Spawn(transform);
         bullet.SetActive(true);
+    }
+
+    private void Dead() {
+        GameManager.Instance.EnemyReturnToPool(gameObject);
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        if (other.transform.name == "PlayerBullet(Clone)") {
+            Bullet bullet = other.GetComponent<Bullet>();
+            health -= bullet.Dmg_Value;
+            if (health <= 0) Dead();
+            GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
+        }
     }
 
     void Update() {

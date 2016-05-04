@@ -26,6 +26,8 @@ GameObject:
   - 4: {fileID: 428946}
   - 114: {fileID: 11494792}
   - 114: {fileID: 11499890}
+  - 58: {fileID: 5808648}
+  - 50: {fileID: 5024858}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -58,6 +60,37 @@ Transform:
   - {fileID: 414920}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!50 &5024858
+Rigidbody2D:
+  serializedVersion: 2
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140828}
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!58 &5808648
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140828}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!114 &11494792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -81,7 +114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletPrefab: {fileID: 195234, guid: 1102852e90d48054bad85d3cfae16cc1, type: 2}
-  _shooting: 0
 --- !u!212 &21269456
 SpriteRenderer:
   m_ObjectHideFlags: 1
