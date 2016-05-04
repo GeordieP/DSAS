@@ -14,7 +14,7 @@ public class PlayerShoot : MonoBehaviour {
         }
     }
 
-    private const float FIRE_RATE = 3;
+    private const float FIRE_RATE = Balance.PLAYER_FIRE_RATE;
     private Timer shootTimer;
     private GameObjectPool playerBulletPool;
 

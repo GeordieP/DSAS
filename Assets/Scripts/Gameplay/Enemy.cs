@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour {
 
     public void Spawn() {
         if (!initialized) Init();
-        transform.position = new Vector3(0f, 5.0f, 0f);
+        transform.position = new Vector3(0f, Balance.ScreenBounds.top, 0f);
         shootTimer.Start();
     }
 
@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour {
 
     void Update() {
         transform.Translate(new Vector3(Mathf.Sin(Time.time * 2) * 0.02f, -2 * Time.deltaTime, 0f));
-        if (transform.position.y < -5) {
+        if (transform.position.y < Balance.ScreenBounds.bottom) {
             GameManager.Instance.EnemyReturnToPool(gameObject);
         }
     }

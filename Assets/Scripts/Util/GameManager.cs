@@ -24,7 +24,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public GameObjectPool PlayerBulletPool { get { return playerBulletPool; } }
 
     // Timers
-    private const float enemySpawnTimerDuration = 5f;
+    private const float enemySpawnTimerDuration = 1f;
     private Timer enemySpawnTimer;
 
     // Player object
@@ -68,7 +68,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemySpawnTimer.onFinish += enemySpawnTimer_onFinish;
 
         // Player object
-        player = Instantiate(_playerPrefab, new Vector3(0f, -3f, 0f), Quaternion.identity) as GameObject;
+        player = Instantiate(_playerPrefab, new Vector3(0f, -4.5f, 0f), Quaternion.identity) as GameObject;
 
         // Finished loading
         _loading = false;
