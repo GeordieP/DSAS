@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
 public class Enemy : MonoBehaviour {
@@ -8,12 +9,14 @@ public class Enemy : MonoBehaviour {
     // borrow the EnemyBulletPool from GameManager
     private GameObjectPool enemyBulletPool;
     private bool initialized;
+    private Color originalColor;
 
     private float health = Balance.ENEMY_INITIAL_HEALTH;
 
     Timer shootTimer;
 
     public void Init() {
+        originalColor = GetComponent<SpriteRenderer>().color;
         initialized = true;
         enemyBulletPool = GameManager.Instance.EnemyBulletPool;
         RandomizeType();
@@ -36,6 +39,7 @@ public class Enemy : MonoBehaviour {
         RandomizeType();
         shootTimer.Stop();
         transform.position = new Vector3(-50f, -50f, 0f);
+        GetComponent<SpriteRenderer>().color = originalColor;
     }
 
     private void shootTimer_onFinish() {
@@ -53,6 +57,7 @@ public class Enemy : MonoBehaviour {
         if (other.transform.name == "PlayerBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
             Knockback();
+            StartCoroutine(ColorFlash());
             health -= bullet.Dmg_Value;
             if (health <= 0) Dead();
             GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
@@ -61,6 +66,13 @@ public class Enemy : MonoBehaviour {
 
     void Knockback() {
         transform.Translate(new Vector3(0f, Balance.PLAYER_BULLET_KNOCKBACK_DISTANCE, 0f));
+    }
+
+    private IEnumerator ColorFlash() {
+        originalColor = GetComponent<SpriteRenderer>().color;
+        GetComponent<SpriteRenderer>().color = Color.white;
+        yield return new WaitForSeconds(0.03f);
+        GetComponent<SpriteRenderer>().color = originalColor;
     }
 
     void Update() {
