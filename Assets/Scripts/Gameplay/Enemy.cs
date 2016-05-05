@@ -52,10 +52,15 @@ public class Enemy : MonoBehaviour {
     void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.name == "PlayerBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
+            Knockback();
             health -= bullet.Dmg_Value;
             if (health <= 0) Dead();
             GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
         }
+    }
+
+    void Knockback() {
+        transform.Translate(new Vector3(0f, Balance.PLAYER_BULLET_KNOCKBACK_DISTANCE, 0f));
     }
 
     void Update() {
