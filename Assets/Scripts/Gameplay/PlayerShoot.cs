@@ -9,7 +9,7 @@ public class PlayerShoot : MonoBehaviour {
             _shooting = value;
             if (value && !shootTimer.running)
                 shootTimer.Start();
-            else if (!value && shootTimer.running)
+            else if (!value && shootTimer != null && shootTimer.running)
                 shootTimer.Stop();
         }
     }

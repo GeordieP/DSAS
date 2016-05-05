@@ -73,7 +73,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         // Finished loading
         _loading = false;
         player.SetActive(true);
-        // player.GetComponent<PlayerShoot>()._shooting = true;
+        // player.GetComponent<PlayerShoot>().Shooting = false;
         enemySpawnTimer.Start();
         enemySpawnTimer_onFinish();
 	}

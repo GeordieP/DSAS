@@ -25,4 +25,6 @@ public static class Balance {
     public const float PLAYER_BULLET_BASE_DMG = 25f;
 
     public const float PLAYER_BULLET_KNOCKBACK_DISTANCE = 0.05f;
+
+    public const float DMG_FLASH_DURATION = 0.03f;
 }

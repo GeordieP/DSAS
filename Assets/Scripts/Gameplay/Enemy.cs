@@ -57,8 +57,8 @@ public class Enemy : MonoBehaviour {
         if (other.transform.name == "PlayerBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
             Knockback();
-            StartCoroutine(ColorFlash());
             health -= bullet.Dmg_Value;
+            StartCoroutine(ColorFlash());
             if (health <= 0) Dead();
             GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
         }
@@ -69,9 +69,8 @@ public class Enemy : MonoBehaviour {
     }
 
     private IEnumerator ColorFlash() {
-        originalColor = GetComponent<SpriteRenderer>().color;
         GetComponent<SpriteRenderer>().color = Color.white;
-        yield return new WaitForSeconds(0.03f);
+        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
         GetComponent<SpriteRenderer>().color = originalColor;
     }
 
