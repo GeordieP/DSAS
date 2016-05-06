@@ -13,9 +13,18 @@ public class Enemy : MonoBehaviour {
 
     private float health = Balance.ENEMY_INITIAL_HEALTH;
 
+
+    // delegates
+    private delegate Vector3 MoveDelegate(Vector3 position);
+    private MoveDelegate movePattern;
+
     Timer shootTimer;
 
     public void Init() {
+        // move delegate
+        // movePattern = MoveDelegates.Wavy;
+        movePattern = MoveDelegates.Linear;
+
         originalColor = GetComponent<SpriteRenderer>().color;
         initialized = true;
         enemyBulletPool = GameManager.Instance.EnemyBulletPool;
@@ -75,9 +84,22 @@ public class Enemy : MonoBehaviour {
     }
 
     void Update() {
-        transform.Translate(new Vector3(Mathf.Sin(Time.time * 2) * 0.02f, -2 * Time.deltaTime, 0f));
+        transform.Translate(movePattern(transform.position));
         if (transform.position.y < Balance.ScreenBounds.bottom) {
+
             GameManager.Instance.EnemyReturnToPool(gameObject);
         }
+    }
+}
+
+public static class MoveDelegates {
+    // move straight down
+    public static Vector3 Linear(Vector3 position) {
+        return new Vector3(0f, -2f * Time.deltaTime, 0f);
+    }
+
+    // wave back and forth
+    public static Vector3 Wavy(Vector3 position) {
+        return new Vector3(Mathf.Sin(Time.time * 2) * 0.02f, -2 * Time.deltaTime, 0f);
     }
 }
