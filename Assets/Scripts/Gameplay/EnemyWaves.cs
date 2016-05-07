@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-public class EnemyWaves {
+public static class EnemyWaves {
     private struct Wave {
         public Vector3[] _spawnPoints;
         public float _delayBetweenSpawns;
@@ -10,7 +10,7 @@ public class EnemyWaves {
         }
     }
 
-    public Wave[] _waveTypes = {
+    private static Wave[] _waveTypes = {
         // Spawn at top at one of four random X pos
         new Wave {
             _spawnPoints = new Vector3[] {
@@ -54,8 +54,12 @@ public class EnemyWaves {
         }
     };
 
+    public static Wave[] WaveTypes {
+        get { return _waveTypes; }
+    }
+
     // Get a random X position bound by the screen's width
-    private float GetRandXPos() {
+    private static float GetRandXPos() {
         return Random.Range(Balance.ScreenBounds.left, Balance.ScreenBounds.right);
     }
 }

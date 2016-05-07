@@ -41,6 +41,14 @@ public class GameObjectPool {
         return requestedObj;
     }
 
+    public GameObject[] Borrow(int count) {
+        GameObject[] requestedObjs = new GameObject[count];
+
+        for (int i = 0; i < count; i++) {
+            requestedObjs[i] = Borrow();
+        }
+    }
+
     // return an object to the pool
     public void Restore(GameObject retObj) {
         lock (_available) {
