@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
@@ -22,8 +22,8 @@ public class Enemy : MonoBehaviour {
 
     public void Init() {
         // move delegate
-        // movePattern = MoveDelegates.Wavy;
-        movePattern = MoveDelegates.Linear;
+        // movePattern = MovePatterns.Wavy;
+        movePattern = MovePatterns.Linear;
 
         originalColor = GetComponent<SpriteRenderer>().color;
         initialized = true;
@@ -92,7 +92,7 @@ public class Enemy : MonoBehaviour {
     }
 }
 
-public static class MoveDelegates {
+public static class MovePatterns {
     // move straight down
     public static Vector3 Linear(Vector3 position) {
         return new Vector3(0f, -2f * Time.deltaTime, 0f);

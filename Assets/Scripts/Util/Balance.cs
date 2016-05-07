@@ -1,5 +1,5 @@
 ﻿public struct Bounds {
-    public int top, bottom, right, left;
+    public int top, bottom, right, left, width, height;
 }
 
 public static class Balance {
@@ -8,7 +8,9 @@ public static class Balance {
         top = 8,
         bottom = -8,
         right = 5,
-        left = -5
+        left = -5,
+        width = 10,
+        height = 16
     };
 
     public const float BULLET_INITIAL_SPEED = 30f;
@@ -27,4 +29,5 @@ public static class Balance {
     public const float PLAYER_BULLET_KNOCKBACK_DISTANCE = 0.05f;
 
     public const float DMG_FLASH_DURATION = 0.03f;
+
 }
