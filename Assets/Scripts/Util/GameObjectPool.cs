@@ -47,6 +47,7 @@ public class GameObjectPool {
         for (int i = 0; i < count; i++) {
             requestedObjs[i] = Borrow();
         }
+        return requestedObjs;
     }
 
     // return an object to the pool

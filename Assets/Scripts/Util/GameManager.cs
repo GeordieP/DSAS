@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class GameManager : PersistentUnitySingleton<GameManager> {
 
@@ -24,7 +25,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public GameObjectPool PlayerBulletPool { get { return playerBulletPool; } }
 
     // Timers
-    private const float enemySpawnTimerDuration = 1f;
+    private const float enemySpawnTimerDuration = 10f;
     private Timer enemySpawnTimer;
 
     // Player object
@@ -78,14 +79,36 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemySpawnTimer_onFinish();
 	}
 
+    private void CreateEnemyWave() {
+        int waveSize = Random.Range(3, 10);
+        int waveTypeIndex = Random.Range(0, EnemyWaves.WaveTypes.Length);
+        print("wavetypeindex: " + waveTypeIndex);
+
+        GameObject[] enemies = enemyPool.Borrow(waveSize);
+
+        for (int i = 0; i < waveSize; i++) {
+            enemies[i].GetComponent<Enemy>().SetSpawnPosition(EnemyWaves.WaveTypes[waveTypeIndex].GetRandSpawnPoint());     // for now pick a random applicable spawn point from the wave type
+            enemies[i].GetComponent<Enemy>().SetWaveType(waveTypeIndex);
+        }
+
+        StartCoroutine(SpawnEnemyWave(enemies, EnemyWaves.WaveTypes[waveTypeIndex]._delayBetweenSpawns));
+    }
+
+    private IEnumerator SpawnEnemyWave(GameObject[] enemies, float delayBetweenSpawns) {
+        for (int i = 0; i < enemies.Length; i++) {
+            enemies[i].GetComponent<Enemy>().Spawn();
+            enemies[i].SetActive(true);
+            yield return new WaitForSeconds(delayBetweenSpawns);
+        }
+    }
+
+
     /*---
     * Timer Tick / Finish event callbacks
     ---*/
     
     private void enemySpawnTimer_onFinish() {
-        GameObject enemy = enemyPool.Borrow();
-        enemy.SetActive(true);
-        enemy.GetComponent<Enemy>().Spawn();
+        CreateEnemyWave();
     }
 
 

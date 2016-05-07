@@ -1,12 +1,17 @@
 ﻿using UnityEngine;
 public static class EnemyWaves {
-    private struct Wave {
+    public struct Wave {
         public Vector3[] _spawnPoints;
         public float _delayBetweenSpawns;
 
         public Wave(Vector3[] points, float delay) {
             _spawnPoints = points;
             _delayBetweenSpawns = delay;
+        }
+
+        public Vector3 GetRandSpawnPoint() {
+            Vector3 temp = _spawnPoints[Random.Range(0, _spawnPoints.Length)];
+            return temp;
         }
     }
 
@@ -28,7 +33,7 @@ public static class EnemyWaves {
                 new Vector3(Balance.ScreenBounds.left + Balance.ScreenBounds.width * 0.2f, Balance.ScreenBounds.top, 0f),
                 new Vector3(Balance.ScreenBounds.right - Balance.ScreenBounds.width * 0.2f, Balance.ScreenBounds.top, 0f)
             }, 
-            _delayBetweenSpawns = 0.2f
+            _delayBetweenSpawns = 0.4f
         },
         // Two spawn points at top
         // for now just copy the same as above so it lines up with the enemy move pattern array nicely
@@ -39,18 +44,19 @@ public static class EnemyWaves {
                 new Vector3(Balance.ScreenBounds.left + Balance.ScreenBounds.width * 0.2f, Balance.ScreenBounds.top, 0f),
                 new Vector3(Balance.ScreenBounds.right - Balance.ScreenBounds.width * 0.2f, Balance.ScreenBounds.top, 0f)
             }, 
-            _delayBetweenSpawns = 0.2f
+            _delayBetweenSpawns = 0.4f
         },
         // at 20, 40, and 60 percent down each side
         new Wave {
             _spawnPoints = new Vector3[] {
-                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top + Balance.ScreenBounds.height * 0.2f, 0f),
-                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top + Balance.ScreenBounds.height * 0.4f, 0f),
-                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top + Balance.ScreenBounds.height * 0.6f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top + Balance.ScreenBounds.height * 0.2f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top + Balance.ScreenBounds.height * 0.4f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top + Balance.ScreenBounds.height * 0.6f, 0f)
-            }
+                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.2f, 0f),
+                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.4f, 0f),
+                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.6f, 0f),
+                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.2f, 0f),
+                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.4f, 0f),
+                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.6f, 0f)
+            },
+            _delayBetweenSpawns = 0.3f
         }
     };
 
