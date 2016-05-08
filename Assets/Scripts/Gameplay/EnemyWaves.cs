@@ -30,8 +30,8 @@ public static class EnemyWaves {
         // S wave movement pattern (implemented in Enemy.cs > MovePatterns)        
         new Wave {
             _spawnPoints = new Vector3[] {
-                new Vector3(Balance.ScreenBounds.left + Balance.ScreenBounds.width * 0.2f, Balance.ScreenBounds.top, 0f),
-                new Vector3(Balance.ScreenBounds.right - Balance.ScreenBounds.width * 0.2f, Balance.ScreenBounds.top, 0f)
+                new Vector3(Balance.SpawnBounds.left + Balance.SpawnBounds.width * 0.2f, Balance.ScreenBounds.top, 0f),
+                new Vector3(Balance.SpawnBounds.right - Balance.SpawnBounds.width * 0.2f, Balance.ScreenBounds.top, 0f)
             }, 
             _delayBetweenSpawns = 0.4f
         },
@@ -41,20 +41,20 @@ public static class EnemyWaves {
         // this one is used for a circular move pattern
         new Wave {
             _spawnPoints = new Vector3[] {
-                new Vector3(Balance.ScreenBounds.left + Balance.ScreenBounds.width * 0.2f, Balance.ScreenBounds.top, 0f),
-                new Vector3(Balance.ScreenBounds.right - Balance.ScreenBounds.width * 0.2f, Balance.ScreenBounds.top, 0f)
+                new Vector3(Balance.SpawnBounds.left + Balance.SpawnBounds.width * 0.2f, Balance.ScreenBounds.top, 0f),
+                new Vector3(Balance.SpawnBounds.right - Balance.SpawnBounds.width * 0.2f, Balance.ScreenBounds.top, 0f)
             }, 
             _delayBetweenSpawns = 0.4f
         },
         // at 20, 40, and 60 percent down each side
         new Wave {
             _spawnPoints = new Vector3[] {
-                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.2f, 0f),
-                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.4f, 0f),
-                new Vector3(Balance.ScreenBounds.left, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.6f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.2f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.4f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.ScreenBounds.top - Balance.ScreenBounds.height * 0.6f, 0f)
+                new Vector3(Balance.ScreenBounds.left, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.2f, 0f),
+                new Vector3(Balance.ScreenBounds.left, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.4f, 0f),
+                new Vector3(Balance.ScreenBounds.left, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.6f, 0f),
+                new Vector3(Balance.ScreenBounds.right, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.2f, 0f),
+                new Vector3(Balance.ScreenBounds.right, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.4f, 0f),
+                new Vector3(Balance.ScreenBounds.right, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.6f, 0f)
             },
             _delayBetweenSpawns = 0.3f
         }
@@ -64,8 +64,8 @@ public static class EnemyWaves {
         get { return _waveTypes; }
     }
 
-    // Get a random X position bound by the screen's width
+    // Get a random X position bound by the spawn width
     private static float GetRandXPos() {
-        return Random.Range(Balance.ScreenBounds.left, Balance.ScreenBounds.right);
+        return Random.Range(Balance.SpawnBounds.left, Balance.SpawnBounds.right);
     }
 }

@@ -13,6 +13,15 @@ public static class Balance {
         height = 16
     };
 
+    public static Bounds SpawnBounds = new Bounds {
+        top = ScreenBounds.top - 2,
+        bottom = ScreenBounds.bottom + 2,
+        right = ScreenBounds.right - 2,
+        left = ScreenBounds.left + 2,
+        width = ScreenBounds.width - 4,
+        height = ScreenBounds.height - 4
+    };
+
     public const float BULLET_INITIAL_SPEED = 30f;
     public const float PLAYER_BULLET_INITIAL_SPEED = 40f;
     public const float ENEMY_BULLET_INITIAL_SPEED = -30f;

@@ -12,15 +12,19 @@ public class Enemy : MonoBehaviour {
     private Color originalColor;
     private float health = Balance.ENEMY_INITIAL_HEALTH;
 
+    // set to Time.timeSinceLevelLoad on each Spawn() call to keep track of timing
+    private float timeSpawned;
+
     // delegates
-    private delegate Vector3 MoveDelegate(Vector3 position);
+    private delegate Vector3 MoveDelegate(float timeSpawned, Vector3 position);
     private MoveDelegate movePattern;
 
     Timer shootTimer;
 
     public void Init() {
         // default move delegate
-        movePattern = MovePatterns.Linear;
+        // movePattern = MovePatterns.Linear;
+        if (movePattern == null) movePattern = MovePatterns.Linear;
 
         originalColor = GetComponent<SpriteRenderer>().color;
         initialized = true;
@@ -37,6 +41,7 @@ public class Enemy : MonoBehaviour {
 
     public void Spawn() {
         if (!initialized) Init();
+        timeSpawned = Time.timeSinceLevelLoad;
         shootTimer.Start();
     }
 
@@ -104,7 +109,7 @@ public class Enemy : MonoBehaviour {
     }
 
     void Update() {
-        transform.Translate(movePattern(transform.position));
+        transform.Translate(movePattern(timeSpawned, transform.position));
         if (transform.position.y < Balance.ScreenBounds.bottom) {
 
             GameManager.Instance.EnemyReturnToPool(gameObject);
@@ -114,27 +119,27 @@ public class Enemy : MonoBehaviour {
 
 public static class MovePatterns {
     // move straight down
-    public static Vector3 Linear(Vector3 position) {
+    public static Vector3 Linear(float timeSpawned, Vector3 position) {
         return new Vector3(0f, -2f * Time.deltaTime, 0f);
     }
 
     // wave back and forth
-    public static Vector3 WavyX(Vector3 position) {
-        return new Vector3(Mathf.Sin(Time.time * 2) * 0.02f, -2 * Time.deltaTime, 0f);
+    public static Vector3 WavyX(float timeSpawned, Vector3 position) {
+        return new Vector3(Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * 0.02f, -2 * Time.deltaTime, 0f);
     }
 
     // wave up and down moving left
-    public static Vector3 WavyYLeft(Vector3 position) {
-        return new Vector3(1.5f * Time.deltaTime, Mathf.Sin(Time.time * 2) * 0.02f, 0f);
+    public static Vector3 WavyYLeft(float timeSpawned, Vector3 position) {
+        return new Vector3(1.5f * Time.deltaTime, Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * 0.02f, 0f);
     }
 
     // wave up and down moving right
-    public static Vector3 WavyYRight(Vector3 position) {
-        return new Vector3(-1.5f * Time.deltaTime, Mathf.Sin(Time.time * 2) * 0.02f, 0f);
+    public static Vector3 WavyYRight(float timeSpawned, Vector3 position) {
+        return new Vector3(-1.5f * Time.deltaTime, Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * 0.02f, 0f);
     }
 
     // move in a circular pattern downwards
-    public static Vector3 Circular(Vector3 position) {
-        return new Vector3(Mathf.Sin(Time.time * 2) * 0.02f, (-2f * Time.deltaTime) + (Mathf.Sin(Time.time * 2) * 0.02f), 0f);
+    public static Vector3 Circular(float timeSpawned, Vector3 position) {
+        return new Vector3(Mathf.Sin(Time.timeSinceLevelLoad * 3 - timeSpawned * 3) * 0.04f, -0.02f + (Mathf.Cos(Time.timeSinceLevelLoad * 3 - timeSpawned * 3) * 0.04f), 0f);
     }
 }

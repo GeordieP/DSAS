@@ -14,7 +14,7 @@ public class EnemyBullet : Bullet {
 	void Update () {
 	   transform.Translate(0f, MOVE_SPEED * Time.deltaTime, 0f);
 
-        if (transform.position.y < -5) {
+        if (transform.position.y < Balance.ScreenBounds.bottom) {
             GameManager.Instance.EnemyBulletReturnToPool(gameObject);
         }        
 	}

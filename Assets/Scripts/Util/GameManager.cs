@@ -82,7 +82,6 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     private void CreateEnemyWave() {
         int waveSize = Random.Range(3, 10);
         int waveTypeIndex = Random.Range(0, EnemyWaves.WaveTypes.Length);
-        print("wavetypeindex: " + waveTypeIndex);
 
         GameObject[] enemies = enemyPool.Borrow(waveSize);
 
