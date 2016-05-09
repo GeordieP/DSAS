@@ -110,8 +110,7 @@ public class Enemy : MonoBehaviour {
 
     void Update() {
         transform.Translate(movePattern(timeSpawned, transform.position));
-        if (transform.position.y < Balance.ScreenBounds.bottom) {
-
+        if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
             GameManager.Instance.EnemyReturnToPool(gameObject);
         }
     }
