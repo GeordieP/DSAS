@@ -22,9 +22,9 @@ public static class Balance {
         height = ScreenBounds.height - 4
     };
 
-    public const float BULLET_INITIAL_SPEED = 30f;
+    public const float BULLET_INITIAL_SPEED = 15f;
     public const float PLAYER_BULLET_INITIAL_SPEED = 40f;
-    public const float ENEMY_BULLET_INITIAL_SPEED = -30f;
+    public const float ENEMY_BULLET_INITIAL_SPEED = -15f;
 
     public const float PLAYER_FIRE_RATE = 5f;
 

@@ -12,10 +12,11 @@ public class EnemyBullet : Bullet {
     }
 
 	void Update () {
-	   transform.Translate(0f, MOVE_SPEED * Time.deltaTime, 0f);
+        // transform.Translate(0f, MOVE_SPEED * Time.deltaTime, 0f);
+        transform.Translate(moveDirection * MOVE_SPEED * Time.deltaTime);
 
-        if (transform.position.y < Balance.ScreenBounds.bottom) {
+        if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
             GameManager.Instance.EnemyBulletReturnToPool(gameObject);
-        }        
+        }       
 	}
 }
