@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour {
     private delegate Vector3 MoveDelegate(float timeSpawned, Vector3 position);
     private MoveDelegate movePattern;
 
-    private delegate void ShootDelegate(GameObjectPool enemyBulletPool, int enemyType, Transform shooterTransform);
+    private delegate void ShootDelegate(GameObjectPool enemyBulletPool, int enemyType, Vector3 shooterPosition);
     private ShootDelegate shoot;
 
     Timer shootTimer;
@@ -42,12 +42,35 @@ public class Enemy : MonoBehaviour {
     public void RandomizeType() {
         enemyType = Random.Range(0, GameManager.Instance.EnemySprites.Length);
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemySprites[enemyType];
-    }
+
+		switch (enemyType) {
+			case 0:
+			case 3:
+				shoot = ShootPatterns.Circular;
+				break;
+			case 2:
+				shoot = ShootPatterns.TriFanDown;
+				break;
+			case 5:
+                shoot = ShootPatterns.DualShot;
+				break;
+			case 1:
+			case 4:
+			default:
+				shoot = ShootPatterns.SingleStraightDown;
+				break;
+
+		}
+	}
 
     public void Spawn() {
         if (!initialized) Init();
         timeSpawned = Time.timeSinceLevelLoad;
-        shootTimer.Start();
+        if (Random.Range(0, 10) < 7) {
+            shootTimer.Start();
+        } else {
+            shootTimer.Stop();
+        }
     }
 
     public void Despawn() {
@@ -63,7 +86,7 @@ public class Enemy : MonoBehaviour {
         // bullet.GetComponent<EnemyBullet>().Spawn(transform);
         // bullet.SetActive(true);
 
-        shoot(enemyBulletPool, enemyType, transform);
+        shoot(enemyBulletPool, enemyType, transform.position);
     }
 
     private void Dead() {
@@ -151,40 +174,35 @@ public static class MovePatterns {
 }
 
 public static class ShootPatterns {
-    // implementations of Shoot()
-    // takes playerPos
-
     // shoot single bullets at a time, straight down
-    public static void SingleStraightDown(GameObjectPool enemyBulletPool, int enemyType, Transform shooterTransform) {
+    public static void SingleStraightDown(GameObjectPool enemyBulletPool, int enemyType, Vector3 shooterPosition) {
         GameObject bullet = enemyBulletPool.Borrow();
         bullet.GetComponent<EnemyBullet>().SetType(enemyType);
-        bullet.GetComponent<EnemyBullet>().Spawn(shooterTransform, new Vector3(0f, 1f, 0));
+        bullet.GetComponent<EnemyBullet>().Spawn(shooterPosition, new Vector3(0f, 1f, 0));
         bullet.SetActive(true);
     }
 
-    public static void TriFanDown(GameObjectPool enemyBulletPool, int enemyType, Transform shooterTransform) {
+    public static void TriFanDown(GameObjectPool enemyBulletPool, int enemyType, Vector3 shooterPosition) {
         GameObject[] bullets = enemyBulletPool.Borrow(3);
         EnemyBullet currentBullet;
 
         for (int i = 0; i < 3; i++) {
             currentBullet = bullets[i].GetComponent<EnemyBullet>();
             currentBullet.SetType(enemyType);
-            // angle starts at 0 and -= 45 * i
-            // moveangle should be 
             float angle = 85 + 5 * i;
             Vector3 meme = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
-            currentBullet.Spawn(shooterTransform, meme);
+            currentBullet.Spawn(shooterPosition, meme);
             bullets[i].SetActive(true);
         }
     }
 
     // 3 bullets down at incrementing angles, but each shooting after a delay
-    public static void TriFanDownDelayed(GameObjectPool enemyBulletPool, int enemyType, Transform shooterTransform) {
+    public static void TriFanDownDelayed(GameObjectPool enemyBulletPool, int enemyType, Vector3 shooterPosition) {
         throw new System.NotImplementedException();
     }
 
     // spray out in a circle
-    public static void Circular(GameObjectPool enemyBulletPool, int enemyType, Transform shooterTransform) {
+    public static void Circular(GameObjectPool enemyBulletPool, int enemyType, Vector3 shooterPosition) {
         int bulletCount = 5;
         GameObject[] bullets = enemyBulletPool.Borrow(bulletCount);
         EnemyBullet currentBullet;
@@ -194,19 +212,28 @@ public static class ShootPatterns {
         for (int i = 0; i < bulletCount; i++) {
             currentBullet = bullets[i].GetComponent<EnemyBullet>();
             currentBullet.SetType(enemyType);
-            
-            // angle increment will be 360 / bulletCount 
-            // angle will be angleIncrement + angleincrement * i
 
             float angle = angleIncrement + angleIncrement * i;
             Vector3 meme = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
-            currentBullet.Spawn(shooterTransform, meme);
+            currentBullet.Spawn(shooterPosition, meme);
             bullets[i].SetActive(true);
         }
     }
 
     // spray out in a circle, each bullet shooting delayed after one another
-    public static void CircularDelayed(GameObjectPool enemyBulletPool, int enemyType, Transform shooterTransform) {
+    public static void CircularDelayed(GameObjectPool enemyBulletPool, int enemyType, Vector3 shooterPosition) {
         throw new System.NotImplementedException();
+    }
+
+    public static void DualShot(GameObjectPool enemyBulletPool, int enemyType, Vector3 shooterPosition) {
+        GameObject bullet = enemyBulletPool.Borrow();
+        bullet.GetComponent<EnemyBullet>().SetType(enemyType);
+        bullet.GetComponent<EnemyBullet>().Spawn(shooterPosition - new Vector3(-0.2f, 0f, 0f), new Vector3(0f, 1f, 0));
+        bullet.SetActive(true);
+
+        bullet = enemyBulletPool.Borrow();
+        bullet.GetComponent<EnemyBullet>().SetType(enemyType);
+        bullet.GetComponent<EnemyBullet>().Spawn(shooterPosition - new Vector3(0.2f, 0f, 0f), new Vector3(0f, 1f, 0));
+        bullet.SetActive(true);        
     }
 }

@@ -29,7 +29,7 @@ public class PlayerShoot : MonoBehaviour {
     private void shootTimer_onFinish() {
         GameObject bullet = playerBulletPool.Borrow();
         bullet.GetComponent<PlayerBullet>().SetType(0);
-        bullet.GetComponent<PlayerBullet>().Spawn(transform);
+        bullet.GetComponent<PlayerBullet>().Spawn(transform.position);
         bullet.SetActive(true);
     }
 }
