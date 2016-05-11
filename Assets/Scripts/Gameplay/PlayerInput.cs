@@ -69,6 +69,6 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	void bombTriggerDelayTimer_onFinish() {
-		print("BOOM");
+		GameManager.Instance.PlayerBomb();
 	}
 }

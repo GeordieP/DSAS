@@ -110,6 +110,17 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         CreateEnemyWave();
     }
 
+    /*---
+    * Game Actions
+    ---*/
+    
+    public void PlayerBomb() {
+        enemyBulletPool.RestoreAll();
+        enemyPool.RestoreAll();
+        // show bomb animation/effect
+        // fade background color?
+    }
+
 
     /*---
     * Helper / Utility
