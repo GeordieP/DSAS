@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Enemy : MonoBehaviour {
+public class Enemy : PooledEntity {
     // Enemy type will determine what enemy sprite to use, and what bullet type to use when shooting
     private int enemyType;
     private float timeBetweenShots = 1f;
@@ -73,7 +73,7 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    public void Despawn() {
+    public override void Despawn() {
         RandomizeType();
         shootTimer.Stop();
         transform.position = new Vector3(-50f, -50f, 0f);
@@ -81,11 +81,6 @@ public class Enemy : MonoBehaviour {
     }
 
     private void shootTimer_onFinish() {
-        // GameObject bullet = enemyBulletPool.Borrow();
-        // bullet.GetComponent<EnemyBullet>().SetType(enemyType);
-        // bullet.GetComponent<EnemyBullet>().Spawn(transform);
-        // bullet.SetActive(true);
-
         shoot(enemyBulletPool, enemyType, transform.position);
     }
 

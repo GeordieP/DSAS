@@ -57,4 +57,12 @@ public class GameObjectPool {
             _inUse.Remove(retObj);
         }
     }
+
+    public void RestoreAll() {
+        _available.AddRange(_inUse);
+        for (int i = 0; i < _inUse.Count; i++) {
+            _inUse[i].GetComponent<PooledEntity>().Despawn();
+        }
+        _inUse = new List<GameObject>();
+    }
 }
