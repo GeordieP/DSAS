@@ -8,6 +8,7 @@ public class PlayerInput : MonoBehaviour {
 	// Movement direction - basically just simplifies setting the sign of movement velocity (negative = left)
 	private System.SByte MOVE_DIR = NONE;
 	private const float MOVESPEED = 10;
+	private float TOUCH_DISTANCE_FROM_CENTER;
 	private float halfScreenWidth;
 	// screen bounds converted to world space. Positive is right edge, negative is left
 	private float worldSpaceScreenBound;
@@ -44,7 +45,14 @@ public class PlayerInput : MonoBehaviour {
 			} else {
 				// only one finger
 				// move appropriate direction and stop bomb timer if it's running
-				MOVE_DIR = (Input.GetTouch(Input.touches.Length - 1).position.x < halfScreenWidth) ? LEFT : RIGHT;
+				
+				if (Input.GetTouch(Input.touches.Length - 1).position.x < halfScreenWidth) {
+					MOVE_DIR = LEFT;
+					TOUCH_DISTANCE_FROM_CENTER = halfScreenWidth - Input.GetTouch(Input.touches.Length - 1).position.x;
+				} else {
+					MOVE_DIR = RIGHT;
+					TOUCH_DISTANCE_FROM_CENTER = Input.GetTouch(Input.touches.Length - 1).position.x - halfScreenWidth;
+				}
 				SMOOTHING_TIME = SMOOTHING_TIME_ACCELERATING;
 
 				if (bombTriggerDelayTimer.running)
@@ -60,7 +68,7 @@ public class PlayerInput : MonoBehaviour {
 		}
 
 		// Move character based on input. Smooth out acceleration using SmoothDamp
-		targetVelocity = MOVE_DIR * MOVESPEED;
+		targetVelocity = MOVE_DIR * MOVESPEED * (TOUCH_DISTANCE_FROM_CENTER * Time.deltaTime);
 		velocity = Mathf.SmoothDamp(velocity, targetVelocity, ref velocitySmoothing, SMOOTHING_TIME);
 		transform.Translate(Vector3.right * velocity * Time.deltaTime);
 
