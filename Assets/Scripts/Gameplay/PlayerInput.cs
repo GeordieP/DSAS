@@ -7,8 +7,8 @@ public class PlayerInput : MonoBehaviour {
 	private const System.SByte LEFT = -1;
 	// Movement direction - basically just simplifies setting the sign of movement velocity (negative = left)
 	private System.SByte MOVE_DIR = NONE;
-	private const float MOVESPEED = 10;
-	private float TOUCH_DISTANCE_FROM_CENTER;
+	private const float MOVESPEED = Balance.PLAYER_BASE_MOVE_SPEED;
+	private float TOUCH_POS_SPEED_SCALING;		// scale based on how close the touch is to the edge of the screen as a percentage (screen resolution independent)
 	private float halfScreenWidth;
 	// screen bounds converted to world space. Positive is right edge, negative is left
 	private float worldSpaceScreenBound;
@@ -48,10 +48,10 @@ public class PlayerInput : MonoBehaviour {
 				
 				if (Input.GetTouch(Input.touches.Length - 1).position.x < halfScreenWidth) {
 					MOVE_DIR = LEFT;
-					TOUCH_DISTANCE_FROM_CENTER = halfScreenWidth - Input.GetTouch(Input.touches.Length - 1).position.x;
+					TOUCH_POS_SPEED_SCALING = (halfScreenWidth - Input.GetTouch(Input.touches.Length - 1).position.x) / halfScreenWidth;
 				} else {
 					MOVE_DIR = RIGHT;
-					TOUCH_DISTANCE_FROM_CENTER = Input.GetTouch(Input.touches.Length - 1).position.x - halfScreenWidth;
+					TOUCH_POS_SPEED_SCALING = (Input.GetTouch(Input.touches.Length - 1).position.x - halfScreenWidth) / halfScreenWidth;
 				}
 				SMOOTHING_TIME = SMOOTHING_TIME_ACCELERATING;
 
@@ -68,7 +68,7 @@ public class PlayerInput : MonoBehaviour {
 		}
 
 		// Move character based on input. Smooth out acceleration using SmoothDamp
-		targetVelocity = MOVE_DIR * MOVESPEED * (TOUCH_DISTANCE_FROM_CENTER * Time.deltaTime);
+		targetVelocity = MOVE_DIR * MOVESPEED * TOUCH_POS_SPEED_SCALING;
 		velocity = Mathf.SmoothDamp(velocity, targetVelocity, ref velocitySmoothing, SMOOTHING_TIME);
 		transform.Translate(Vector3.right * velocity * Time.deltaTime);
 
