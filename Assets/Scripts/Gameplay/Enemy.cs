@@ -76,6 +76,7 @@ public class Enemy : PooledEntity {
     public override void Despawn() {
         RandomizeType();
         shootTimer.Stop();
+        health = Balance.ENEMY_INITIAL_HEALTH;
         transform.position = new Vector3(-50f, -50f, 0f);
         GetComponent<SpriteRenderer>().color = originalColor;
     }
@@ -86,6 +87,7 @@ public class Enemy : PooledEntity {
 
     private void Dead() {
         GameManager.Instance.EnemyReturnToPool(gameObject);
+        Despawn();
     }
 
     void OnTriggerEnter2D(Collider2D other) {
