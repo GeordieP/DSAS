@@ -21,6 +21,11 @@ public class PersistentUnitySingleton<T> : MonoBehaviour where T : Component {
 		}
 	}
 
+	// Helper to easily make sure an instance is created
+	public virtual void Create() {
+		print(gameObject.name + " created");
+	}
+
 	public virtual void Awake() {
 		DontDestroyOnLoad(this.gameObject);
 		if (instance == null) {
