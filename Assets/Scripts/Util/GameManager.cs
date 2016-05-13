@@ -36,16 +36,11 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
     /*---
     * Startup / Initialization
-    ---*/    
-
-    // eventually call Init() from start menu but for now just call it on start
-    public void Start() {
-        Init();
-    }
-
+    ---*/
+    
     // game scene will get loaded and this method will get called
     // this sets loading to be true until it's done with everything
-	public void Init () {
+	public void GameSceneLoaded () {
         _loading = true;
 
         // Populate sprite storage
