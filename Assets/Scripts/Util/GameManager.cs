@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameManager : PersistentUnitySingleton<GameManager> {
 
@@ -28,8 +29,14 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     private const float enemySpawnTimerDuration = 10f;
     private Timer enemySpawnTimer;
 
+    // UI elements
+    private Text playerScoreLabel;
+
     // Player object
     private GameObject player;
+
+    // values
+    private float playerScore;
 
     // Keep track of loading
     public bool _loading;
@@ -69,8 +76,14 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemySpawnTimer = TimerManager.Instance.CreateTimerRepeat(enemySpawnTimerDuration);
         enemySpawnTimer.onFinish += enemySpawnTimer_onFinish;
 
+        // UI elements
+        playerScoreLabel = GameObject.Find("ScoreLabel").GetComponent<Text>();
+
         // Player object
         player = Instantiate(_playerPrefab, new Vector3(0f, -4.5f, 0f), Quaternion.identity) as GameObject;
+
+        // values
+        playerScore = 0;
 
         // Finished loading
         _loading = false;
@@ -122,7 +135,6 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         // fade background color?
     }
 
-
     public void PauseGame() {
         Time.timeScale = 0f;
     }
@@ -134,6 +146,11 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     /*---
     * Helper / Utility
     ---*/
+
+    public void UpdateScore(int score) {
+        playerScore += score;
+        playerScoreLabel.text = playerScore.ToString();
+    }
 
     public void EnemyReturnToPool(GameObject enemy) {
         enemy.SetActive(false);

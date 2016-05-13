@@ -11,6 +11,7 @@ public class Enemy : PooledEntity {
     private bool initialized;
     private Color originalColor;
     private float health = Balance.ENEMY_INITIAL_HEALTH;
+    private int scoreValue = Balance.ENEMY_BASE_SCORE_VALUE;
 
     // set to Time.timeSinceLevelLoad on each Spawn() call to keep track of timing
     private float timeSpawned;
@@ -98,6 +99,7 @@ public class Enemy : PooledEntity {
             StartCoroutine(ColorFlash());
             if (health <= 0) Dead();
             GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
+            GameManager.Instance.UpdateScore(scoreValue);
         }
     }
 

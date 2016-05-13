@@ -41,4 +41,6 @@ public static class Balance {
 
     public const float DMG_FLASH_DURATION = 0.03f;
 
+    public const int ENEMY_BASE_SCORE_VALUE = 15;
+
 }
