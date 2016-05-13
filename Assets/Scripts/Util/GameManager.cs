@@ -12,10 +12,10 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public Sprite[] PlayerBulletSprites { get { return playerBulletSprites; } }
 
     // Prefabs
-    public GameObject _enemyPrefab;
-    public GameObject _playerPrefab;
-    public GameObject _enemyBulletPrefab;
-    public GameObject _playerBulletPrefab;
+    private GameObject _enemyPrefab;
+    private GameObject _playerPrefab;
+    private GameObject _enemyBulletPrefab;
+    private GameObject _playerBulletPrefab;
 
     // Object pooling
     private GameObjectPool enemyPool;
@@ -53,7 +53,13 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemyBulletSprites = Resources.LoadAll<Sprite>("Sprites/enemy_bullet");
         playerBulletSprites = Resources.LoadAll<Sprite>("Sprites/player_bullet");
 
-        // Prefabs
+        // Populate prefabs
+        _enemyPrefab = (GameObject)Resources.Load("Prefabs/Enemy", typeof(GameObject));
+        _playerPrefab = (GameObject)Resources.Load("Prefabs/Player", typeof(GameObject));
+        _enemyBulletPrefab = (GameObject)Resources.Load("Prefabs/EnemyBullet", typeof(GameObject));
+        _playerBulletPrefab = (GameObject)Resources.Load("Prefabs/PlayerBullet", typeof(GameObject));
+
+        // Deactivate all prefabs by default
         _enemyPrefab.SetActive(false);
         _playerPrefab.SetActive(false);
         _enemyBulletPrefab.SetActive(false);
