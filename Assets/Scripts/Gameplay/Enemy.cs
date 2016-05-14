@@ -37,7 +37,6 @@ public class Enemy : PooledEntity {
         RandomizeType();
         shootTimer = TimerManager.Instance.CreateTimerRepeat(timeBetweenShots);
         shootTimer.onFinish += shootTimer_onFinish;
-        
     }
 
     public void RandomizeType() {
@@ -137,7 +136,7 @@ public class Enemy : PooledEntity {
         GetComponent<SpriteRenderer>().color = originalColor;
     }
 
-    void Update() {
+    void FixedUpdate() {
         transform.Translate(movePattern(timeSpawned, transform.position));
         if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
             GameManager.Instance.EnemyReturnToPool(gameObject);

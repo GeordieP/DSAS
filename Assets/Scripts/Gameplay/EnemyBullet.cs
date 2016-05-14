@@ -11,7 +11,7 @@ public class EnemyBullet : Bullet {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemyBulletSprites[enemyTypeIndex];        
     }
 
-	void Update () {
+	void FixedUpdate () {
         // transform.Translate(0f, MOVE_SPEED * Time.deltaTime, 0f);
         transform.Translate(moveDirection * MOVE_SPEED * Time.deltaTime);
 

@@ -23,7 +23,6 @@ public class PlayerInput : MonoBehaviour {
 	Timer bombTriggerDelayTimer;
 	private const float BOMB_TRIGGER_DELAY_DURATION = 1f;
 
-	// Use this for initialization
 	void Start() {
 		halfScreenWidth = Screen.width / 2;
 		worldSpaceScreenBound = -Camera.main.ScreenToWorldPoint(Vector3.zero).x;
@@ -31,7 +30,6 @@ public class PlayerInput : MonoBehaviour {
 		bombTriggerDelayTimer.onFinish += bombTriggerDelayTimer_onFinish;
 	}
 
-	// Update is called once per frame
 	void Update() {
 		// user is touching screen
 		if (Input.touches.Length > 0) {
@@ -66,14 +64,15 @@ public class PlayerInput : MonoBehaviour {
 			if (bombTriggerDelayTimer.running)
 				bombTriggerDelayTimer.Stop();
 		}
+	}
 
+	void FixedUpdate() {
 		// Move character based on input. Smooth out acceleration using SmoothDamp
 		targetVelocity = MOVE_DIR * MOVESPEED * TOUCH_POS_SPEED_SCALING;
 		velocity = Mathf.SmoothDamp(velocity, targetVelocity, ref velocitySmoothing, SMOOTHING_TIME);
 		transform.Translate(Vector3.right * velocity * Time.deltaTime);
 
 		transform.position = new Vector3(Mathf.Clamp(transform.position.x, -worldSpaceScreenBound, worldSpaceScreenBound), transform.position.y, transform.position.z);
-
 	}
 
 	void bombTriggerDelayTimer_onFinish() {
