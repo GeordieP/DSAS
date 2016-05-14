@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class GameManager : PersistentUnitySingleton<GameManager> {
-
     // Sprite Storage
     private Sprite[] enemySprites;
     public Sprite[] EnemySprites { get { return enemySprites; } }
@@ -31,6 +30,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
     // UI elements
     private Text playerScoreLabel;
+    private GameObject pauseMenuContainer;
 
     // Player object
     private GameObject player;
@@ -38,8 +38,9 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     // values
     private float playerScore;
 
-    // Keep track of loading
-    public bool _loading;
+    // State variables
+    private bool _loading;
+    private bool _paused;
 
     /*---
     * Startup / Initialization
@@ -78,6 +79,11 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
         // UI elements
         playerScoreLabel = GameObject.Find("ScoreLabel").GetComponent<Text>();
+        // Move the pause menu on screen (moved off in editor so it doesn't get in the way) and disable it
+        pauseMenuContainer = GameObject.Find("PauseMenuContainer");
+        pauseMenuContainer.GetComponent<RectTransform>().offsetMin = Vector2.zero;
+        pauseMenuContainer.GetComponent<RectTransform>().offsetMax = Vector2.zero;
+        pauseMenuContainer.SetActive(false);
 
         // Player object
         player = Instantiate(_playerPrefab, new Vector3(0f, -4.5f, 0f), Quaternion.identity) as GameObject;
@@ -135,12 +141,11 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         // fade background color?
     }
 
-    public void PauseGame() {
-        Time.timeScale = 0f;
-    }
-
-    public void UnpauseGame() {
-        Time.timeScale = 1f;
+    public void SetPause(bool pause) {
+        if (_paused == pause) return;
+        _paused = pause;
+        pauseMenuContainer.SetActive(pause);
+        Time.timeScale = pause ? 0f : 1f;
     }
 
     /*---
