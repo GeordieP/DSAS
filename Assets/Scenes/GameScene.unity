@@ -1218,7 +1218,7 @@ Canvas:
   m_RenderMode: 0
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -1411,10 +1411,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1210613117}
   m_RootOrder: 3
-  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -186.5, y: -38.8}
-  m_SizeDelta: {x: 126.3, y: 23.4}
+  m_AnchoredPosition: {x: -195.4, y: -38.8}
+  m_SizeDelta: {x: -391.9, y: -52.6}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2083824764
 MonoBehaviour:
@@ -1436,15 +1436,15 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: 95f8563fbcc364f4f890deeeab749e5b, type: 3}
     m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 40
+    m_MaxSize: 150
     m_Alignment: 4
     m_AlignByGeometry: 0
-    m_RichText: 1
+    m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
