@@ -100,6 +100,10 @@ public class TimerManager : PersistentUnitySingleton<TimerManager> {
 		temp.Start();
 		return temp;
 	}
+
+	public void StopAndDeleteAll() {
+		timers = new List<Timer>();
+	}
 }
 
 public class Timer {

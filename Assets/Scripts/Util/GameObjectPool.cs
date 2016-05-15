@@ -65,4 +65,9 @@ public class GameObjectPool {
         }
         _inUse = new List<GameObject>();
     }
+
+    public void Clear() {
+        _available = new List<GameObject>();
+        _inUse = new List<GameObject>();
+    }
 }
