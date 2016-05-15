@@ -155,10 +155,13 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemyBulletPool.Clear();
         playerBulletPool.Clear();
 
+        player = null;
+        Resources.UnloadUnusedAssets();
+
         // this may cause problems if we use timers for anything between calling this function
         // and transitioning the scene
         TimerManager.Instance.StopAndDeleteAll();
-
+        
         // Transition scene to menu (should always be game scene index - 1)
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
