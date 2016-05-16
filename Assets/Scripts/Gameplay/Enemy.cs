@@ -87,6 +87,7 @@ public class Enemy : PooledEntity {
 
     private void Dead() {
         GameManager.Instance.EnemyReturnToPool(gameObject);
+        GameManager.Instance.UpdateScore(scoreValue);
         Despawn();
     }
 
@@ -98,7 +99,6 @@ public class Enemy : PooledEntity {
             StartCoroutine(ColorFlash());
             if (health <= 0) Dead();
             GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
-            GameManager.Instance.UpdateScore(scoreValue);
         }
     }
 
