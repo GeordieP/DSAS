@@ -140,6 +140,13 @@ public class Timer {
 		elapsed = 0f;
 	}
 
+	public void Delete() {
+		// set duration to 0 so on next Update, elapsed will be > duration and trigger Finish()
+		// since deleteOnFinish is now true, the timer manager will delete the finished timer
+		duration = 0f;
+		deleteOnFinish = true;
+	}
+
 	public void Update(float deltaTime) {
 		elapsed += deltaTime;
 		if (elapsed >= duration) Finish();
