@@ -20,13 +20,22 @@ public class Player : MonoBehaviour {
     private void UpdateHealth(float newHealth) {
         health = newHealth;
         GameManager.Instance.UpdateHealthBar(health / INITIAL_HEALTH);
-        StartCoroutine(ColorFlash());
+        StartCoroutine(HitByBullet());
         if (health <= 0) Dead();
     }
 
-    private IEnumerator ColorFlash() {
+    private IEnumerator HitByBullet() {
+        // Set sprite color to white
         GetComponent<SpriteRenderer>().color = Color.white;
+        // Move back by knockback distance
+        transform.Translate(new Vector3(0f, -Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
+
+        // Wait for several frames
         yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+
+        // Move forward to regular position
+        transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
+        // Set color back to normal
         GetComponent<SpriteRenderer>().color = originalColor;
     }
 
