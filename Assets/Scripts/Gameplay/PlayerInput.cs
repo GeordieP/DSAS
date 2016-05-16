@@ -71,6 +71,7 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	private void nukeTriggerDelayTimer_onFinish() {
+		if (nukeChargeLevel < NUKE_MAX_CHARGE_LEVEL) return;
 		GameManager.Instance.PlayerNuke();
 		nukeChargeLevel = 0f;
 		GameManager.Instance.UpdateNukeBar(0f);
