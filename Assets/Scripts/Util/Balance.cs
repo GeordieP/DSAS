@@ -22,31 +22,47 @@ public static class Balance {
         height = ScreenBounds.height - 4
     };
 
-    // Move Speeds
+    /*---
+    * Move Speeds
+    ---*/
+    // entities    
     public const float PLAYER_BASE_MOVE_SPEED = 10f;
-    public const float BULLET_INITIAL_SPEED = 7f;
-    public const float PLAYER_BULLET_INITIAL_SPEED = 15f;
-    public const float ENEMY_BULLET_INITIAL_SPEED = -7f;
+    public const float ENEMY_BASE_MOVE_SPEED = 1.4f;
 
-    // Timers / Rates / Duration
+    // bullets
+    public const float BULLET_INITIAL_SPEED = 6f;
+    public const float PLAYER_BULLET_INITIAL_SPEED = 15f;
+    public const float ENEMY_BULLET_INITIAL_SPEED = -6f;
+
+    /*---
+    * Timers / Rates / Duration
+    ---*/
     public const float PLAYER_FIRE_RATE = 8f;
     public const float ENEMY_WAVE_SPAWN_RATE = 7f;
     public const float DMG_FLASH_DURATION = 0.03f;
 
-    // Health / Max Levels
+    /*---
+    * Health / Max Levels
+    ---*/
     public const float PLAYER_INITIAL_HEALTH = 100f;
     public const float ENEMY_INITIAL_HEALTH = 99f;
     public const float NUKE_MAX_CHARGE_LEVEL = 35;
 
-    // Damage
+    /*---
+    * Damage
+    ---*/    
     public const float BULLET_BASE_DMG = 25f;
     public const float ENEMY_BULLET_BASE_DMG = 5f;
     public const float PLAYER_BULLET_BASE_DMG = 33f;
 
-    // Point values
+    /*---
+    * Point values
+    ---*/    
     public const int ENEMY_BASE_SCORE_VALUE = 15;
 
-    // Other
+    /*---
+    * Other
+    ---*/    
     public const float PLAYER_BULLET_KNOCKBACK_DISTANCE = 0.08f;
     public const float ENEMY_BULLET_KNOCKBACK_DISTANCE = 0.05f;
     public const int ENEMY_WAVE_MIN_SIZE = 5;

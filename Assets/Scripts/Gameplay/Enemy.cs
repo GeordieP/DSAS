@@ -145,29 +145,32 @@ public class Enemy : PooledEntity {
 }
 
 public static class MovePatterns {
+    private static float MOVE_SPEED = Balance.ENEMY_BASE_MOVE_SPEED;    // simpler to type
+    private static float TIME_MULTIPLIER = MOVE_SPEED * 0.01f;          // reduce time
+
     // move straight down
     public static Vector3 Linear(float timeSpawned, Vector3 position) {
-        return new Vector3(0f, -2f * Time.deltaTime, 0f);
+        return new Vector3(0f, -MOVE_SPEED * Time.deltaTime, 0f);
     }
 
     // wave back and forth
     public static Vector3 WavyX(float timeSpawned, Vector3 position) {
-        return new Vector3(Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * 0.02f, -2 * Time.deltaTime, 0f);
+        return new Vector3(Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * TIME_MULTIPLIER, -MOVE_SPEED * Time.deltaTime, 0f);
     }
 
     // wave up and down moving left
     public static Vector3 WavyYLeft(float timeSpawned, Vector3 position) {
-        return new Vector3(1.5f * Time.deltaTime, Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * 0.02f, 0f);
+        return new Vector3(MOVE_SPEED * Time.deltaTime, Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * TIME_MULTIPLIER, 0f);
     }
 
     // wave up and down moving right
     public static Vector3 WavyYRight(float timeSpawned, Vector3 position) {
-        return new Vector3(-1.5f * Time.deltaTime, Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * 0.02f, 0f);
+        return new Vector3(MOVE_SPEED * Time.deltaTime, Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * TIME_MULTIPLIER, 0f);
     }
 
     // move in a circular pattern downwards
     public static Vector3 Circular(float timeSpawned, Vector3 position) {
-        return new Vector3(Mathf.Sin(Time.timeSinceLevelLoad * 3 - timeSpawned * 3) * 0.04f, -0.02f + (Mathf.Cos(Time.timeSinceLevelLoad * 3 - timeSpawned * 3) * 0.04f), 0f);
+        return new Vector3(Mathf.Sin(Time.timeSinceLevelLoad * 3 - timeSpawned * 3) * TIME_MULTIPLIER * 2, -TIME_MULTIPLIER + (Mathf.Cos(Time.timeSinceLevelLoad * 3 - timeSpawned * 3) * 0.04f), 0f);
     }
 }
 
