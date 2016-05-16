@@ -32,6 +32,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     // UI elements
     private Text playerScoreLabel;
     private GameObject pauseMenuContainer;
+    private RectTransform healthBarMaskFillTransform;
+    private RectTransform nukeBarMaskFillTransform;
 
     // Player object
     private GameObject player;
@@ -86,6 +88,9 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         pauseMenuContainer.GetComponent<RectTransform>().offsetMin = Vector2.zero;
         pauseMenuContainer.GetComponent<RectTransform>().offsetMax = Vector2.zero;
         pauseMenuContainer.SetActive(false);
+        healthBarMaskFillTransform = GameObject.Find("HealthbarMaskFill").GetComponent<RectTransform>();
+        nukeBarMaskFillTransform = GameObject.Find("NukebarMaskFill").GetComponent<RectTransform>();
+
 
         // Player object
         player = Instantiate(_playerPrefab, new Vector3(0f, -4.5f, 0f), Quaternion.identity) as GameObject;
@@ -166,6 +171,14 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         // Transition scene to menu (should always be game scene index - 1)
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+    }
+
+    /*---
+    * Gameplay UI
+    ---*/
+
+    public void UpdateHealthBar(float percentage) {
+        healthBarMaskFillTransform.localScale = new Vector3(percentage, 1f, 1f);
     }
 
     /*---

@@ -34,7 +34,7 @@ public static class Balance {
     public const float ENEMY_INITIAL_HEALTH = 100f;
 
     public const float BULLET_BASE_DMG = 25f;
-    public const float ENEMY_BULLET_BASE_DMG = 25f;
+    public const float ENEMY_BULLET_BASE_DMG = 5f;
     public const float PLAYER_BULLET_BASE_DMG = 25f;
 
     public const float PLAYER_BULLET_KNOCKBACK_DISTANCE = 0.05f;
