@@ -136,7 +136,7 @@ public class Enemy : PooledEntity {
         GetComponent<SpriteRenderer>().color = originalColor;
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         transform.Translate(movePattern(timeSpawned, transform.position));
         if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
             GameManager.Instance.EnemyReturnToPool(gameObject);

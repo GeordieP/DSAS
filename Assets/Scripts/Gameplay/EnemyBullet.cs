@@ -2,7 +2,7 @@
 
 
 public class EnemyBullet : Bullet {
-    void Start() {
+    private void Start() {
         MOVE_SPEED = Balance.ENEMY_BULLET_INITIAL_SPEED;
         dmg_value = Balance.ENEMY_BULLET_BASE_DMG;
     }
@@ -11,7 +11,7 @@ public class EnemyBullet : Bullet {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemyBulletSprites[enemyTypeIndex];        
     }
 
-	void FixedUpdate () {
+	private void FixedUpdate () {
         // transform.Translate(0f, MOVE_SPEED * Time.deltaTime, 0f);
         transform.Translate(moveDirection * MOVE_SPEED * Time.deltaTime);
 

@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
     private const float INITIAL_HEALTH = Balance.PLAYER_INITIAL_HEALTH;
     private Color originalColor;
 
-    void Start() {
+    private void Start() {
         originalColor = GetComponent<SpriteRenderer>().color;
         GameManager.Instance.UpdateHealthBar(health / INITIAL_HEALTH);
     }
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour {
         GetComponent<SpriteRenderer>().color = originalColor;
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.name == "EnemyBullet(Clone)" || other.transform.name == "BossBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
             UpdateHealth(health - bullet.Dmg_Value);

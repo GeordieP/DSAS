@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 public class GameSceneLoaded : MonoBehaviour {
-	void Start () {
+	private void Start () {
         GameManager.Instance.GameSceneLoaded();
 	}
 }

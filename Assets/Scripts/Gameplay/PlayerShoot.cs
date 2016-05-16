@@ -18,7 +18,7 @@ public class PlayerShoot : MonoBehaviour {
     private Timer shootTimer;
     private GameObjectPool playerBulletPool;
 
-	void Start () {
+	private void Start () {
         playerBulletPool = GameManager.Instance.PlayerBulletPool;
         shootTimer = TimerManager.Instance.CreateTimerRepeat(1 / FIRE_RATE);
         shootTimer.onFinish += shootTimer_onFinish;

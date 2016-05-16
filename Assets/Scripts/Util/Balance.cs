@@ -43,4 +43,6 @@ public static class Balance {
 
     public const int ENEMY_BASE_SCORE_VALUE = 15;
 
+    public const float NUKE_MAX_CHARGE_LEVEL = 15;
+
 }

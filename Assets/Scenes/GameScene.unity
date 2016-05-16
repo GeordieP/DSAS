@@ -376,10 +376,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1210613117}
   m_RootOrder: 4
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 1.6}
-  m_SizeDelta: {x: 500, y: 71.8}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.55000305, y: 0}
+  m_SizeDelta: {x: 0, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &477779243
 MonoBehaviour:
@@ -639,7 +639,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: 0}
+  m_AnchoredPosition: {x: 0.5499878, y: 0.000011444092}
   m_SizeDelta: {x: 0, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &598521867
@@ -928,9 +928,9 @@ RectTransform:
   m_Father: {fileID: 1612943452}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 75}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 249.7, y: 0}
+  m_SizeDelta: {x: 499.4, y: 69.9}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1210613118
 MonoBehaviour:
@@ -1084,7 +1084,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.55000305, y: 0.0000038146973}
   m_SizeDelta: {x: 0, y: -1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1406694908
@@ -1399,8 +1399,8 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -1}
+  m_AnchoredPosition: {x: -0.00000017881393, y: 0.000030517578}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1936162978
 MonoBehaviour:
@@ -1466,7 +1466,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -195.4, y: -38.8}
+  m_AnchoredPosition: {x: -195.4, y: -42.5}
   m_SizeDelta: {x: -391.9, y: -52.6}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2083824764

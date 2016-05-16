@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class PlayerInput : MonoBehaviour {
 	// Movement directions 
@@ -20,29 +21,32 @@ public class PlayerInput : MonoBehaviour {
 	private float velocity, targetVelocity;
 	private float velocitySmoothing;
 
-	Timer bombTriggerDelayTimer;
-	private const float BOMB_TRIGGER_DELAY_DURATION = 1f;
+	Timer nukeTriggerDelayTimer;
+	private const float NUKE_TRIGGER_DELAY_DURATION = 1f;
 
-	void Start() {
+	private const float NUKE_MAX_CHARGE_LEVEL = Balance.NUKE_MAX_CHARGE_LEVEL;
+	private float nukeChargeLevel = NUKE_MAX_CHARGE_LEVEL;
+
+	private void Start() {
 		halfScreenWidth = Screen.width / 2;
 		worldSpaceScreenBound = -Camera.main.ScreenToWorldPoint(Vector3.zero).x;
-		bombTriggerDelayTimer = TimerManager.Instance.CreateTimerOneshot(BOMB_TRIGGER_DELAY_DURATION);
-		bombTriggerDelayTimer.onFinish += bombTriggerDelayTimer_onFinish;
+		nukeTriggerDelayTimer = TimerManager.Instance.CreateTimerOneshot(NUKE_TRIGGER_DELAY_DURATION);
+		nukeTriggerDelayTimer.onFinish += nukeTriggerDelayTimer_onFinish;
 	}
 
-	void Update() {
+	private void Update() {
 		// user is touching screen
 		if (Input.touches.Length > 0) {
 			// more than one finger
 			if (Input.touches.Length > 1) {
-				// stop movement, start bomb timer
+				// stop movement, start nuke timer
 				MOVE_DIR = NONE;
 				SMOOTHING_TIME = SMOOTHING_TIME_DECELERATING;
-				if (!bombTriggerDelayTimer.running)
-					bombTriggerDelayTimer.Start();
+				if (!nukeTriggerDelayTimer.running)
+					nukeTriggerDelayTimer.Start();
 			} else {
 				// only one finger
-				// move appropriate direction and stop bomb timer if it's running
+				// move appropriate direction and stop nuke timer if it's running
 				
 				if (Input.GetTouch(Input.touches.Length - 1).position.x < halfScreenWidth) {
 					MOVE_DIR = LEFT;
@@ -53,29 +57,40 @@ public class PlayerInput : MonoBehaviour {
 				}
 				SMOOTHING_TIME = SMOOTHING_TIME_ACCELERATING;
 
-				if (bombTriggerDelayTimer.running)
-					bombTriggerDelayTimer.Stop();
+				if (nukeTriggerDelayTimer.running)
+					nukeTriggerDelayTimer.Stop();
 			}
 		} else {
 			// no fingers on screen
 			MOVE_DIR = NONE;
 			SMOOTHING_TIME = SMOOTHING_TIME_DECELERATING;
 
-			if (bombTriggerDelayTimer.running)
-				bombTriggerDelayTimer.Stop();
+			if (nukeTriggerDelayTimer.running)
+				nukeTriggerDelayTimer.Stop();
 		}
 	}
 
-	void FixedUpdate() {
+	private void nukeTriggerDelayTimer_onFinish() {
+		GameManager.Instance.PlayerNuke();
+		nukeChargeLevel = 0f;
+		GameManager.Instance.UpdateNukeBar(0f);
+		StartCoroutine(ChargeNuke());
+	}
+
+	private IEnumerator ChargeNuke() {
+		while (nukeChargeLevel < NUKE_MAX_CHARGE_LEVEL) {
+			nukeChargeLevel += Time.deltaTime;
+			GameManager.Instance.UpdateNukeBar(nukeChargeLevel / NUKE_MAX_CHARGE_LEVEL);
+			yield return new WaitForFixedUpdate();
+		}
+	} 
+
+	private void FixedUpdate() {
 		// Move character based on input. Smooth out acceleration using SmoothDamp
 		targetVelocity = MOVE_DIR * MOVESPEED * TOUCH_POS_SPEED_SCALING;
 		velocity = Mathf.SmoothDamp(velocity, targetVelocity, ref velocitySmoothing, SMOOTHING_TIME);
 		transform.Translate(Vector3.right * velocity * Time.deltaTime);
 
 		transform.position = new Vector3(Mathf.Clamp(transform.position.x, -worldSpaceScreenBound, worldSpaceScreenBound), transform.position.y, transform.position.z);
-	}
-
-	void bombTriggerDelayTimer_onFinish() {
-		GameManager.Instance.PlayerBomb();
 	}
 }

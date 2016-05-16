@@ -130,7 +130,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
 
     /*---
-    * Timer Tick / Finish event callbacks
+        * Timer Tick / Finish event callbacks
     ---*/
     
     private void enemySpawnTimer_onFinish() {
@@ -141,10 +141,10 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     * Game Actions
     ---*/
     
-    public void PlayerBomb() {
+    public void PlayerNuke() {
         enemyBulletPool.RestoreAll();
         enemyPool.RestoreAll();
-        // show bomb animation/effect
+        // show nuke animation/effect
         // fade background color?
     }
 
@@ -179,6 +179,10 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
     public void UpdateHealthBar(float percentage) {
         healthBarMaskFillTransform.localScale = new Vector3(percentage, 1f, 1f);
+    }
+
+    public void UpdateNukeBar(float percentage) {
+        nukeBarMaskFillTransform.localScale = new Vector3(percentage, 1f, 1f);
     }
 
     /*---
