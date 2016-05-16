@@ -5,7 +5,7 @@ using System.Collections;
 public class Enemy : PooledEntity {
     // Enemy type will determine what enemy sprite to use, and what bullet type to use when shooting
     private int enemyType;
-    private float timeBetweenShots = 1f;
+    private float timeBetweenShots = 3f;
     // borrow the EnemyBulletPool from GameManager
     private GameObjectPool enemyBulletPool;
     private bool initialized;
@@ -190,7 +190,7 @@ public static class ShootPatterns {
         for (int i = 0; i < 3; i++) {
             currentBullet = bullets[i].GetComponent<EnemyBullet>();
             currentBullet.SetType(enemyType);
-            float angle = 85 + 5 * i;
+            float angle = 65 + 25 * i;
             Vector3 meme = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
             currentBullet.Spawn(shooterPosition, meme);
             bullets[i].SetActive(true);

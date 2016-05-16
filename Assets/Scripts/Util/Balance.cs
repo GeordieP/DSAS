@@ -37,7 +37,7 @@ public static class Balance {
     /*---
     * Timers / Rates / Duration
     ---*/
-    public const float PLAYER_FIRE_RATE = 8f;
+    public const float PLAYER_FIRE_RATE = 9f;
     public const float ENEMY_WAVE_SPAWN_RATE = 7f;
     public const float DMG_FLASH_DURATION = 0.03f;
 
