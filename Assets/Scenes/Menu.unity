@@ -424,7 +424,7 @@ GameObject:
   - 222: {fileID: 580333663}
   - 114: {fileID: 580333662}
   m_Layer: 5
-  m_Name: GameLabel (1)
+  m_Name: Credits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -696,7 +696,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 235, y: 378}
+  m_AnchoredPosition: {x: -99, y: 777}
   m_SizeDelta: {x: 202, y: 202}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1234391767

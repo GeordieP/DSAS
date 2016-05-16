@@ -51,7 +51,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     // this sets loading to be true until it's done with everything
 	public void GameSceneLoaded () {
         _loading = true;
-        print("Game Manager Initializing");
+        _paused = false;
 
         // Populate sprite storage
         enemySprites = Resources.LoadAll<Sprite>("Sprites/enemy_ship");
@@ -151,6 +151,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     }
 
     public void ExitToMenu() {
+        StopAllCoroutines();        // this could cause issues
         enemyPool.Clear();
         enemyBulletPool.Clear();
         playerBulletPool.Clear();
@@ -163,6 +164,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         TimerManager.Instance.StopAndDeleteAll();
         
         // Transition scene to menu (should always be game scene index - 1)
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 
