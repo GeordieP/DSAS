@@ -26,7 +26,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public GameObjectPool PlayerBulletPool { get { return playerBulletPool; } }
 
     // Timers
-    private const float enemySpawnTimerDuration = 10f;
+    private const float enemySpawnTimerDuration = Balance.ENEMY_WAVE_SPAWN_RATE;
     private Timer enemySpawnTimer;
 
     // UI elements
@@ -107,7 +107,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 	}
 
     private void CreateEnemyWave() {
-        int waveSize = Random.Range(3, 10);
+        int waveSize = Random.Range(Balance.ENEMY_WAVE_MIN_SIZE, Balance.ENEMY_WAVE_MAX_SIZE);
         int waveTypeIndex = Random.Range(0, EnemyWaves.WaveTypes.Length);
 
         GameObject[] enemies = enemyPool.Borrow(waveSize);

@@ -30,6 +30,7 @@ public static class Balance {
 
     // Timers / Rates / Duration
     public const float PLAYER_FIRE_RATE = 8f;
+    public const float ENEMY_WAVE_SPAWN_RATE = 7f;
     public const float DMG_FLASH_DURATION = 0.03f;
 
     // Health / Max Levels
@@ -48,4 +49,6 @@ public static class Balance {
     // Other
     public const float PLAYER_BULLET_KNOCKBACK_DISTANCE = 0.08f;
     public const float ENEMY_BULLET_KNOCKBACK_DISTANCE = 0.05f;
+    public const int ENEMY_WAVE_MIN_SIZE = 5;
+    public const int ENEMY_WAVE_MAX_SIZE = 15;
 }
