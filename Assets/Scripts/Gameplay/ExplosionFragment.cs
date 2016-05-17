@@ -13,7 +13,7 @@ public class ExplosionFragment : PooledEntity {
     public void Spawn(Vector3 origin) {
         transform.position = origin;
         MOVE_SPEED = Random.Range(3f, 15f);
-        moveDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), 0f);
+        moveDirection = new Vector3(Random.Range(-1f, 1f), Random.Range(-0.4f, 1f), 0f);
     }
 
     public void Spawn(Vector3 origin, Vector3 directionInfluence) {
