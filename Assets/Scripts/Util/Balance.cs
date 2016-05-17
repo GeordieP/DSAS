@@ -61,6 +61,13 @@ public static class Balance {
     public const int ENEMY_BASE_SCORE_VALUE = 15;
 
     /*---
+    * Pool sizes
+    ---*/
+    public const int POOL_SIZE_ENEMY = 20;
+    public const int POOL_SIZE_ENEMY_BULLET = 100;
+    public const int POOL_SIZE_PLAYER_BULLET = 50;
+    
+    /*---
     * Other
     ---*/    
     public const float PLAYER_BULLET_KNOCKBACK_DISTANCE = 0.08f;

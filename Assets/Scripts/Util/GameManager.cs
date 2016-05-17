@@ -73,9 +73,9 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         _playerBulletPrefab.SetActive(false);
 
         // Object pools
-        enemyPool = new GameObjectPool(10, _enemyPrefab);
-        enemyBulletPool = new GameObjectPool(100, _enemyBulletPrefab);
-        playerBulletPool = new GameObjectPool(50, _playerBulletPrefab);
+        enemyPool = new GameObjectPool(Balance.POOL_SIZE_ENEMY, _enemyPrefab);
+        enemyBulletPool = new GameObjectPool(Balance.POOL_SIZE_ENEMY_BULLET, _enemyBulletPrefab);
+        playerBulletPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _playerBulletPrefab);
 
         // Timers
         enemySpawnTimer = TimerManager.Instance.CreateTimerRepeat(enemySpawnTimerDuration);
