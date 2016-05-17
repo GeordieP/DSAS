@@ -11,12 +11,16 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public Sprite[] EnemyBulletSprites { get { return enemyBulletSprites; } }
     private Sprite[] playerBulletSprites;
     public Sprite[] PlayerBulletSprites { get { return playerBulletSprites; } }
+    private Sprite[] explosionFragmentSprites;
+    public Sprite[] ExplosionFragmentSprites { get { return explosionFragmentSprites; } }
+
 
     // Prefabs
     private GameObject _enemyPrefab;
     private GameObject _playerPrefab;
     private GameObject _enemyBulletPrefab;
     private GameObject _playerBulletPrefab;
+    private GameObject _explosionFragmentPrefab;
 
     // Object pooling
     private GameObjectPool enemyPool;
@@ -24,6 +28,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public GameObjectPool EnemyBulletPool { get { return enemyBulletPool; } }
     private GameObjectPool playerBulletPool;
     public GameObjectPool PlayerBulletPool { get { return playerBulletPool; } }
+    private GameObjectPool explosionFragmentPool;
+    public GameObjectPool ExplosionFragmentPool { get { return explosionFragmentPool; } }
 
     // Timers
     private const float enemySpawnTimerDuration = Balance.ENEMY_WAVE_SPAWN_RATE;
@@ -59,23 +65,27 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemySprites = Resources.LoadAll<Sprite>("Sprites/enemy_ship");
         enemyBulletSprites = Resources.LoadAll<Sprite>("Sprites/enemy_bullet");
         playerBulletSprites = Resources.LoadAll<Sprite>("Sprites/player_bullet");
+        explosionFragmentSprites = Resources.LoadAll<Sprite>("Sprites/explosion_fragments");
 
         // Populate prefabs
         _enemyPrefab = (GameObject)Resources.Load("Prefabs/Enemy", typeof(GameObject));
         _playerPrefab = (GameObject)Resources.Load("Prefabs/Player", typeof(GameObject));
         _enemyBulletPrefab = (GameObject)Resources.Load("Prefabs/EnemyBullet", typeof(GameObject));
         _playerBulletPrefab = (GameObject)Resources.Load("Prefabs/PlayerBullet", typeof(GameObject));
+        _explosionFragmentPrefab = (GameObject)Resources.Load("Prefabs/ExplosionFragment", typeof(GameObject));
 
         // Deactivate all prefabs by default
         _enemyPrefab.SetActive(false);
         _playerPrefab.SetActive(false);
         _enemyBulletPrefab.SetActive(false);
         _playerBulletPrefab.SetActive(false);
+        _explosionFragmentPrefab.SetActive(false);
 
         // Object pools
         enemyPool = new GameObjectPool(Balance.POOL_SIZE_ENEMY, _enemyPrefab);
         enemyBulletPool = new GameObjectPool(Balance.POOL_SIZE_ENEMY_BULLET, _enemyBulletPrefab);
         playerBulletPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _playerBulletPrefab);
+        explosionFragmentPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _explosionFragmentPrefab);
 
         // Timers
         enemySpawnTimer = TimerManager.Instance.CreateTimerRepeat(enemySpawnTimerDuration);
@@ -210,5 +220,12 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         bullet.SetActive(false);
         bullet.GetComponent<PlayerBullet>().Despawn();
         playerBulletPool.Restore(bullet);
+    }
+
+
+    public void ExplosionFragmentReturnToPool(GameObject bullet) {
+        bullet.SetActive(false);
+        bullet.GetComponent<ExplosionFragment>().Despawn();
+        explosionFragmentPool.Restore(bullet);
     }
 }

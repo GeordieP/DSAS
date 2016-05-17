@@ -66,6 +66,7 @@ public static class Balance {
     public const int POOL_SIZE_ENEMY = 20;
     public const int POOL_SIZE_ENEMY_BULLET = 100;
     public const int POOL_SIZE_PLAYER_BULLET = 50;
+    public const int POOL_SIZE_EXPLOSION_FRAGMENT = 150;
     
     /*---
     * Other

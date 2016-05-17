@@ -86,6 +86,15 @@ public class Enemy : PooledEntity {
     }
 
     private void Dead() {
+
+        // spawn explosion
+        GameObject[] particles = GameManager.Instance.ExplosionFragmentPool.Borrow(10);
+
+        for (int i = 0; i < particles.Length; i++) {
+            particles[i].GetComponent<ExplosionFragment>().Spawn(transform.position);
+            particles[i].SetActive(true);
+        }
+
         GameManager.Instance.EnemyReturnToPool(gameObject);
         GameManager.Instance.UpdateScore(scoreValue);
         Despawn();
