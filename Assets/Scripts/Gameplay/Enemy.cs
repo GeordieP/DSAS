@@ -106,6 +106,7 @@ public class Enemy : PooledEntity {
             Knockback();
             health -= bullet.Dmg_Value;
             StartCoroutine(ColorFlash());
+            StartCoroutine(ShootDelay());
             if (health <= 0) Dead();
             GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
         }
@@ -137,6 +138,12 @@ public class Enemy : PooledEntity {
 
     public void SetSpawnPosition(Vector3 spawnPos) {
         transform.position = spawnPos;
+    }
+
+    private IEnumerator ShootDelay() {
+        shootTimer.Stop();
+        yield return new WaitForSeconds(Balance.DAMAGED_ENEMY_NEXT_SHOT_DELAY);
+        shootTimer.Start();
     }
 
     private IEnumerator ColorFlash() {

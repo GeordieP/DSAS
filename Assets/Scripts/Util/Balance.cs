@@ -75,4 +75,6 @@ public static class Balance {
     public const float ENEMY_BULLET_KNOCKBACK_DISTANCE = 0.05f;
     public const int ENEMY_WAVE_MIN_SIZE = 5;
     public const int ENEMY_WAVE_MAX_SIZE = 15;
+    public const float DAMAGED_ENEMY_NEXT_SHOT_DELAY = 1f;
+    public const float DAMAGED_PLAYER_NEXT_SHOT_DELAY = 0.5f;
 }

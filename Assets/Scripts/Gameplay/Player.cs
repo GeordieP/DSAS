@@ -21,7 +21,14 @@ public class Player : MonoBehaviour {
         health = newHealth;
         GameManager.Instance.UpdateHealthBar(health / INITIAL_HEALTH);
         StartCoroutine(HitByBullet());
+        StartCoroutine(ShootDelay());
         if (health <= 0) Dead();
+    }
+
+    private IEnumerator ShootDelay() {
+        GetComponent<PlayerShoot>().Shooting = false;
+        yield return new WaitForSeconds(Balance.DAMAGED_PLAYER_NEXT_SHOT_DELAY);
+        GetComponent<PlayerShoot>().Shooting = true;
     }
 
     private IEnumerator HitByBullet() {
