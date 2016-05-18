@@ -181,7 +181,7 @@ public static class MovePatterns {
 
     // wave up and down moving right
     public static Vector3 WavyYRight(float timeSpawned, Vector3 position) {
-        return new Vector3(MOVE_SPEED * Time.deltaTime, Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * TIME_MULTIPLIER, 0f);
+        return new Vector3(-MOVE_SPEED * Time.deltaTime, Mathf.Cos(Time.timeSinceLevelLoad - timeSpawned) * TIME_MULTIPLIER, 0f);
     }
 
     // move in a circular pattern downwards

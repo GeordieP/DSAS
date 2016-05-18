@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -123,7 +123,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         GameObject[] enemies = enemyPool.Borrow(waveSize);
 
         for (int i = 0; i < waveSize; i++) {
-            enemies[i].GetComponent<Enemy>().SetSpawnPosition(EnemyWaves.WaveTypes[waveTypeIndex].GetRandSpawnPoint());     // for now pick a random applicable spawn point from the wave type
+            enemies[i].GetComponent<Enemy>().SetSpawnPosition(EnemyWaves.WaveTypes[waveTypeIndex].GetSpawnPoint(i, waveSize));
             enemies[i].GetComponent<Enemy>().SetWaveType(waveTypeIndex);
         }
 
@@ -140,7 +140,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
 
     /*---
-        * Timer Tick / Finish event callbacks
+    * Timer Tick / Finish event callbacks
     ---*/
     
     private void enemySpawnTimer_onFinish() {
