@@ -4,6 +4,9 @@ using System.Collections.Generic;
 public class GameObjectPool {
     private List<GameObject> _inUse, _available;
     private GameObject _initialStateItem;
+    
+    public List<GameObject> InUse { get { return _inUse; }}
+    public List<GameObject> Available { get { return _available; }}
 
     public GameObjectPool(int length, GameObject initialStateItem) {
         _initialStateItem = initialStateItem;

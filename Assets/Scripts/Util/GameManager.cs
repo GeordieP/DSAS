@@ -152,6 +152,11 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     ---*/
     
     public void PlayerNuke() {
+
+        for (int i = 0; i < enemyPool.InUse.Count; i++) {
+            enemyPool.InUse[i].GetComponent<Enemy>().Dead();
+        }
+
         enemyBulletPool.RestoreAll();
         enemyPool.RestoreAll();
         // show nuke animation/effect

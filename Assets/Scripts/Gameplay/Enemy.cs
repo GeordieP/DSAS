@@ -85,7 +85,7 @@ public class Enemy : PooledEntity {
         shoot(enemyBulletPool, enemyType, transform.position);
     }
 
-    private void Dead() {
+    public void Dead() {
 
         // spawn explosion
         GameObject[] particles = GameManager.Instance.ExplosionFragmentPool.Borrow(10);
