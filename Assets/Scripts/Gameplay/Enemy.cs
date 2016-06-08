@@ -12,6 +12,7 @@ public class Enemy : PooledEntity {
     private Color originalColor;
     private float health = Balance.ENEMY_INITIAL_HEALTH;
     private int scoreValue = Balance.ENEMY_BASE_SCORE_VALUE;
+    private Vector3 mostRecentVelocity;
 
     // set to Time.timeSinceLevelLoad on each Spawn() call to keep track of timing
     private float timeSpawned;
@@ -86,12 +87,12 @@ public class Enemy : PooledEntity {
     }
 
     public void Dead() {
-
         // spawn explosion
-        GameObject[] particles = GameManager.Instance.ExplosionFragmentPool.Borrow(10);
+        GameObject[] particles = GameManager.Instance.ExplosionFragmentPool.Borrow(5);
+        float explosionStartTime = Time.timeSinceLevelLoad;
 
         for (int i = 0; i < particles.Length; i++) {
-            particles[i].GetComponent<ExplosionFragment>().Spawn(transform.position);
+            particles[i].GetComponent<ExplosionFragment>().Spawn(transform.position, mostRecentVelocity, explosionStartTime);
             particles[i].SetActive(true);
         }
 
@@ -153,7 +154,9 @@ public class Enemy : PooledEntity {
     }
 
     private void FixedUpdate() {
-        transform.Translate(movePattern(timeSpawned, transform.position));
+        mostRecentVelocity = movePattern(timeSpawned, transform.position);
+        transform.Translate(mostRecentVelocity);
+
         if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
             GameManager.Instance.EnemyReturnToPool(gameObject);
         }
