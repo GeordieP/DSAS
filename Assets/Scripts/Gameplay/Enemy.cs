@@ -210,6 +210,8 @@ public static class ShootPatterns {
             currentBullet = bullets[i].GetComponent<EnemyBullet>();
             currentBullet.SetType(enemyType);
             float angle = 65 + 25 * i;
+            currentBullet.SetRotation(angle);
+
             Vector3 meme = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
             currentBullet.Spawn(shooterPosition, meme);
             bullets[i].SetActive(true);

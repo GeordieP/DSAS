@@ -11,9 +11,12 @@ public class EnemyBullet : Bullet {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemyBulletSprites[enemyTypeIndex];        
     }
 
+    public void SetRotation(float rotation) {
+        transform.Rotate(new Vector3(0f, 0f, 1f), 270 + rotation);
+    }
+
 	private void FixedUpdate () {
-        // transform.Translate(0f, MOVE_SPEED * Time.deltaTime, 0f);
-        transform.Translate(moveDirection * MOVE_SPEED * Time.deltaTime);
+        transform.Translate(moveDirection * MOVE_SPEED * Time.deltaTime, Space.World);
 
         if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
             GameManager.Instance.EnemyBulletReturnToPool(gameObject);
