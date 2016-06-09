@@ -199,7 +199,6 @@ public static class ShootPatterns {
         GameObject bullet = enemyBulletPool.Borrow();
         bullet.GetComponent<EnemyBullet>().SetType(enemyType);
         bullet.GetComponent<EnemyBullet>().Spawn(shooterPosition, new Vector3(0f, 1f, 0));
-        bullet.GetComponent<EnemyBullet>().SetRotation(0f);
 
         bullet.SetActive(true);
     }
@@ -255,7 +254,6 @@ public static class ShootPatterns {
         bullet.GetComponent<EnemyBullet>().SetType(enemyType);
         bullet.GetComponent<EnemyBullet>().Spawn(shooterPosition - new Vector3(-0.2f, 0f, 0f), new Vector3(0f, 1f, 0));
         bullet.SetActive(true);
-        bullet.GetComponent<EnemyBullet>().SetRotation(0f);
 
         bullet = enemyBulletPool.Borrow();
         bullet.GetComponent<EnemyBullet>().SetType(enemyType);

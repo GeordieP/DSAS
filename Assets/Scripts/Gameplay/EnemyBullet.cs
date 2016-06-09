@@ -12,9 +12,11 @@ public class EnemyBullet : Bullet {
     }
 
     public void SetRotation(float rotation) {
+        transform.Rotate(new Vector3(0f, 0f, 1f), 270 + rotation);
+    }
+
+    public override void Despawn() {
         transform.rotation = Quaternion.Euler(Vector3.zero);
-        if (rotation != 0)
-            transform.Rotate(new Vector3(0f, 0f, 1f), 270 + rotation);
     }
 
 	private void FixedUpdate () {
