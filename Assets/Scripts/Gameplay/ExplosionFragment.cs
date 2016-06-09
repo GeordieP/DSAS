@@ -5,8 +5,8 @@ public class ExplosionFragment : PooledEntity {
     private Vector3 velocity;
     private float MOVE_SPEED;
     private float explosionStartTime, timeDiff;
-    private const float velocityLimitY = -8f;     // max velocity of particles moving downwards
-    private static Vector2 acceleration = new Vector2(0.97f, -0.09f);
+    private const float velocityLimitY = -6f;     // max velocity of particles moving downwards
+    private static Vector2 acceleration = new Vector2(0.97f, -0.2f);
     private float rotationStep;
 
 	private void Start () {
@@ -17,7 +17,7 @@ public class ExplosionFragment : PooledEntity {
         this.explosionStartTime = explosionStartTime;
         transform.position = origin;
         MOVE_SPEED = Random.Range(3f, 15f);
-        velocity = new Vector3(Random.Range(-1f, 1f), Random.Range(0.4f, 1.2f), 0f) + directionInfluence;
+        velocity = new Vector3(Random.Range(-1f, 1f), 0.8f, 0f) + directionInfluence;
         rotationStep = Random.Range(-8f, 8f);
     }
 
