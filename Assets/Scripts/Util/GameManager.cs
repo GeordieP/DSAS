@@ -44,8 +44,11 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     // Player object
     private GameObject player;
 
-    // values
+    // global values
     private float playerScore;
+    private int stage_advancement_score;
+    private int stage;
+    public int Stage { get { return stage; } }
 
     // State variables
     private bool _loading;
@@ -57,7 +60,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     
     // game scene will get loaded and this method will get called
     // this sets loading to be true until it's done with everything
-	public void GameSceneLoaded () {
+    public void GameSceneLoaded () {
         _loading = true;
         _paused = false;
 
@@ -105,8 +108,10 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         // Player object
         player = Instantiate(_playerPrefab, new Vector3(0f, -4.5f, 0f), Quaternion.identity) as GameObject;
 
-        // values
+        // global values
         playerScore = 0;
+        stage_advancement_score = Balance.INITIAL_STAGE_ADVANCEMENT_SCORE_CAP;
+        stage = 1;
 
         // Finished loading
         _loading = false;
@@ -114,7 +119,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         // player.GetComponent<PlayerShoot>().Shooting = false;
         enemySpawnTimer.Start();
         enemySpawnTimer_onFinish();
-	}
+    }
 
     private void CreateEnemyWave() {
         int waveSize = Random.Range(Balance.ENEMY_WAVE_MIN_SIZE, Balance.ENEMY_WAVE_MAX_SIZE);
@@ -204,9 +209,40 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     * Helper / Utility
     ---*/
 
-    public void UpdateScore(int score) {
+    public void AddScore(float score) {
         playerScore += score;
         playerScoreLabel.text = playerScore.ToString();
+
+        // stage advancement based on score
+        if (playerScore > stage_advancement_score) AdvanceStage();
+    }
+
+    private void AdvanceStage() {
+        // TODO: maybe we don't need a whole method for this; scaling implementations might mostly exist outside of this method
+        // TODO: some text popup to show us the stage has advanced
+        stage++;
+
+        if (stage_advancement_score * Balance.STAGE_ADVANCEMENT_SCORE_MULTIPLIER < Balance.STAGE_ADVANCEMENT_SCORE_CAP) {
+            stage_advancement_score *= Balance.STAGE_ADVANCEMENT_SCORE_MULTIPLIER;
+        } else {
+            print("hit cap");
+            stage_advancement_score += Balance.STAGE_ADVANCEMENT_SCORE_CAP;
+        }
+
+        // scale enemy health
+            // done in Enemy.RandomizeType()
+        // Bullet damage scaling
+            // done in EnemyBullet.SetType()
+
+
+        /* to scale:
+        chance of an enemy being a shooter
+        spawn patterns
+        enemy counts
+        movement patterns
+        move speeds?
+        frequency of spawns?
+        */
     }
 
     public void EnemyReturnToPool(GameObject enemy) {

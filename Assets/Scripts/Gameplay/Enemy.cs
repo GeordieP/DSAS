@@ -5,13 +5,13 @@ using System.Collections;
 public class Enemy : PooledEntity {
     // Enemy type will determine what enemy sprite to use, and what bullet type to use when shooting
     private int enemyType;
-    private float timeBetweenShots = 3f;
+    private const float timeBetweenShots = 3f;
     // borrow the EnemyBulletPool from GameManager
     private GameObjectPool enemyBulletPool;
     private bool initialized;
     private Color originalColor;
     private float health = Balance.ENEMY_INITIAL_HEALTH;
-    private int scoreValue = Balance.ENEMY_BASE_SCORE_VALUE;
+    private float scoreValue;
     private Vector3 mostRecentVelocity;
 
     // set to Time.timeSinceLevelLoad on each Spawn() call to keep track of timing
@@ -32,6 +32,8 @@ public class Enemy : PooledEntity {
         if (movePattern == null) movePattern = MovePatterns.Linear;
         shoot = ShootPatterns.Circular;
 
+        scoreValue = health;
+
         originalColor = GetComponent<SpriteRenderer>().color;
         initialized = true;
         enemyBulletPool = GameManager.Instance.EnemyBulletPool;
@@ -44,25 +46,27 @@ public class Enemy : PooledEntity {
         enemyType = Random.Range(0, GameManager.Instance.EnemySprites.Length);
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemySprites[enemyType];
 
-		switch (enemyType) {
-			case 0:
-			case 3:
-				shoot = ShootPatterns.Circular;
-				break;
-			case 2:
-				shoot = ShootPatterns.TriFanDown;
-				break;
-			case 5:
-                shoot = ShootPatterns.DualShot;
-				break;
-			case 1:
-			case 4:
-			default:
-				shoot = ShootPatterns.SingleStraightDown;
-				break;
+        if (Balance.ENEMY_TYPES_BASE_HEALTHS[enemyType] + 4 * GameManager.Instance.Stage < Balance.ENEMY_TYPES_MAX_HEALTHS[enemyType])
+            health = Balance.ENEMY_TYPES_BASE_HEALTHS[enemyType] + 4 * GameManager.Instance.Stage;
+        else
+            health = Balance.ENEMY_TYPES_MAX_HEALTHS[enemyType];
 
-		}
-	}
+        switch (enemyType) {
+            case 0:
+            case 3:
+                shoot = ShootPatterns.Circular;
+                break;
+            case 2:
+                shoot = ShootPatterns.TriFanDown;
+                break;
+            case 5:
+                shoot = ShootPatterns.DualShot;
+                break;
+            default:
+                shoot = ShootPatterns.SingleStraightDown;
+                break;
+        }
+    }
 
     public void Spawn() {
         if (!initialized) Init();
@@ -164,8 +168,8 @@ public class Enemy : PooledEntity {
 }
 
 public static class MovePatterns {
-    private static float MOVE_SPEED = Balance.ENEMY_BASE_MOVE_SPEED;    // simpler to type
-    private static float TIME_MULTIPLIER = MOVE_SPEED * 0.01f;          // reduce time
+    private static readonly float MOVE_SPEED = Balance.ENEMY_BASE_MOVE_SPEED;    // simpler to type
+    private static readonly float TIME_MULTIPLIER = MOVE_SPEED * 0.01f;          // reduce time
 
     // move straight down
     public static Vector3 Linear(float timeSpawned, Vector3 position) {

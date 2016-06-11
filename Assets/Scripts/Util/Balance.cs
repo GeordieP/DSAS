@@ -1,4 +1,6 @@
-﻿public struct Bounds {
+using System.Linq;
+
+public struct Bounds {
     public int top, bottom, right, left, width, height;
 }
 
@@ -48,6 +50,16 @@ public static class Balance {
     public const float ENEMY_INITIAL_HEALTH = 99f;
     public const float NUKE_MAX_CHARGE_LEVEL = 35;
 
+    // multiplied by each health value to determine max health for that enemy type
+    public const float HEALTH_CAP_MULTIPLIER = 2.5f;
+    // every time stage advances, increase the health of each enemy spawned
+    public const float HEALTH_ADDED_EACH_STAGE = 4f;
+    // each enemy type has a different base health
+    public static float[] ENEMY_TYPES_BASE_HEALTHS = {70f, 99f, 65f, 68f, 70f, 85f};
+    // multiply each base health by the cap multiplier to determine each enemy type's max health
+    public static float[] ENEMY_TYPES_MAX_HEALTHS = ENEMY_TYPES_BASE_HEALTHS.Select(health => health * HEALTH_CAP_MULTIPLIER).ToArray();
+
+
     /*---
     * Damage
     ---*/    
@@ -55,10 +67,24 @@ public static class Balance {
     public const float ENEMY_BULLET_BASE_DMG = 5f;
     public const float PLAYER_BULLET_BASE_DMG = 33f;
 
+    // every stage, enemy bullet damage will increase
+    // formula for damage scaling is (as of writing this) enemyDmg = baseDmg + DMG_SCALING_PER_STAGE * stage
+    public const float ENEMY_DMG_SCALING_PER_STAGE = 1.5f;
+    // each enemy type has a different base bullet damage
+    public static float[] ENEMY_TYPES_BASE_DMG = {5f, 8f, 8f, 6f, 10f, 8f};
+    // no enemy bullet should do more than this amount of damage
+    public const float ENEMY_MAX_SHOT_DMG = 50f;
+
     /*---
     * Point values
-    ---*/    
-    public const int ENEMY_BASE_SCORE_VALUE = 15;
+    ---*/
+    // amount to advance the first stage, and base score limit calculations for each stage off of
+    public const int INITIAL_STAGE_ADVANCEMENT_SCORE_CAP = 4000;
+    // multiplied by stage and initial score cap to determine score cap for next level
+    public const int STAGE_ADVANCEMENT_SCORE_MULTIPLIER = 2;
+    // stages will never require more than this amount of score to advance to next stage
+    public const int STAGE_ADVANCEMENT_SCORE_CAP = 10000;
+
 
     /*---
     * Pool sizes

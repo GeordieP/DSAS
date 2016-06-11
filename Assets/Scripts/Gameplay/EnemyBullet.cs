@@ -9,6 +9,8 @@ public class EnemyBullet : Bullet {
 
     public void SetType(int enemyTypeIndex) {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemyBulletSprites[enemyTypeIndex];        
+        if (Balance.ENEMY_TYPES_BASE_DMG[enemyTypeIndex] + Balance.ENEMY_DMG_SCALING_PER_STAGE * GameManager.Instance.Stage < Balance.ENEMY_MAX_SHOT_DMG)
+            dmg_value = Balance.ENEMY_TYPES_BASE_DMG[enemyTypeIndex] + Balance.ENEMY_DMG_SCALING_PER_STAGE * GameManager.Instance.Stage;
     }
 
     public void SetRotation(float rotation) {
