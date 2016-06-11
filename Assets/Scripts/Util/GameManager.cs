@@ -248,7 +248,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public void EnemyReturnToPool(GameObject enemy) {
         enemy.SetActive(false);
         enemy.GetComponent<Enemy>().Despawn();
-        enemyPool.Restore(enemy);
+        enemyPool.RestoreUnlocked(enemy);
     }
 
     public void EnemyBulletReturnToPool(GameObject bullet) {

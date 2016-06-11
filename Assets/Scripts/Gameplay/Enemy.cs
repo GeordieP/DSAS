@@ -80,8 +80,7 @@ public class Enemy : PooledEntity {
 
     public override void Despawn() {
         RandomizeType();
-        shootTimer.Stop();
-        health = Balance.ENEMY_INITIAL_HEALTH;
+        if (shootTimer != null) shootTimer.Stop();
         transform.position = new Vector3(-50f, -50f, 0f);
         GetComponent<SpriteRenderer>().color = originalColor;
     }
@@ -91,29 +90,35 @@ public class Enemy : PooledEntity {
     }
 
     public void Dead() {
-        // spawn explosion
-        GameObject[] particles = GameManager.Instance.ExplosionFragmentPool.Borrow(5);
+        Vector3 explosionSpawnPosition = transform.position;
         float explosionStartTime = Time.timeSinceLevelLoad;
 
-        for (int i = 0; i < particles.Length; i++) {
-            particles[i].GetComponent<ExplosionFragment>().Spawn(transform.position, mostRecentVelocity, explosionStartTime);
-            particles[i].SetActive(true);
-        }
-
-        GameManager.Instance.EnemyReturnToPool(gameObject);
-        GameManager.Instance.UpdateScore(scoreValue);
+        GameManager.Instance.AddScore(scoreValue);
         Despawn();
+        GameManager.Instance.EnemyReturnToPool(gameObject);
+
+        // spawn explosion
+        GameObject[] particles = GameManager.Instance.ExplosionFragmentPool.Borrow(5);
+
+        for (int i = 0; i < particles.Length; i++) {
+            particles[i].GetComponent<ExplosionFragment>().Spawn(explosionSpawnPosition, mostRecentVelocity, explosionStartTime);
+            particles[i].SetActive(true);
+        }        
     }
 
     void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.name == "PlayerBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
-            Knockback();
             health -= bullet.Dmg_Value;
+            GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
+            if (health <= 0) {
+                Dead();
+                return;
+            }
+
+            Knockback();
             StartCoroutine(ColorFlash());
             StartCoroutine(ShootDelay());
-            if (health <= 0) Dead();
-            GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
         }
     }
 

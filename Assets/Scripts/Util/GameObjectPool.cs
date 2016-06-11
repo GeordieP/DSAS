@@ -61,6 +61,13 @@ public class GameObjectPool {
         }
     }
 
+    // return an object to the pool without locking the lists
+    // used when a large amount of things are returned all at once
+    public void RestoreUnlocked(GameObject retObj) {
+        _available.Add(retObj);
+        _inUse.Remove(retObj);
+    }
+
     public void RestoreAll() {
         _available.AddRange(_inUse);
         for (int i = 0; i < _inUse.Count; i++) {
