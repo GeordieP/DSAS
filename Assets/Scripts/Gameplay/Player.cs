@@ -47,10 +47,14 @@ public class Player : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.transform.name == "EnemyBullet(Clone)" || other.transform.name == "BossBullet(Clone)") {
+        if (other.transform.name == "EnemyBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
             UpdateHealth(health - bullet.Dmg_Value);
             GameManager.Instance.EnemyBulletReturnToPool(other.gameObject);
+        } else if (other.transform.name == "BossBullet(Clone)") {
+            Bullet bullet = other.GetComponent<Bullet>();
+            UpdateHealth(health - bullet.Dmg_Value);
+            GameManager.Instance.BossBulletReturnToPool(other.gameObject);
         }
     }
 }

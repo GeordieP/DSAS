@@ -65,3 +65,9 @@ sysinfo.txt
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+
+#Don't include Themes by Zios
+Assets/Themes
+Assets/Themes.*
+Assets/ZiosThemes.*

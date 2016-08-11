@@ -24,6 +24,17 @@ public static class Balance {
         height = ScreenBounds.height - 4
     };
 
+    public static Bounds BossSpawnBounds = new Bounds {
+        top = ScreenBounds.top + 4,
+        bottom = ScreenBounds.bottom - 4,
+        right = ScreenBounds.right + 4,
+        left = ScreenBounds.left - 4,
+        width = ScreenBounds.width + 8,
+        height = ScreenBounds.height + 8
+    };
+
+    public const float BULLET_Z_POSITION = 1f;
+
     /*---
     * Move Speeds
     ---*/
@@ -35,6 +46,7 @@ public static class Balance {
     public const float BULLET_INITIAL_SPEED = 6f;
     public const float PLAYER_BULLET_INITIAL_SPEED = 15f;
     public const float ENEMY_BULLET_INITIAL_SPEED = -6f;
+    public const float BOSS_BULLET_INITIAL_SPEED = -6f;
 
     /*---
     * Timers / Rates / Duration
@@ -66,6 +78,7 @@ public static class Balance {
     public const float BULLET_BASE_DMG = 25f;
     public const float ENEMY_BULLET_BASE_DMG = 5f;
     public const float PLAYER_BULLET_BASE_DMG = 33f;
+    public const float BOSS_BULLET_BASE_DMG = 25f;
 
     // every stage, enemy bullet damage will increase
     // formula for damage scaling is (as of writing this) enemyDmg = baseDmg + DMG_SCALING_PER_STAGE * stage
@@ -93,6 +106,7 @@ public static class Balance {
     public const int POOL_SIZE_ENEMY_BULLET = 100;
     public const int POOL_SIZE_PLAYER_BULLET = 50;
     public const int POOL_SIZE_EXPLOSION_FRAGMENT = 150;
+    public const int POOL_SIZE_BOSS_BULLET = 150;
     
     /*---
     * Other

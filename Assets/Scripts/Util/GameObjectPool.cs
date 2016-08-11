@@ -68,16 +68,91 @@ public class GameObjectPool {
         _inUse.Remove(retObj);
     }
 
-    public void RestoreAll() {
-        _available.AddRange(_inUse);
-        for (int i = 0; i < _inUse.Count; i++) {
-            _inUse[i].GetComponent<PooledEntity>().Despawn();
-        }
-        _inUse = new List<GameObject>();
-    }
+    // public void RestoreAll() {
+    //     _available.AddRange(_inUse);
+    //     for (int i = 0; i < _inUse.Count; i++) {
+    //         _inUse[i].GetComponent<PooledEntity>().Despawn();
+    //     }
+    //     _inUse = new List<GameObject>();
+    // }
 
     public void Clear() {
         _available = new List<GameObject>();
         _inUse = new List<GameObject>();
     }
+
+
+
+/*
+    private GameObject[] restoreQueue;
+    private delegate void restoreCompleteEvent(int restoreQueueIndex);
+    private event restoreCompleteEvent onRestoreComplete;
+
+    public void RestoreAll() {
+        restoreQueue = new GameObject[_inUse.Count];
+        _inUse.CopyTo(restoreQueue);
+
+        // add event to thing += etc whatever
+        onRestoreComplete += SpecialRestoreComplete;
+        SpecialRestore(0);
+    }
+
+    public void SpecialRestore(int restoreQueueIndex) {
+        lock (_available) {
+            _available.Add(restoreQueue[restoreQueueIndex]);
+            _inUse.Remove(restoreQueue[restoreQueueIndex]);
+        }
+        onRestoreComplete(restoreQueueIndex);
+        // call event complete(restoreQueueIndex)
+        // SpecialRestoreComplete(restoreQueueIndex);
+
+    }
+
+    public void SpecialRestoreComplete(int restoreQueueIndex) {
+        if (restoreQueueIndex < restoreQueue.Length)
+            SpecialRestore(restoreQueueIndex + 1);
+        // else
+        // reset restorequeue?
+
+
+    }
+
+
+
+
+
+/*
+
+
+
+    private delegate void restoreFinishCallback(int nextIndex);
+    private GameObject[] restoreQueue;
+
+
+    // starts the chain of restore -> callback -> restore
+    private void RestoreAll() {
+        int iterations = _inUse.Count;
+        restoreQueue = new GameObject[iterations];
+        _inUse.CopyTo(restoreQueue);
+        restoreFinishCallback = RestoreComplete;
+        int currentindex = 0;
+
+    }
+
+    private void RestoreComplete(int nextIndex) {
+
+    }
+
+    private void SpecialRestore(GameObject retObj, int nextIndex, )
+
+
+
+
+
+
+
+
+
+
+*/
 }

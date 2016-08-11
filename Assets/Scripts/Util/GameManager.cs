@@ -19,6 +19,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     private GameObject _enemyPrefab;
     private GameObject _playerPrefab;
     private GameObject _enemyBulletPrefab;
+    private GameObject _bossBulletPrefab;
     private GameObject _playerBulletPrefab;
     private GameObject _explosionFragmentPrefab;
 
@@ -30,6 +31,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public GameObjectPool PlayerBulletPool { get { return playerBulletPool; } }
     private GameObjectPool explosionFragmentPool;
     public GameObjectPool ExplosionFragmentPool { get { return explosionFragmentPool; } }
+    private GameObjectPool bossBulletPool;
+    public GameObjectPool BossBulletPool { get { return bossBulletPool; } }
 
     // Timers
     private const float enemySpawnTimerDuration = Balance.ENEMY_WAVE_SPAWN_RATE;
@@ -74,6 +77,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         _enemyPrefab = (GameObject)Resources.Load("Prefabs/Enemy", typeof(GameObject));
         _playerPrefab = (GameObject)Resources.Load("Prefabs/Player", typeof(GameObject));
         _enemyBulletPrefab = (GameObject)Resources.Load("Prefabs/EnemyBullet", typeof(GameObject));
+        _bossBulletPrefab = (GameObject)Resources.Load("Prefabs/BossBullet", typeof(GameObject));
         _playerBulletPrefab = (GameObject)Resources.Load("Prefabs/PlayerBullet", typeof(GameObject));
         _explosionFragmentPrefab = (GameObject)Resources.Load("Prefabs/ExplosionFragment", typeof(GameObject));
 
@@ -89,6 +93,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemyBulletPool = new GameObjectPool(Balance.POOL_SIZE_ENEMY_BULLET, _enemyBulletPrefab);
         playerBulletPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _playerBulletPrefab);
         explosionFragmentPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _explosionFragmentPrefab);
+        bossBulletPool = new GameObjectPool(Balance.POOL_SIZE_BOSS_BULLET, _bossBulletPrefab);
 
         // Timers
         enemySpawnTimer = TimerManager.Instance.CreateTimerRepeat(enemySpawnTimerDuration);
@@ -117,8 +122,9 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         _loading = false;
         player.SetActive(true);
         // player.GetComponent<PlayerShoot>().Shooting = false;
-        enemySpawnTimer.Start();
-        enemySpawnTimer_onFinish();
+
+        // enemySpawnTimer.Start();
+        // enemySpawnTimer_onFinish();
     }
 
     private void CreateEnemyWave() {
@@ -162,8 +168,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
             enemyPool.InUse[i].GetComponent<Enemy>().Dead();
         }
 
-        enemyBulletPool.RestoreAll();
-        enemyPool.RestoreAll();
+        // enemyBulletPool.RestoreAll();
+        // enemyPool.RestoreAll();
         // show nuke animation/effect
         // fade background color?
     }
@@ -180,6 +186,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemyPool.Clear();
         enemyBulletPool.Clear();
         playerBulletPool.Clear();
+        bossBulletPool.Clear();
 
         player = null;
         Resources.UnloadUnusedAssets();
@@ -263,10 +270,15 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         playerBulletPool.Restore(bullet);
     }
 
-
     public void ExplosionFragmentReturnToPool(GameObject bullet) {
         bullet.SetActive(false);
         bullet.GetComponent<ExplosionFragment>().Despawn();
         explosionFragmentPool.Restore(bullet);
+    }
+
+    public void BossBulletReturnToPool(GameObject bullet) {
+        bullet.SetActive(false);
+        bullet.GetComponent<BossBullet>().Despawn();
+        bossBulletPool.Restore(bullet);
     }
 }

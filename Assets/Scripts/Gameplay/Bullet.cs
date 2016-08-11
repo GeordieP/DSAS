@@ -8,11 +8,11 @@ public class Bullet : PooledEntity {
     protected Vector3 moveDirection = Vector3.down;
 
     public virtual void Spawn(Vector3 shooterPosition) {
-        transform.position = shooterPosition;
+        transform.position = shooterPosition + new Vector3(0f, 0f, Balance.BULLET_Z_POSITION);
     }
 
     public virtual void Spawn(Vector3 shooterPosition, Vector3 moveDirection) {
-        transform.position = shooterPosition;
+        transform.position = shooterPosition + new Vector3(0f, 0f, Balance.BULLET_Z_POSITION);
         this.moveDirection = moveDirection;
     }
 }

@@ -79,10 +79,10 @@ public class Enemy : PooledEntity {
     }
 
     public override void Despawn() {
-        RandomizeType();
         if (shootTimer != null) shootTimer.Stop();
         transform.position = new Vector3(-50f, -50f, 0f);
         GetComponent<SpriteRenderer>().color = originalColor;
+        RandomizeType();
     }
 
     private void shootTimer_onFinish() {
@@ -94,7 +94,6 @@ public class Enemy : PooledEntity {
         float explosionStartTime = Time.timeSinceLevelLoad;
 
         GameManager.Instance.AddScore(scoreValue);
-        Despawn();
         GameManager.Instance.EnemyReturnToPool(gameObject);
 
         // spawn explosion
@@ -222,8 +221,8 @@ public static class ShootPatterns {
             float angle = 65 + 25 * i;
             currentBullet.SetRotation(angle);
 
-            Vector3 meme = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
-            currentBullet.Spawn(shooterPosition, meme);
+            Vector3 moveDirection = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
+            currentBullet.Spawn(shooterPosition, moveDirection);
             bullets[i].SetActive(true);
         }
     }
@@ -247,8 +246,8 @@ public static class ShootPatterns {
 
             float angle = angleIncrement + angleIncrement * i;
             currentBullet.SetRotation(angle);
-            Vector3 meme = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
-            currentBullet.Spawn(shooterPosition, meme);
+            Vector3 moveDirection = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
+            currentBullet.Spawn(shooterPosition, moveDirection);
             bullets[i].SetActive(true);
         }
     }
