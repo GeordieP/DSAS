@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Bullet : PooledEntity {
+public abstract class Bullet : PooledEntity {
     protected float MOVE_SPEED = Balance.BULLET_INITIAL_SPEED;
     protected float dmg_value = Balance.BULLET_BASE_DMG;
     public float Dmg_Value { get { return dmg_value; } }
@@ -15,4 +15,6 @@ public class Bullet : PooledEntity {
         transform.position = shooterPosition + new Vector3(0f, 0f, Balance.BULLET_Z_POSITION);
         this.moveDirection = moveDirection;
     }
+
+    public abstract void SetType(int typeIndex);
 }

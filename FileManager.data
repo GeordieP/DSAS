@@ -179,6 +179,7 @@ GameScene
 Menu
 (cs)
 =$/Assets/Scripts/Gameplay
+BasicBoss
 Boss
 BossBullet
 Bullet

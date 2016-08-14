@@ -6,7 +6,7 @@ public class BossBullet : Bullet {
         dmg_value = Balance.BOSS_BULLET_BASE_DMG;
     }
 
-    public void SetType(int pickupTypeIndex) {
+    public override void SetType(int pickupTypeIndex) {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemyBulletSprites[pickupTypeIndex];
     }
 

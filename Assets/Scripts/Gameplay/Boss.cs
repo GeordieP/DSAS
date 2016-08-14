@@ -1,42 +1,43 @@
 ﻿using UnityEngine;
 
-public class Boss : MonoBehaviour {
-    byte currentPhase;
+public abstract class Boss : MonoBehaviour {
+    protected byte currentPhase;
 
     // Intro
-    bool introMoveComplete, introRotationComplete;
+    protected bool introMoveComplete, introRotationComplete;
     public const float IntroDuration = 4f;        // seconds
-    private float introVelocity;
-    private Vector3 postIntroPosition = new Vector3(0f, 3f, 0f);
+    protected float introVelocity;
+    protected Vector3 postIntroPosition = new Vector3(0f, 3f, 0f);
 
     // Object Pooling
-    private GameObjectPool bossBulletPool;
+    protected GameObjectPool bossBulletPool;
 
     // Timers
-    Timer shootTimer;
+    protected Timer shootTimer;
 
     // Shooting
-    private const float timeBetweenShots = 0.2f;
+    protected const float timeBetweenShots = 0.2f;
 
-    private void Awake() {  
-        bossBulletPool = GameManager.Instance.BossBulletPool;
-        shootTimer = TimerManager.Instance.CreateTimerRepeat(timeBetweenShots);
-        shootTimer.onFinish += shootTimer_onFinish;
+    // TODO: remove awake, it's only to call Spawn for testing right now
+    void Awake() {
+        Spawn();
+    }
 
+    protected virtual void Spawn() {
         // initial phase - intro - moving to initial position before doing anything
         currentPhase = 0;
+
         // move body to starting position
         transform.position = new Vector3(0f, Balance.BossSpawnBounds.top, 0f);
 
         // velocity is based on the duration of the intro and how far above the screen the boss is set to spawn
         introVelocity = (postIntroPosition.y - Balance.BossSpawnBounds.top) / IntroDuration;
+
     }
 
-    private void shootTimer_onFinish() {
-        Shoot();
-    }
+    protected abstract void shootTimer_onFinish();
 
-    private void Update() {
+    protected void BasicBossUpdate() {
         switch (currentPhase) {
             case 0:
                 if (transform.position.y > postIntroPosition.y) {
@@ -58,7 +59,7 @@ public class Boss : MonoBehaviour {
         }
     }
 
-    private void Shoot() {
+    protected virtual void Shoot() {
         int bulletCount = 5;
         GameObject[] bullets = GameManager.Instance.BossBulletPool.Borrow(bulletCount);
         BossBullet currentBullet;

@@ -6,7 +6,7 @@ public class PlayerBullet : Bullet {
         dmg_value = Balance.PLAYER_BULLET_BASE_DMG;
 	}
 
-    public void SetType(int pickupTypeIndex) {
+    public override void SetType(int pickupTypeIndex) {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.PlayerBulletSprites[pickupTypeIndex];
     }
 	
