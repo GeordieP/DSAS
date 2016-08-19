@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using System.Collections;
 
-public abstract class Boss : MonoBehaviour {
+public abstract class Boss : MonoBehaviour, IDamageable {
     protected byte currentPhase;
 
     // Intro
@@ -18,12 +19,22 @@ public abstract class Boss : MonoBehaviour {
     // Shooting
     protected const float timeBetweenShots = 0.2f;
 
+    public Color originalColor { get; set; }
+    public Color flashColor;
+    public float initialHealth { get; set; }
+    public float health { get; set; }
+
     // TODO: remove awake, it's only to call Spawn for testing right now
     void Awake() {
         Spawn();
     }
 
     protected virtual void Spawn() {
+        initialHealth = Balance.BOSS_BASE_HEALTH;
+        health = initialHealth;
+        originalColor = GetComponent<SpriteRenderer>().color;
+        flashColor = new Color(originalColor.r + 0.2f, originalColor.g + 0.2f, originalColor.b + 0.2f);
+
         // initial phase - intro - moving to initial position before doing anything
         currentPhase = 0;
 
@@ -36,45 +47,78 @@ public abstract class Boss : MonoBehaviour {
     }
 
     protected abstract void shootTimer_onFinish();
+    protected abstract void Shoot();
 
-    protected void BasicBossUpdate() {
+    public virtual void CheckHealth() {
+        print(health);
+        if (health <= 0f) {
+            Dead();
+            return;
+        }
+
         switch (currentPhase) {
             case 0:
-                if (transform.position.y > postIntroPosition.y) {
-                    transform.Translate(new Vector3(0f, introVelocity * Time.deltaTime, 0f), Space.World);
-                    // transform.Rotate(new Vector3(0f, 0f, 1f), 1f);
-                } else {
-                    transform.position = postIntroPosition;
-                    introMoveComplete = true;
-                    ++currentPhase;
-                    shootTimer.Start();
-                }
-            break;
-
+                break;
             case 1:
-                // rotate slowly and shoot bullets out radially
-                transform.Rotate(Vector3.forward, 1f);
-            break;
-
+                if (health <= initialHealth * 0.6f) {
+                    AdvancePhase();
+                }
+                break;
+            case 2:
+                if (health <= initialHealth * 0.3f) {
+                    AdvancePhase();
+                }
+                break;
         }
     }
 
-    protected virtual void Shoot() {
-        int bulletCount = 5;
-        GameObject[] bullets = GameManager.Instance.BossBulletPool.Borrow(bulletCount);
-        BossBullet currentBullet;
-        
-        float angleIncrement = 360 / bulletCount;
+    protected virtual void AdvancePhase() {
+        currentPhase++;
+    }
 
-        for (int i = 0; i < bulletCount; i++) {
-            currentBullet = bullets[i].GetComponent<BossBullet>();
-            currentBullet.SetType(0);
+    public virtual void Dead() {
+        shootTimer.Stop();
+    }
 
-            float angle = (transform.rotation.eulerAngles.z * Mathf.Rad2Deg) + angleIncrement + angleIncrement * i;
-            currentBullet.SetRotation(angle);
-            Vector3 moveDirection = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
-            currentBullet.Spawn(transform.position, moveDirection);
-            bullets[i].SetActive(true);
+    public virtual void Knockback() {
+        StartCoroutine(KnockBackAndForth());
+    }
+
+    private IEnumerator KnockBackAndForth() {
+        // Move back by knockback distance
+        transform.Translate(new Vector3(0f, -Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
+
+        // Wait for several frames
+        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+
+        // Move forward to regular position
+        transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
+    }
+
+    public virtual IEnumerator ColorFlash() {
+        // GetComponent<SpriteRenderer>().color = Color.white;
+        GetComponent<SpriteRenderer>().color = flashColor;
+        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+        GetComponent<SpriteRenderer>().color = originalColor;
+    }
+
+    // bosses shouldn't really have a shoot delay so this shouldn't really get called
+    public virtual IEnumerator ShootDelay() {
+        shootTimer.Stop();
+        yield return new WaitForSeconds(Balance.DAMAGED_ENEMY_NEXT_SHOT_DELAY);
+        shootTimer.Start();
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (currentPhase == 0) return;
+        if (other.transform.name == "PlayerBullet(Clone)")   {
+            Bullet bullet = other.GetComponent<Bullet>();
+            health -= bullet.Dmg_Value;
+            GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
+
+            CheckHealth();
+            Knockback();
+            StartCoroutine(ColorFlash());
         }
     }
 }

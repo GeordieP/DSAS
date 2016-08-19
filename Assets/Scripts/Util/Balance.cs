@@ -58,6 +58,7 @@ public static class Balance {
     /*---
     * Health / Max Levels
     ---*/
+    public const float BOSS_BASE_HEALTH = 250f;
     public const float PLAYER_INITIAL_HEALTH = 100f;
     public const float ENEMY_INITIAL_HEALTH = 99f;
     public const float NUKE_MAX_CHARGE_LEVEL = 35;

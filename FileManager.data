@@ -187,6 +187,7 @@ Enemy
 EnemyBullet
 EnemyWaves
 ExplosionFragment
+IDamageable
 Player
 PlayerBullet
 PlayerInput
