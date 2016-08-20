@@ -12,5 +12,4 @@ public interface IDamageable {
 
     IEnumerator ColorFlash();
     IEnumerator ShootDelay();
-
 }

@@ -5,31 +5,24 @@ public class BasicBoss : Boss {
     private int bulletCount;
 
     protected override void Spawn() {
-        // get bullet pool, begin initial phase - set initial position and velocity
+        // call base to set colors, set to initial phase, move to starting phase, set initial velocity
         base.Spawn();
 
         initialHealth = 2580;
         health = initialHealth;
 
         rotateSpeed = 0.5f;
-        bulletCount = 2;
+        bulletCount = 2;            // bullets to shoot when shoot timer fires. Changes with phase
 
-        // set up the shoot timer, attach it to shoot method
-        bossBulletPool = GameManager.Instance.BossBulletPool;
+        // set up the shoot timer, attach it to timer finish method
         shootTimer = TimerManager.Instance.CreateTimerRepeat(timeBetweenShots);
         shootTimer.onFinish += shootTimer_onFinish;
-
-    }
-
-    protected override void shootTimer_onFinish() {
-        Shoot();
     }
 
     protected override void Shoot() {
         switch (currentPhase) {
             case 1: case 2: case 3:
                 // shoot bullets out radially
-
                 GameObject[] bullets = GameManager.Instance.BossBulletPool.Borrow(bulletCount);
                 BossBullet currentBullet;
                 
@@ -47,7 +40,7 @@ public class BasicBoss : Boss {
                 }
                 break;
         }
-    }
+    } 
 
     protected override void AdvancePhase() {
         currentPhase++;
@@ -59,8 +52,13 @@ public class BasicBoss : Boss {
             case 3:
                 rotateSpeed = 4f;
                 bulletCount = 8;
-            break;
+                break;
         }
+    }
+
+    public override void Dead() {
+        shootTimer.Stop();
+        rotateSpeed = 0f;
     }
 
     private void Update() {
@@ -74,12 +72,11 @@ public class BasicBoss : Boss {
                     ++currentPhase;
                     shootTimer.Start();
                 }
-            break;
+                break;
 
             case 1: case 2: case 3:
                 transform.Rotate(Vector3.forward, rotateSpeed);
-            break;
-
+                break;
         }
     }
 }

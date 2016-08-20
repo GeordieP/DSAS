@@ -19,6 +19,7 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     // Shooting
     protected const float timeBetweenShots = 0.2f;
 
+    // IDamageable properties
     public Color originalColor { get; set; }
     public Color flashColor;
     public float initialHealth { get; set; }
@@ -30,8 +31,6 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     }
 
     protected virtual void Spawn() {
-        initialHealth = Balance.BOSS_BASE_HEALTH;
-        health = initialHealth;
         originalColor = GetComponent<SpriteRenderer>().color;
         flashColor = new Color(originalColor.r + 0.2f, originalColor.g + 0.2f, originalColor.b + 0.2f);
 
@@ -44,13 +43,21 @@ public abstract class Boss : MonoBehaviour, IDamageable {
         // velocity is based on the duration of the intro and how far above the screen the boss is set to spawn
         introVelocity = (postIntroPosition.y - Balance.BossSpawnBounds.top) / IntroDuration;
 
+        // set up the shoot timer, attach it to shoot method
+        bossBulletPool = GameManager.Instance.BossBulletPool;
     }
 
-    protected abstract void shootTimer_onFinish();
+    // Shoot implementation will be different in every boss type
     protected abstract void Shoot();
+    protected virtual void shootTimer_onFinish() {
+        Shoot();
+    }
+
+    /*---
+    * Implement IDamageable members
+    ---*/    
 
     public virtual void CheckHealth() {
-        print(health);
         if (health <= 0f) {
             Dead();
             return;
@@ -72,10 +79,6 @@ public abstract class Boss : MonoBehaviour, IDamageable {
         }
     }
 
-    protected virtual void AdvancePhase() {
-        currentPhase++;
-    }
-
     public virtual void Dead() {
         shootTimer.Stop();
     }
@@ -84,6 +87,27 @@ public abstract class Boss : MonoBehaviour, IDamageable {
         StartCoroutine(KnockBackAndForth());
     }
 
+    public virtual IEnumerator ColorFlash() {
+        GetComponent<SpriteRenderer>().color = flashColor;
+        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+        GetComponent<SpriteRenderer>().color = originalColor;
+    }
+
+    // bosses shouldn't really have a shoot delay so this shouldn't really get called
+    // but we need to implement it as is required by the IDamageable interface
+    public virtual IEnumerator ShootDelay() {
+        yield return new WaitForEndOfFrame();
+    }
+
+    /*---
+    * Generic Boss related methods
+    ---*/
+    
+    protected virtual void AdvancePhase() {
+        currentPhase++;
+    }
+
+    // Enemies get knocked back, but bosses should snap back to their 
     private IEnumerator KnockBackAndForth() {
         // Move back by knockback distance
         transform.Translate(new Vector3(0f, -Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
@@ -95,22 +119,11 @@ public abstract class Boss : MonoBehaviour, IDamageable {
         transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
     }
 
-    public virtual IEnumerator ColorFlash() {
-        // GetComponent<SpriteRenderer>().color = Color.white;
-        GetComponent<SpriteRenderer>().color = flashColor;
-        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
-        GetComponent<SpriteRenderer>().color = originalColor;
-    }
-
-    // bosses shouldn't really have a shoot delay so this shouldn't really get called
-    public virtual IEnumerator ShootDelay() {
-        shootTimer.Stop();
-        yield return new WaitForSeconds(Balance.DAMAGED_ENEMY_NEXT_SHOT_DELAY);
-        shootTimer.Start();
-    }
-
     private void OnTriggerEnter2D(Collider2D other) {
+        // don't take damage in intro phase
         if (currentPhase == 0) return;
+
+        // hit by player bullets
         if (other.transform.name == "PlayerBullet(Clone)")   {
             Bullet bullet = other.GetComponent<Bullet>();
             health -= bullet.Dmg_Value;
