@@ -222,6 +222,13 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     * Helper / Utility
     ---*/
 
+    public void SetEnemySpawnEnabled(bool enabled) {
+        if (enabled)
+            enemySpawnTimer.Start();    
+        else
+            enemySpawnTimer.Stop();
+    }
+
     public void AddScore(float score) {
         playerScore += score;
         playerScoreLabel.text = playerScore.ToString();
@@ -238,7 +245,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         // every 2 stages, spawn a boss 
         if (stage % 2 == 0) {
             // stop the enemy spawner
-            enemySpawnTimer.Stop();
+            SetEnemySpawnEnabled(false);
             // wait for all the enemies to be dead before spawning the boss
             enemyPool.onPoolFull += ScreenClear;
         }
@@ -248,7 +255,6 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         } else {
             stage_advancement_score += Balance.STAGE_ADVANCEMENT_SCORE_CAP;
         }
-
 
         // scale enemy health
             // done in Enemy.RandomizeType()

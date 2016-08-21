@@ -11,6 +11,8 @@ public class BasicBoss : Boss {
         initialHealth = 2580;
         health = initialHealth;
 
+        scoreValue = (int)initialHealth;
+
         rotateSpeed = 0.5f;
         bulletCount = 2;            // bullets to shoot when shoot timer fires. Changes with phase
 
@@ -57,8 +59,8 @@ public class BasicBoss : Boss {
     }
 
     public override void Dead() {
-        shootTimer.Stop();
         rotateSpeed = 0f;
+        base.Dead();
     }
 
     private void Update() {

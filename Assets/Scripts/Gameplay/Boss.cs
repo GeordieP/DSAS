@@ -10,6 +10,9 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     protected float introVelocity;
     protected Vector3 postIntroPosition = new Vector3(0f, 3f, 0f);
 
+    // Score
+    protected int scoreValue;
+
     // Object Pooling
     protected GameObjectPool bossBulletPool;
 
@@ -18,6 +21,8 @@ public abstract class Boss : MonoBehaviour, IDamageable {
 
     // Shooting
     protected const float timeBetweenShots = 0.2f;
+
+    private bool alive;
 
     // IDamageable properties as well as related flashColor 
     public Color originalColor { get; set; }
@@ -40,6 +45,8 @@ public abstract class Boss : MonoBehaviour, IDamageable {
 
         // set up the shoot timer, attach it to shoot method
         bossBulletPool = GameManager.Instance.BossBulletPool;
+
+        alive = true;
     }
 
     // Shoot implementation will be different in every boss type
@@ -75,7 +82,13 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     }
 
     public virtual void Dead() {
+        alive = false;
         shootTimer.Stop();
+        GameManager.Instance.AddScore(scoreValue);
+        transform.position = new Vector3(0f, Balance.BossSpawnBounds.top, 0f);
+        gameObject.SetActive(false);
+
+        GameManager.Instance.SetEnemySpawnEnabled(true);
     }
 
     public virtual void Knockback() {
@@ -121,6 +134,8 @@ public abstract class Boss : MonoBehaviour, IDamageable {
 
         // hit by player bullets
         if (other.transform.name == "PlayerBullet(Clone)")   {
+            if (!alive) return;
+
             Bullet bullet = other.GetComponent<Bullet>();
             health -= bullet.Dmg_Value;
             GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);

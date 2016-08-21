@@ -27,7 +27,7 @@ public class Player : MonoBehaviour, IDamageable {
 
     public void Dead() {
         Destroy(gameObject);
-        GetComponent<PlayerShoot>().Stop();
+        GetComponent<PlayerShoot>().Shooting = false;
         print("game over");     // TOOD: a real game over
     }
 
