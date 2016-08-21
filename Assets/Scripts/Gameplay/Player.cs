@@ -68,7 +68,7 @@ public class Player : MonoBehaviour, IDamageable {
     }
 
     private void HitByBullet(float bullet_dmg) {
-        // health -= bullet_dmg;
+        health -= bullet_dmg;
         GameManager.Instance.UpdateHealthBar(health / initialHealth);
         CheckHealth();
         Knockback();
