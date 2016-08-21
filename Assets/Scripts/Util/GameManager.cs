@@ -123,8 +123,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         player.SetActive(true);
         // player.GetComponent<PlayerShoot>().Shooting = false;
 
-        // enemySpawnTimer.Start();
-        // enemySpawnTimer_onFinish();
+        enemySpawnTimer.Start();
+        enemySpawnTimer_onFinish();
     }
 
     private void CreateEnemyWave() {

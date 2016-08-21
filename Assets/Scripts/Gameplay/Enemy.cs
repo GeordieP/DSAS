@@ -2,15 +2,20 @@ using UnityEngine;
 using System.Collections;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Enemy : PooledEntity {
+public class Enemy : PooledEntity, IDamageable {
     // Enemy type will determine what enemy sprite to use, and what bullet type to use when shooting
     private int enemyType;
     private const float timeBetweenShots = 3f;
     // borrow the EnemyBulletPool from GameManager
     private GameObjectPool enemyBulletPool;
     private bool initialized;
-    private Color originalColor;
-    private float health = Balance.ENEMY_INITIAL_HEALTH;
+
+    // IDamageable properties
+    public Color originalColor { get; set; }
+    public float initialHealth { get; set; }
+    public float health { get; set; }
+
+
     private float scoreValue;
     private Vector3 mostRecentVelocity;
 
@@ -25,8 +30,11 @@ public class Enemy : PooledEntity {
     private ShootDelegate shoot;
 
     Timer shootTimer;
-
     public void Init() {
+        initialHealth = Balance.ENEMY_INITIAL_HEALTH;
+        health = initialHealth;
+        originalColor = GetComponent<SpriteRenderer>().color;
+
         // default move delegate
         // movePattern = MovePatterns.Linear;
         if (movePattern == null) movePattern = MovePatterns.Linear;
@@ -34,7 +42,6 @@ public class Enemy : PooledEntity {
 
         scoreValue = health;
 
-        originalColor = GetComponent<SpriteRenderer>().color;
         initialized = true;
         enemyBulletPool = GameManager.Instance.EnemyBulletPool;
         RandomizeType();
@@ -89,6 +96,14 @@ public class Enemy : PooledEntity {
         shoot(enemyBulletPool, enemyType, transform.position);
     }
 
+    /*---
+    * Implementing IDamageable members
+    ---*/
+    
+    public void CheckHealth() {
+        if (health <= 0) Dead();
+    }
+
     public void Dead() {
         Vector3 explosionSpawnPosition = transform.position;
         float explosionStartTime = Time.timeSinceLevelLoad;
@@ -105,24 +120,38 @@ public class Enemy : PooledEntity {
         }        
     }
 
+    public void Knockback() {
+        transform.Translate(new Vector3(0f, Balance.PLAYER_BULLET_KNOCKBACK_DISTANCE, 0f));
+    }
+
+    public IEnumerator ColorFlash() {
+        GetComponent<SpriteRenderer>().color = Color.white;
+        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+        GetComponent<SpriteRenderer>().color = originalColor;
+    }
+
+    public IEnumerator ShootDelay() {
+        shootTimer.Stop();
+        yield return new WaitForSeconds(Balance.DAMAGED_ENEMY_NEXT_SHOT_DELAY);
+        shootTimer.Start();
+    }
+
+    /*---
+    * Enemy specific methods
+    ---*/
+    
+
     void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.name == "PlayerBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
             health -= bullet.Dmg_Value;
             GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
-            if (health <= 0) {
-                Dead();
-                return;
-            }
 
-            Knockback();
             StartCoroutine(ColorFlash());
-            StartCoroutine(ShootDelay());
+            StartCoroutine(ShootDelay());            
+            CheckHealth();
+            Knockback();
         }
-    }
-
-    void Knockback() {
-        transform.Translate(new Vector3(0f, Balance.PLAYER_BULLET_KNOCKBACK_DISTANCE, 0f));
     }
 
     public void SetWaveType(int waveTypeIndex) {
@@ -147,18 +176,6 @@ public class Enemy : PooledEntity {
 
     public void SetSpawnPosition(Vector3 spawnPos) {
         transform.position = spawnPos;
-    }
-
-    private IEnumerator ShootDelay() {
-        shootTimer.Stop();
-        yield return new WaitForSeconds(Balance.DAMAGED_ENEMY_NEXT_SHOT_DELAY);
-        shootTimer.Start();
-    }
-
-    private IEnumerator ColorFlash() {
-        GetComponent<SpriteRenderer>().color = Color.white;
-        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
-        GetComponent<SpriteRenderer>().color = originalColor;
     }
 
     private void FixedUpdate() {

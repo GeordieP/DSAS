@@ -12,8 +12,7 @@ public class Player : MonoBehaviour, IDamageable {
     private void Start() {
         initialHealth = Balance.PLAYER_INITIAL_HEALTH;
         health = initialHealth;
-
-
+        
         originalColor = GetComponent<SpriteRenderer>().color;
         GameManager.Instance.UpdateHealthBar(health / initialHealth);
     }
