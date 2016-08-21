@@ -19,7 +19,7 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     // Shooting
     protected const float timeBetweenShots = 0.2f;
 
-    // IDamageable properties
+    // IDamageable properties as well as related flashColor 
     public Color originalColor { get; set; }
     public Color flashColor;
     public float initialHealth { get; set; }
@@ -110,13 +110,13 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     // Enemies get knocked back, but bosses should snap back to their 
     private IEnumerator KnockBackAndForth() {
         // Move back by knockback distance
-        transform.Translate(new Vector3(0f, -Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
+        transform.Translate(new Vector3(0f, -Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f), Space.World);
 
         // Wait for several frames
         yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
 
         // Move forward to regular position
-        transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
+        transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f), Space.World);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

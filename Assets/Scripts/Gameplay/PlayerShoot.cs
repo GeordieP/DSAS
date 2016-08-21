@@ -25,6 +25,10 @@ public class PlayerShoot : MonoBehaviour {
 
         if (_shooting) shootTimer.Start();
 	}
+
+    public void Stop() {
+        shootTimer.Stop();
+    }
 	
     private void shootTimer_onFinish() {
         GameObject bullet = playerBulletPool.Borrow();

@@ -2,38 +2,63 @@
 using System.Collections;
 
 [RequireComponent(typeof(CircleCollider2D))]
-public class Player : MonoBehaviour {
-    private float health = Balance.PLAYER_INITIAL_HEALTH;
-    private const float INITIAL_HEALTH = Balance.PLAYER_INITIAL_HEALTH;
-    private Color originalColor;
+public class Player : MonoBehaviour, IDamageable {
+
+    // IDamageable properties
+    public Color originalColor { get; set; }
+    public float health { get; set; }
+    public float initialHealth { get; set; }
 
     private void Start() {
+        initialHealth = Balance.PLAYER_INITIAL_HEALTH;
+        health = initialHealth;
+
+
         originalColor = GetComponent<SpriteRenderer>().color;
-        GameManager.Instance.UpdateHealthBar(health / INITIAL_HEALTH);
+        GameManager.Instance.UpdateHealthBar(health / initialHealth);
     }
 
-    private void Dead() {
-        Destroy(this);
-        print("game over");
-    }
+    /*---
+    * Implement IDamageable members
+    ---*/
 
-    private void UpdateHealth(float newHealth) {
-        health = newHealth;
-        GameManager.Instance.UpdateHealthBar(health / INITIAL_HEALTH);
-        StartCoroutine(HitByBullet());
-        StartCoroutine(ShootDelay());
+    public void CheckHealth() {
+        print(health);
+        GetComponent<PlayerShoot>().Stop();
         if (health <= 0) Dead();
     }
 
-    private IEnumerator ShootDelay() {
+    public void Dead() {
+        Destroy(gameObject);
+        print("game over");     // TOOD: a real game over
+    }
+
+    public void Knockback() {
+        StartCoroutine(KnockBackAndForth());
+    }
+
+    public IEnumerator ColorFlash() {
+        // Set sprite color to white
+        GetComponent<SpriteRenderer>().color = Color.white;
+        
+        // Wait for several frames
+        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+
+        // Set color back to normal
+        GetComponent<SpriteRenderer>().color = originalColor;
+    }
+    
+    public IEnumerator ShootDelay() {
         GetComponent<PlayerShoot>().Shooting = false;
         yield return new WaitForSeconds(Balance.DAMAGED_PLAYER_NEXT_SHOT_DELAY);
         GetComponent<PlayerShoot>().Shooting = true;
     }
 
-    private IEnumerator HitByBullet() {
-        // Set sprite color to white
-        GetComponent<SpriteRenderer>().color = Color.white;
+    /*---
+    * Player specific methods
+    ---*/
+    
+    private IEnumerator KnockBackAndForth() {
         // Move back by knockback distance
         transform.Translate(new Vector3(0f, -Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
 
@@ -42,18 +67,25 @@ public class Player : MonoBehaviour {
 
         // Move forward to regular position
         transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
-        // Set color back to normal
-        GetComponent<SpriteRenderer>().color = originalColor;
+    }
+
+    private void HitByBullet(float bullet_dmg) {
+        health -= bullet_dmg;
+        GameManager.Instance.UpdateHealthBar(health / initialHealth);
+        CheckHealth();
+        Knockback();
+        StartCoroutine(ShootDelay());
+        StartCoroutine(ColorFlash());
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.transform.name == "EnemyBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
-            UpdateHealth(health - bullet.Dmg_Value);
+            HitByBullet(bullet.Dmg_Value);
             GameManager.Instance.EnemyBulletReturnToPool(other.gameObject);
         } else if (other.transform.name == "BossBullet(Clone)") {
-            Bullet bullet = other.GetComponent<Bullet>();
-            UpdateHealth(health - bullet.Dmg_Value);
+            Bullet bullet = other.GetComponent<Bullet>();            
+            HitByBullet(bullet.Dmg_Value);            
             GameManager.Instance.BossBulletReturnToPool(other.gameObject);
         }
     }
