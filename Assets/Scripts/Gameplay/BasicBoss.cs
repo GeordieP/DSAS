@@ -4,7 +4,7 @@ public class BasicBoss : Boss {
     private float rotateSpeed;
     private int bulletCount;
 
-    protected override void Spawn() {
+    public override void Spawn() {
         // call base to set colors, set to initial phase, move to starting phase, set initial velocity
         base.Spawn();
 
@@ -43,7 +43,7 @@ public class BasicBoss : Boss {
     } 
 
     protected override void AdvancePhase() {
-        currentPhase++;
+        base.AdvancePhase();            // advance the phase, and start player shooting if we're moving to phase 1
         switch (currentPhase) {
             case 2:
                 rotateSpeed = 2f;
@@ -69,7 +69,7 @@ public class BasicBoss : Boss {
                 } else {
                     transform.position = postIntroPosition;
                     introMoveComplete = true;
-                    ++currentPhase;
+                    AdvancePhase();
                     shootTimer.Start();
                 }
                 break;

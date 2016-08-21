@@ -19,6 +19,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     private GameObject _enemyPrefab;
     private GameObject _playerPrefab;
     private GameObject _enemyBulletPrefab;
+    private GameObject _bossPrefab;
     private GameObject _bossBulletPrefab;
     private GameObject _playerBulletPrefab;
     private GameObject _explosionFragmentPrefab;
@@ -46,6 +47,9 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
     // Player object
     private GameObject player;
+
+    // Current active boss (initially not assigned)
+    private GameObject boss;
 
     // global values
     private float playerScore;
@@ -77,6 +81,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         _enemyPrefab = (GameObject)Resources.Load("Prefabs/Enemy", typeof(GameObject));
         _playerPrefab = (GameObject)Resources.Load("Prefabs/Player", typeof(GameObject));
         _enemyBulletPrefab = (GameObject)Resources.Load("Prefabs/EnemyBullet", typeof(GameObject));
+        _bossPrefab = (GameObject)Resources.Load("Prefabs/Boss", typeof(GameObject));
         _bossBulletPrefab = (GameObject)Resources.Load("Prefabs/BossBullet", typeof(GameObject));
         _playerBulletPrefab = (GameObject)Resources.Load("Prefabs/PlayerBullet", typeof(GameObject));
         _explosionFragmentPrefab = (GameObject)Resources.Load("Prefabs/ExplosionFragment", typeof(GameObject));
@@ -85,6 +90,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         _enemyPrefab.SetActive(false);
         _playerPrefab.SetActive(false);
         _enemyBulletPrefab.SetActive(false);
+        _bossPrefab.SetActive(false);
         _playerBulletPrefab.SetActive(false);
         _explosionFragmentPrefab.SetActive(false);
 
@@ -229,12 +235,20 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         // TODO: some text popup to show us the stage has advanced
         stage++;
 
+        // every 2 stages, spawn a boss 
+        if (stage % 2 == 0) {
+            // stop the enemy spawner
+            enemySpawnTimer.Stop();
+            // wait for all the enemies to be dead before spawning the boss
+            enemyPool.onPoolFull += ScreenClear;
+        }
+
         if (stage_advancement_score * Balance.STAGE_ADVANCEMENT_SCORE_MULTIPLIER < Balance.STAGE_ADVANCEMENT_SCORE_CAP) {
             stage_advancement_score *= Balance.STAGE_ADVANCEMENT_SCORE_MULTIPLIER;
         } else {
-            print("hit cap");
             stage_advancement_score += Balance.STAGE_ADVANCEMENT_SCORE_CAP;
         }
+
 
         // scale enemy health
             // done in Enemy.RandomizeType()
@@ -250,6 +264,26 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         move speeds?
         frequency of spawns?
         */
+    }
+
+    // easy control for player's shooting boolean, as not everywhere has
+    // access to the player object
+    public void SetPlayerShoot(bool enabled) {
+        player.GetComponent<PlayerShoot>().Shooting = enabled;        
+    }
+
+
+    // called by Pool Full event in enemy pool
+    // when there are no enemies left alive
+    public void ScreenClear() {
+        // stop player shooting
+        SetPlayerShoot(false);
+
+        // screen is free of enemies, spawn the boss
+        boss = Instantiate(_bossPrefab, new Vector3(0f, Balance.BossSpawnBounds.top, 0f), Quaternion.identity) as GameObject;
+        boss.GetComponent<Boss>().Spawn();
+        boss.SetActive(true);
+        enemyPool.onPoolFull -= ScreenClear;
     }
 
     public void EnemyReturnToPool(GameObject enemy) {

@@ -8,6 +8,9 @@ public class GameObjectPool {
     public List<GameObject> InUse { get { return _inUse; }}
     public List<GameObject> Available { get { return _available; }}
 
+    public delegate void PoolFullAction();
+    public event PoolFullAction onPoolFull;     // emitted when the pool is full; there are no active instances in use
+
     public GameObjectPool(int length, GameObject initialStateItem) {
         _initialStateItem = initialStateItem;
 
@@ -59,6 +62,10 @@ public class GameObjectPool {
             _available.Add(retObj);
             _inUse.Remove(retObj);
         }
+
+        if (onPoolFull != null && _inUse.Count == 0) {
+            onPoolFull();
+        }
     }
 
     // return an object to the pool without locking the lists
@@ -66,6 +73,10 @@ public class GameObjectPool {
     public void RestoreUnlocked(GameObject retObj) {
         _available.Add(retObj);
         _inUse.Remove(retObj);
+
+        if (onPoolFull != null && _inUse.Count == 0) {
+            onPoolFull();
+        }
     }
 
     // public void RestoreAll() {
@@ -81,6 +92,10 @@ public class GameObjectPool {
         _inUse = new List<GameObject>();
     }
 
+
+    public int AliveCount() {
+        return _inUse.Count;
+    }
 
 
 /*

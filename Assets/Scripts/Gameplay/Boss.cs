@@ -25,12 +25,7 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     public float initialHealth { get; set; }
     public float health { get; set; }
 
-    // TODO: remove awake, it's only to call Spawn for testing right now
-    void Awake() {
-        Spawn();
-    }
-
-    protected virtual void Spawn() {
+    public virtual void Spawn() {
         originalColor = GetComponent<SpriteRenderer>().color;
         flashColor = new Color(originalColor.r + 0.2f, originalColor.g + 0.2f, originalColor.b + 0.2f);
 
@@ -104,6 +99,7 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     ---*/
     
     protected virtual void AdvancePhase() {
+        if (currentPhase == 0) GameManager.Instance.SetPlayerShoot(true);   // start the player shooting again once the intro is complete
         currentPhase++;
     }
 

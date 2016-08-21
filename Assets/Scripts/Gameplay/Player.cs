@@ -12,7 +12,7 @@ public class Player : MonoBehaviour, IDamageable {
     private void Start() {
         initialHealth = Balance.PLAYER_INITIAL_HEALTH;
         health = initialHealth;
-        
+
         originalColor = GetComponent<SpriteRenderer>().color;
         GameManager.Instance.UpdateHealthBar(health / initialHealth);
     }
@@ -22,13 +22,12 @@ public class Player : MonoBehaviour, IDamageable {
     ---*/
 
     public void CheckHealth() {
-        print(health);
-        GetComponent<PlayerShoot>().Stop();
         if (health <= 0) Dead();
     }
 
     public void Dead() {
         Destroy(gameObject);
+        GetComponent<PlayerShoot>().Stop();
         print("game over");     // TOOD: a real game over
     }
 
@@ -69,7 +68,7 @@ public class Player : MonoBehaviour, IDamageable {
     }
 
     private void HitByBullet(float bullet_dmg) {
-        health -= bullet_dmg;
+        // health -= bullet_dmg;
         GameManager.Instance.UpdateHealthBar(health / initialHealth);
         CheckHealth();
         Knockback();
