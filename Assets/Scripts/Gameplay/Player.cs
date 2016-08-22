@@ -26,8 +26,8 @@ public class Player : MonoBehaviour, IDamageable {
     }
 
     public void Dead() {
-        Destroy(gameObject);
         GetComponent<PlayerShoot>().Shooting = false;
+        Destroy(gameObject);
         print("game over");     // TOOD: a real game over
     }
 
@@ -67,20 +67,16 @@ public class Player : MonoBehaviour, IDamageable {
         transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
     }
 
-    private void HitByBullet(float bullet_dmg) {
-        health -= bullet_dmg;
+    public void HitByBullet(Bullet bullet) {
+        if (bullet.tag == "PlayerBullet") return;
+        
+        health -= bullet.Dmg_Value;
+        bullet.Despawn();
+
         GameManager.Instance.UpdateHealthBar(health / initialHealth);
-        CheckHealth();
-        Knockback();
         StartCoroutine(ShootDelay());
         StartCoroutine(ColorFlash());
-    }
-
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.transform.name == "EnemyBullet(Clone)" || other.transform.name == "BossBullet(Clone)") {
-            Bullet bullet = other.GetComponent<Bullet>();
-            HitByBullet(bullet.Dmg_Value);
-            bullet.Despawn();
-        }
+        Knockback();
+        CheckHealth();
     }
 }

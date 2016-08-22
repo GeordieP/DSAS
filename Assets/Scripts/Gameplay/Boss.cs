@@ -128,21 +128,14 @@ public abstract class Boss : MonoBehaviour, IDamageable {
         transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f), Space.World);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        // don't take damage in intro phase
-        if (currentPhase == 0) return;
-
-        // hit by player bullets
-        if (other.transform.name == "PlayerBullet(Clone)")   {
-            if (!alive) return;
-
-            Bullet bullet = other.GetComponent<Bullet>();
-            health -= bullet.Dmg_Value;
-            bullet.Despawn();
-
-            CheckHealth();
-            Knockback();
-            StartCoroutine(ColorFlash());
-        }
+    public void HitByBullet(Bullet bullet) {
+        if (bullet.tag == "EnemyBullet") return;
+        
+        health -= bullet.Dmg_Value;
+        bullet.Despawn();
+        
+        StartCoroutine(ColorFlash());
+        Knockback();
+        CheckHealth();
     }
 }

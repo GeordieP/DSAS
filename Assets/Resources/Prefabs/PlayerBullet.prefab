@@ -12,9 +12,9 @@ GameObject:
   - 114: {fileID: 11469450}
   - 58: {fileID: 5803346}
   - 50: {fileID: 5032394}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PlayerBullet
-  m_TagString: Untagged
+  m_TagString: PlayerBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

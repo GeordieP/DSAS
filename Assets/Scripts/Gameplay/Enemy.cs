@@ -141,19 +141,17 @@ public class Enemy : PooledEntity, IDamageable {
     /*---
     * Enemy specific methods
     ---*/
-    
 
-    void OnTriggerEnter2D(Collider2D other) {
-        if (other.transform.name == "PlayerBullet(Clone)") {
-            Bullet bullet = other.GetComponent<Bullet>();
-            health -= bullet.Dmg_Value;
-            bullet.Despawn();
+    public void HitByBullet(Bullet bullet) {
+        if (bullet.tag == "EnemyBullet") return;    // don't get hit by our own bullets. That would suck.
 
-            StartCoroutine(ColorFlash());
-            StartCoroutine(ShootDelay());            
-            CheckHealth();
-            Knockback();
-        }
+        health -= bullet.Dmg_Value;
+        bullet.Despawn();
+        
+        StartCoroutine(ColorFlash());
+        StartCoroutine(ShootDelay());
+        CheckHealth();
+        Knockback();
     }
 
     public void SetWaveType(int waveTypeIndex) {

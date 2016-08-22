@@ -7,6 +7,8 @@ public abstract class Bullet : PooledEntity {
     public float Dmg_Value { get { return dmg_value; } }
     protected Vector3 moveDirection = Vector3.down;
 
+    private static readonly int DamageableLayer = LayerMask.NameToLayer("Damageable");
+
     public virtual void Spawn(Vector3 shooterPosition) {
         transform.position = shooterPosition + new Vector3(0f, 0f, Balance.BULLET_Z_POSITION);
     }
@@ -17,4 +19,9 @@ public abstract class Bullet : PooledEntity {
     }
 
     public abstract void SetType(int typeIndex);
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if (other.gameObject.layer == DamageableLayer)
+            other.GetComponent<IDamageable>().HitByBullet(this);
+    }
 }

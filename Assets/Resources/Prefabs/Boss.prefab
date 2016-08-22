@@ -12,7 +12,7 @@ GameObject:
   - 58: {fileID: 5810748}
   - 50: {fileID: 5053166}
   - 114: {fileID: 11488214}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boss
   m_TagString: Untagged
   m_Icon: {fileID: 0}

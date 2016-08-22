@@ -6,6 +6,7 @@ public interface IDamageable {
     float initialHealth { get; set; }
     float health { get; set; }
 
+    void HitByBullet(Bullet bullet);
     void CheckHealth();
     void Dead();
     void Knockback();
