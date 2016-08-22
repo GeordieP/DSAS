@@ -138,7 +138,7 @@ public abstract class Boss : MonoBehaviour, IDamageable {
 
             Bullet bullet = other.GetComponent<Bullet>();
             health -= bullet.Dmg_Value;
-            GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
+            bullet.Despawn();
 
             CheckHealth();
             Knockback();

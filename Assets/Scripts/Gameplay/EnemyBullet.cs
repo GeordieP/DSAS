@@ -19,13 +19,14 @@ public class EnemyBullet : Bullet {
 
     public override void Despawn() {
         transform.rotation = Quaternion.Euler(Vector3.zero);
+        base.Despawn();
     }
 
 	private void FixedUpdate () {
         transform.Translate(moveDirection * MOVE_SPEED * Time.deltaTime, Space.World);
 
         if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
-            GameManager.Instance.EnemyBulletReturnToPool(gameObject);
+            Despawn();
         }       
 	}
 }

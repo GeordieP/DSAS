@@ -87,9 +87,9 @@ public class Enemy : PooledEntity, IDamageable {
 
     public override void Despawn() {
         if (shootTimer != null) shootTimer.Stop();
-        transform.position = new Vector3(-50f, -50f, 0f);
         GetComponent<SpriteRenderer>().color = originalColor;
         RandomizeType();
+        base.Despawn();
     }
 
     private void shootTimer_onFinish() {
@@ -109,7 +109,9 @@ public class Enemy : PooledEntity, IDamageable {
         float explosionStartTime = Time.timeSinceLevelLoad;
 
         GameManager.Instance.AddScore(scoreValue);
-        GameManager.Instance.EnemyReturnToPool(gameObject);
+
+        // call pooled entity methods 
+        Despawn();
 
         // spawn explosion
         GameObject[] particles = GameManager.Instance.ExplosionFragmentPool.Borrow(5);
@@ -145,7 +147,7 @@ public class Enemy : PooledEntity, IDamageable {
         if (other.transform.name == "PlayerBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
             health -= bullet.Dmg_Value;
-            GameManager.Instance.PlayerBulletReturnToPool(other.gameObject);
+            bullet.Despawn();
 
             StartCoroutine(ColorFlash());
             StartCoroutine(ShootDelay());            
@@ -183,7 +185,7 @@ public class Enemy : PooledEntity, IDamageable {
         transform.Translate(mostRecentVelocity);
 
         if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
-            GameManager.Instance.EnemyReturnToPool(gameObject);
+            Despawn();
         }
     }
 }

@@ -23,7 +23,7 @@ public class BossBullet : Bullet {
             transform.position.x < Balance.ScreenBounds.left ||
             transform.position.x > Balance.ScreenBounds.right
             ) {
-            GameManager.Instance.BossBulletReturnToPool(gameObject);
+            Despawn();
         }       
     }
 }

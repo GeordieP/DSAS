@@ -23,6 +23,7 @@ public class ExplosionFragment : PooledEntity {
 
     public override void Despawn() {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.ExplosionFragmentSprites[Random.Range(0, GameManager.Instance.ExplosionFragmentSprites.Length)];
+        base.Despawn();
     }   
 
 	private void FixedUpdate () {
@@ -34,7 +35,7 @@ public class ExplosionFragment : PooledEntity {
         transform.Translate(velocity * MOVE_SPEED * Time.deltaTime, Space.World);
 
         if (transform.position.y > Balance.ScreenBounds.top || transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
-            GameManager.Instance.ExplosionFragmentReturnToPool(gameObject);
+            Despawn();
         }
 	}
 }

@@ -275,7 +275,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     // easy control for player's shooting boolean, as not everywhere has
     // access to the player object
     public void SetPlayerShoot(bool enabled) {
-        player.GetComponent<PlayerShoot>().Shooting = enabled;        
+        player.GetComponent<PlayerShoot>().Shooting = enabled;
+        
     }
 
 
@@ -290,35 +291,5 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         boss.GetComponent<Boss>().Spawn();
         boss.SetActive(true);
         enemyPool.onPoolFull -= ScreenClear;
-    }
-
-    public void EnemyReturnToPool(GameObject enemy) {
-        enemy.SetActive(false);
-        enemy.GetComponent<Enemy>().Despawn();
-        enemyPool.RestoreUnlocked(enemy);
-    }
-
-    public void EnemyBulletReturnToPool(GameObject bullet) {
-        bullet.SetActive(false);
-        bullet.GetComponent<EnemyBullet>().Despawn();
-        enemyBulletPool.Restore(bullet);
-    }
-
-    public void PlayerBulletReturnToPool(GameObject bullet) {
-        bullet.SetActive(false);
-        bullet.GetComponent<PlayerBullet>().Despawn();
-        playerBulletPool.Restore(bullet);
-    }
-
-    public void ExplosionFragmentReturnToPool(GameObject bullet) {
-        bullet.SetActive(false);
-        bullet.GetComponent<ExplosionFragment>().Despawn();
-        explosionFragmentPool.Restore(bullet);
-    }
-
-    public void BossBulletReturnToPool(GameObject bullet) {
-        bullet.SetActive(false);
-        bullet.GetComponent<BossBullet>().Despawn();
-        bossBulletPool.Restore(bullet);
     }
 }

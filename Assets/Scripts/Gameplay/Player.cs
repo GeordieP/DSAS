@@ -77,14 +77,10 @@ public class Player : MonoBehaviour, IDamageable {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.transform.name == "EnemyBullet(Clone)") {
+        if (other.transform.name == "EnemyBullet(Clone)" || other.transform.name == "BossBullet(Clone)") {
             Bullet bullet = other.GetComponent<Bullet>();
             HitByBullet(bullet.Dmg_Value);
-            GameManager.Instance.EnemyBulletReturnToPool(other.gameObject);
-        } else if (other.transform.name == "BossBullet(Clone)") {
-            Bullet bullet = other.GetComponent<Bullet>();            
-            HitByBullet(bullet.Dmg_Value);            
-            GameManager.Instance.BossBulletReturnToPool(other.gameObject);
+            bullet.Despawn();
         }
     }
 }

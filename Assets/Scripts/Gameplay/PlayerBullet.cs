@@ -13,7 +13,7 @@ public class PlayerBullet : Bullet {
 	private void FixedUpdate() {
         transform.Translate(0f, MOVE_SPEED * Time.deltaTime, 0f);
         if (transform.position.y > Balance.ScreenBounds.top) {
-            GameManager.Instance.PlayerBulletReturnToPool(gameObject);
+            Despawn();
         }
     }
 }
