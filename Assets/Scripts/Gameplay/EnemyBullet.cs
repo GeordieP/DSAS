@@ -25,7 +25,7 @@ public class EnemyBullet : Bullet {
 	private void FixedUpdate () {
         transform.Translate(moveDirection * MOVE_SPEED * Time.deltaTime, Space.World);
 
-        if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
+        if (transform.position.y < Balance.DespawnBounds.bottom || transform.position.x < Balance.DespawnBounds.left || transform.position.x > Balance.DespawnBounds.right) {
             Despawn();
         }       
 	}

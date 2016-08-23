@@ -182,7 +182,7 @@ public class Enemy : PooledEntity, IDamageable {
         mostRecentVelocity = movePattern(timeSpawned, transform.position);
         transform.Translate(mostRecentVelocity);
 
-        if (transform.position.y < Balance.ScreenBounds.bottom || transform.position.x < Balance.ScreenBounds.left || transform.position.x > Balance.ScreenBounds.right) {
+        if (transform.position.y < Balance.DespawnBounds.bottom || transform.position.x < Balance.DespawnBounds.left || transform.position.x > Balance.DespawnBounds.right) {
             Despawn();
         }
     }

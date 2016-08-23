@@ -6,7 +6,7 @@ public struct Bounds {
 
 public static class Balance {
     // Bounding area that should be used in despawning objects
-    public static Bounds ScreenBounds = new Bounds {
+    public static Bounds DespawnBounds = new Bounds {
         top = 8,
         bottom = -8,
         right = 5,
@@ -16,21 +16,21 @@ public static class Balance {
     };
 
     public static Bounds SpawnBounds = new Bounds {
-        top = ScreenBounds.top - 2,
-        bottom = ScreenBounds.bottom + 2,
-        right = ScreenBounds.right - 2,
-        left = ScreenBounds.left + 2,
-        width = ScreenBounds.width - 4,
-        height = ScreenBounds.height - 4
+        top = DespawnBounds.top - 2,
+        bottom = DespawnBounds.bottom + 2,
+        right = DespawnBounds.right - 2,
+        left = DespawnBounds.left + 2,
+        width = DespawnBounds.width - 4,
+        height = DespawnBounds.height - 4
     };
 
     public static Bounds BossSpawnBounds = new Bounds {
-        top = ScreenBounds.top + 4,
-        bottom = ScreenBounds.bottom - 4,
-        right = ScreenBounds.right + 4,
-        left = ScreenBounds.left - 4,
-        width = ScreenBounds.width + 8,
-        height = ScreenBounds.height + 8
+        top = DespawnBounds.top + 4,
+        bottom = DespawnBounds.bottom - 4,
+        right = DespawnBounds.right + 4,
+        left = DespawnBounds.left - 4,
+        width = DespawnBounds.width + 8,
+        height = DespawnBounds.height + 8
     };
 
     public const float BULLET_Z_POSITION = 1f;

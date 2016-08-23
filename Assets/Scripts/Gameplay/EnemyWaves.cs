@@ -74,10 +74,10 @@ public static class EnemyWaves {
         // Spawn at top at one of four random X pos
         new Wave {
             _spawnPoints = new Vector3[] {
-                new Vector3(GetRandXPos(), Balance.ScreenBounds.top, 0f),
-                new Vector3(GetRandXPos(), Balance.ScreenBounds.top, 0f),
-                new Vector3(GetRandXPos(), Balance.ScreenBounds.top, 0f),
-                new Vector3(GetRandXPos(), Balance.ScreenBounds.top, 0f)
+                new Vector3(GetRandXPos(), Balance.DespawnBounds.top, 0f),
+                new Vector3(GetRandXPos(), Balance.DespawnBounds.top, 0f),
+                new Vector3(GetRandXPos(), Balance.DespawnBounds.top, 0f),
+                new Vector3(GetRandXPos(), Balance.DespawnBounds.top, 0f)
             },
             _delayBetweenSpawns = 0.8f,
             GetSpawnpointIndex = WaveSpawnPatterns.Linear
@@ -89,8 +89,8 @@ public static class EnemyWaves {
         // S wave movement pattern (implemented in Enemy.cs > MovePatterns)        
         new Wave {
             _spawnPoints = new Vector3[] {
-                new Vector3(Balance.SpawnBounds.left + Balance.SpawnBounds.width * 0.2f, Balance.ScreenBounds.top, 0f),
-                new Vector3(Balance.SpawnBounds.right - Balance.SpawnBounds.width * 0.2f, Balance.ScreenBounds.top, 0f)
+                new Vector3(Balance.DespawnBounds.left + Balance.DespawnBounds.width * 0.2f, Balance.DespawnBounds.top, 0f),
+                new Vector3(Balance.DespawnBounds.right - Balance.DespawnBounds.width * 0.2f, Balance.DespawnBounds.top, 0f)
             }, 
             _delayBetweenSpawns = 0.4f,
             // GetSpawnpointIndex = WaveSpawnPatterns.PingPong01
@@ -102,8 +102,8 @@ public static class EnemyWaves {
         // this one is used for a circular move pattern
         new Wave {
             _spawnPoints = new Vector3[] {
-                new Vector3(Balance.SpawnBounds.left + Balance.SpawnBounds.width * 0.2f, Balance.ScreenBounds.top, 0f),
-                new Vector3(Balance.SpawnBounds.right - Balance.SpawnBounds.width * 0.2f, Balance.ScreenBounds.top, 0f)
+                new Vector3(Balance.DespawnBounds.left + Balance.DespawnBounds.width * 0.2f, Balance.DespawnBounds.top, 0f),
+                new Vector3(Balance.DespawnBounds.right - Balance.DespawnBounds.width * 0.2f, Balance.DespawnBounds.top, 0f)
             }, 
             _delayBetweenSpawns = 0.4f,
             GetSpawnpointIndex = WaveSpawnPatterns.PingPong01
@@ -112,12 +112,12 @@ public static class EnemyWaves {
         // at 20, 40, and 60 percent down each side
         new Wave {
             _spawnPoints = new Vector3[] {
-                new Vector3(Balance.ScreenBounds.left, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.2f, 0f),
-                new Vector3(Balance.ScreenBounds.left, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.4f, 0f),
-                new Vector3(Balance.ScreenBounds.left, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.6f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.2f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.4f, 0f),
-                new Vector3(Balance.ScreenBounds.right, Balance.SpawnBounds.top - Balance.SpawnBounds.height * 0.6f, 0f)
+                new Vector3(Balance.DespawnBounds.left, Balance.DespawnBounds.top - Balance.DespawnBounds.height * 0.2f, 0f),
+                new Vector3(Balance.DespawnBounds.left, Balance.DespawnBounds.top - Balance.DespawnBounds.height * 0.4f, 0f),
+                new Vector3(Balance.DespawnBounds.left, Balance.DespawnBounds.top - Balance.DespawnBounds.height * 0.6f, 0f),
+                new Vector3(Balance.DespawnBounds.right, Balance.DespawnBounds.top - Balance.DespawnBounds.height * 0.2f, 0f),
+                new Vector3(Balance.DespawnBounds.right, Balance.DespawnBounds.top - Balance.DespawnBounds.height * 0.4f, 0f),
+                new Vector3(Balance.DespawnBounds.right, Balance.DespawnBounds.top - Balance.DespawnBounds.height * 0.6f, 0f)
             },
             _delayBetweenSpawns = 0.3f,
             // GetSpawnpointIndex = WaveSpawnPatterns.Linear
@@ -133,6 +133,6 @@ public static class EnemyWaves {
 
     // Get a random X position bound by the spawn width
     private static float GetRandXPos() {
-        return Random.Range(Balance.SpawnBounds.left, Balance.SpawnBounds.right);
+        return Random.Range(Balance.DespawnBounds.left, Balance.DespawnBounds.right);
     }
 }
