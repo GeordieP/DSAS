@@ -145,6 +145,16 @@ public class Enemy : PooledEntity, IDamageable {
     public void HitByBullet(Bullet bullet) {
         if (bullet.tag == "EnemyBullet") return;    // don't get hit by our own bullets. That would suck.
 
+        // if we're not visible on the screen yet, don't take damage
+        if (
+            transform.position.y > Balance.ScreenBounds.top ||
+            transform.position.y < Balance.ScreenBounds.bottom ||
+            transform.position.x < Balance.ScreenBounds.left ||
+            transform.position.x > Balance.ScreenBounds.right ) {
+            return;
+        }       
+
+
         health -= bullet.Dmg_Value;
         bullet.Despawn();
         
