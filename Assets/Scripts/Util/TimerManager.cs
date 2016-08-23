@@ -39,7 +39,12 @@ public class TimerManager : PersistentUnitySingleton<TimerManager> {
 
 		for (int i = 0; i < timers.Count; i++) {
 			if (timers[i].running) {
-				timers[i].Update(Time.deltaTime);
+
+				// update timer
+				timers[i].elapsed += Time.deltaTime;
+				if (timers[i].elapsed >= timers[i].duration) timers[i].Finish();
+
+				// delete if it's a non-repeating timer, or just DeleteOnFinish flag has been raised for another reason
 				if (timers[i].finished && timers[i].DeleteOnFinish) {
 					timers.RemoveAt(i);
 					i--;
@@ -152,11 +157,6 @@ public class Timer {
 		// since deleteOnFinish is now true, the timer manager will delete the finished timer
 		duration = 0f;
 		deleteOnFinish = true;
-	}
-
-	public void Update(float deltaTime) {
-		elapsed += deltaTime;
-		if (elapsed >= duration) Finish();
 	}
 
 	public void Finish() {
