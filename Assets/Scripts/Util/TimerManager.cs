@@ -135,6 +135,13 @@ public class Timer {
 		running = true;
 	}
 
+	// start running and finish immediately
+	// for when we want to essentially skip waiting for the first cycle to complete
+	public void StartInstant() {
+		running = true;
+		Finish();
+	}
+
 	public void Stop() {
 		running = false;
 		elapsed = 0f;

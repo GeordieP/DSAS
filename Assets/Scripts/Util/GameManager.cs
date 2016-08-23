@@ -224,7 +224,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
     public void SetEnemySpawnEnabled(bool enabled) {
         if (enabled)
-            enemySpawnTimer.Start();    
+            enemySpawnTimer.StartInstant();
         else
             enemySpawnTimer.Stop();
     }
