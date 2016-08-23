@@ -5,14 +5,23 @@ public struct Bounds {
 }
 
 public static class Balance {
+    public static Bounds ScreenBounds = new Bounds {
+        top = 7,
+        bottom = -7,
+        right = 4,
+        left = -4,
+        width = 8,
+        height = 14
+    };
+
     // Bounding area that should be used in despawning objects
     public static Bounds DespawnBounds = new Bounds {
-        top = 8,
-        bottom = -8,
-        right = 5,
-        left = -5,
-        width = 10,
-        height = 16
+        top = ScreenBounds.top + 1,
+        bottom = ScreenBounds.bottom - 1,
+        right = ScreenBounds.right + 1,
+        left = ScreenBounds.left - 1,
+        width = ScreenBounds.width + 2,
+        height = ScreenBounds.height + 2
     };
 
     public static Bounds SpawnBounds = new Bounds {
