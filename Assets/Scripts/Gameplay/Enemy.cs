@@ -16,7 +16,10 @@ public class Enemy : PooledEntity, IDamageable {
     public float health { get; set; }
 
 
-    private float scoreValue;
+	// Shoot delay WaitForSeconds
+	private static WaitForSeconds ENEMY_NEXT_SHOT_DELAY_WAITFORSECONDS = new WaitForSeconds(Balance.DAMAGED_ENEMY_NEXT_SHOT_DELAY);
+
+	private float scoreValue;
     private Vector3 mostRecentVelocity;
 
     // set to Time.timeSinceLevelLoad on each Spawn() call to keep track of timing
@@ -128,13 +131,13 @@ public class Enemy : PooledEntity, IDamageable {
 
     public IEnumerator ColorFlash() {
         GetComponent<SpriteRenderer>().color = Color.white;
-        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+		yield return Balance.DMG_FLASH_WAITFORSECONDS;
         GetComponent<SpriteRenderer>().color = originalColor;
     }
 
     public IEnumerator ShootDelay() {
         shootTimer.Stop();
-        yield return new WaitForSeconds(Balance.DAMAGED_ENEMY_NEXT_SHOT_DELAY);
+		yield return ENEMY_NEXT_SHOT_DELAY_WAITFORSECONDS;
         shootTimer.Start();
     }
 

@@ -147,6 +147,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         StartCoroutine(SpawnEnemyWave(enemies, EnemyWaves.WaveTypes[waveTypeIndex]._delayBetweenSpawns));
     }
 
+
     private IEnumerator SpawnEnemyWave(GameObject[] enemies, float delayBetweenSpawns) {
         for (int i = 0; i < enemies.Length; i++) {
             enemies[i].GetComponent<Enemy>().Spawn();

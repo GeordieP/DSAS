@@ -9,7 +9,10 @@ public class Player : MonoBehaviour, IDamageable {
     public float health { get; set; }
     public float initialHealth { get; set; }
 
-    private void Start() {
+	// Shoot Delay WaitForSeconds
+	private static WaitForSeconds PLAYER_NEXT_SHOT_DELAY_WAITFORSECONDS = new WaitForSeconds(Balance.DAMAGED_PLAYER_NEXT_SHOT_DELAY);
+
+	private void Start() {
         initialHealth = Balance.PLAYER_INITIAL_HEALTH;
         health = initialHealth;
 
@@ -38,18 +41,18 @@ public class Player : MonoBehaviour, IDamageable {
     public IEnumerator ColorFlash() {
         // Set sprite color to white
         GetComponent<SpriteRenderer>().color = Color.white;
-        
-        // Wait for several frames
-        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+
+		// Wait for several frames
+		yield return Balance.DMG_FLASH_WAITFORSECONDS;
 
         // Set color back to normal
         GetComponent<SpriteRenderer>().color = originalColor;
     }
-    
-    public IEnumerator ShootDelay() {
+
+	public IEnumerator ShootDelay() {
         GetComponent<PlayerShoot>().Shooting = false;
-        yield return new WaitForSeconds(Balance.DAMAGED_PLAYER_NEXT_SHOT_DELAY);
-        GetComponent<PlayerShoot>().Shooting = true;
+		yield return PLAYER_NEXT_SHOT_DELAY_WAITFORSECONDS;
+		GetComponent<PlayerShoot>().Shooting = true;
     }
 
     /*---
@@ -61,7 +64,7 @@ public class Player : MonoBehaviour, IDamageable {
         transform.Translate(new Vector3(0f, -Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));
 
         // Wait for several frames
-        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+        yield return Balance.DMG_FLASH_WAITFORSECONDS;
 
         // Move forward to regular position
         transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f));

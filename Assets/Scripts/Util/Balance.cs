@@ -63,6 +63,7 @@ public static class Balance {
     public const float PLAYER_FIRE_RATE = 9f;
     public const float ENEMY_WAVE_SPAWN_RATE = 7f;
     public const float DMG_FLASH_DURATION = 0.03f;
+	public static readonly UnityEngine.WaitForSeconds DMG_FLASH_WAITFORSECONDS = new UnityEngine.WaitForSeconds(DMG_FLASH_DURATION);
 
     /*---
     * Health / Max Levels

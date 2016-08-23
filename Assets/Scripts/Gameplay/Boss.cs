@@ -19,6 +19,9 @@ public abstract class Boss : MonoBehaviour, IDamageable {
     // Timers
     protected Timer shootTimer;
 
+	// ColorFlash WaitForSeconds
+	WaitForSeconds colorFlashWaitForSeconds = new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+
     // Shooting
     protected const float timeBetweenShots = 0.2f;
 
@@ -97,7 +100,7 @@ public abstract class Boss : MonoBehaviour, IDamageable {
 
     public virtual IEnumerator ColorFlash() {
         GetComponent<SpriteRenderer>().color = flashColor;
-        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+		yield return Balance.DMG_FLASH_WAITFORSECONDS;
         GetComponent<SpriteRenderer>().color = originalColor;
     }
 
@@ -122,7 +125,7 @@ public abstract class Boss : MonoBehaviour, IDamageable {
         transform.Translate(new Vector3(0f, -Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f), Space.World);
 
         // Wait for several frames
-        yield return new WaitForSeconds(Balance.DMG_FLASH_DURATION);
+        yield return Balance.DMG_FLASH_WAITFORSECONDS;
 
         // Move forward to regular position
         transform.Translate(new Vector3(0f, Balance.ENEMY_BULLET_KNOCKBACK_DISTANCE, 0f), Space.World);
