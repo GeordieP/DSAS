@@ -147,6 +147,10 @@ public class Timer {
 		Finish();
 	}
 
+	public void SetDuration(float newDuration) {
+		duration = newDuration;
+	}
+
 	public void Stop() {
 		running = false;
 		elapsed = 0f;

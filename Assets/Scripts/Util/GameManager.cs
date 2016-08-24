@@ -23,6 +23,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     private GameObject _bossBulletPrefab;
     private GameObject _playerBulletPrefab;
     private GameObject _explosionFragmentPrefab;
+    private GameObject _powerupPrefab;
 
     // Object pooling
     private GameObjectPool enemyPool;
@@ -34,6 +35,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public GameObjectPool ExplosionFragmentPool { get { return explosionFragmentPool; } }
     private GameObjectPool bossBulletPool;
     public GameObjectPool BossBulletPool { get { return bossBulletPool; } }
+    private GameObjectPool powerupPool;
+    public GameObjectPool PowerupPool { get { return powerupPool; } }
 
     // Timers
     private const float enemySpawnTimerDuration = Balance.ENEMY_WAVE_SPAWN_RATE;
@@ -76,6 +79,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemyBulletSprites = Resources.LoadAll<Sprite>("Sprites/enemy_bullet");
         playerBulletSprites = Resources.LoadAll<Sprite>("Sprites/player_bullet");
         explosionFragmentSprites = Resources.LoadAll<Sprite>("Sprites/explosion_fragments");
+        explosionFragmentSprites = Resources.LoadAll<Sprite>("Sprites/powerups");
 
         // Populate prefabs
         _enemyPrefab = (GameObject)Resources.Load("Prefabs/Enemy", typeof(GameObject));
@@ -85,6 +89,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         _bossBulletPrefab = (GameObject)Resources.Load("Prefabs/BossBullet", typeof(GameObject));
         _playerBulletPrefab = (GameObject)Resources.Load("Prefabs/PlayerBullet", typeof(GameObject));
         _explosionFragmentPrefab = (GameObject)Resources.Load("Prefabs/ExplosionFragment", typeof(GameObject));
+        _powerupPrefab = (GameObject)Resources.Load("Prefabs/Powerup", typeof(GameObject));
 
         // Deactivate all prefabs by default
         _enemyPrefab.SetActive(false);
@@ -93,6 +98,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         _bossPrefab.SetActive(false);
         _playerBulletPrefab.SetActive(false);
         _explosionFragmentPrefab.SetActive(false);
+        _powerupPrefab.SetActive(false);
 
         // Object pools
         enemyPool = new GameObjectPool(Balance.POOL_SIZE_ENEMY, _enemyPrefab);
@@ -100,6 +106,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         playerBulletPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _playerBulletPrefab);
         explosionFragmentPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _explosionFragmentPrefab);
         bossBulletPool = new GameObjectPool(Balance.POOL_SIZE_BOSS_BULLET, _bossBulletPrefab);
+        powerupPool = new GameObjectPool(Balance.POOL_SIZE_POWERUP, _powerupPrefab);
 
         // Timers
         enemySpawnTimer = TimerManager.Instance.CreateTimerRepeat(enemySpawnTimerDuration);
@@ -158,11 +165,29 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
 
     /*---
-    * Timer Tick / Finish event callbacks
+    * Timer Tick / Finish event callbacks / Updates
     ---*/
     
     private void enemySpawnTimer_onFinish() {
         CreateEnemyWave();
+    }
+
+    private float nextPowerupSpawnScore;
+
+    private float GenerateNewSpawnScore() {
+        return Random.Range(playerScore + 700f, stage_advancement_score);
+    }
+
+    private void FixedUpdate() {
+        if (playerScore >= nextPowerupSpawnScore) {
+            // generate a new spawn score
+            nextPowerupSpawnScore = GenerateNewSpawnScore();
+
+            // spawn a powerup
+            GameObject powerup = powerupPool.Borrow();
+            powerup.GetComponent<Powerup>().Spawn();
+            powerup.SetActive(true);
+        }
     }
 
     /*---
@@ -279,7 +304,6 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         player.GetComponent<PlayerShoot>().Shooting = enabled;
         
     }
-
 
     // called by Pool Full event in enemy pool
     // when there are no enemies left alive

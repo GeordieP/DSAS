@@ -83,4 +83,8 @@ public class Player : MonoBehaviour, IDamageable {
         Knockback();
         CheckHealth();
     }
+
+    public void GotPowerup(Powerup powerup) {
+        
+    }
 }

@@ -50,6 +50,7 @@ public static class Balance {
     // entities    
     public const float PLAYER_BASE_MOVE_SPEED = 10f;
     public const float ENEMY_BASE_MOVE_SPEED = 1.4f;
+    public const float POWERUP_BASE_MOVE_SPEED = 1.2f;
 
     // bullets
     public const float BULLET_INITIAL_SPEED = 6f;
@@ -118,6 +119,7 @@ public static class Balance {
     public const int POOL_SIZE_PLAYER_BULLET = 50;
     public const int POOL_SIZE_EXPLOSION_FRAGMENT = 150;
     public const int POOL_SIZE_BOSS_BULLET = 150;
+    public const int POOL_SIZE_POWERUP = 5;
     
     /*---
     * Other
