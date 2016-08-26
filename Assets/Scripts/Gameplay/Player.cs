@@ -6,8 +6,44 @@ public class Player : MonoBehaviour, IDamageable {
 
     // IDamageable properties
     public Color originalColor { get; set; }
-    public float health { get; set; }
     public float initialHealth { get; set; }
+    
+    private float _health;
+    public float health {
+        get { return _health; }
+        set {
+            _health = value;
+            GameManager.Instance.UpdateHealthBar(_health / initialHealth);
+        }
+    }
+
+    private float _bulletScaling;
+    public float BulletScaling {
+        get { return _bulletScaling; }
+        set {
+            _bulletScaling = value;
+            // TOOD: set bullet scaling in EnemyBullet
+        }
+    }
+
+    private float _shipScaling;
+    public float ShipScaling {
+        get { return _shipScaling; }
+        set {
+            print("setting ship scale " + value);
+            _shipScaling = value;
+            transform.localScale = Vector3.one * _shipScaling;
+        }
+    }
+
+    private Powerup.PlayerShootPatternDelegate _shootPattern;
+    public Powerup.PlayerShootPatternDelegate ShootPattern {
+        get { return _shootPattern; }
+        set {
+            _shootPattern = value;
+            GetComponent<PlayerShoot>().shootPattern = _shootPattern;
+        }
+    }
 
 	// Shoot Delay WaitForSeconds
 	private static WaitForSeconds PLAYER_NEXT_SHOT_DELAY_WAITFORSECONDS = new WaitForSeconds(Balance.DAMAGED_PLAYER_NEXT_SHOT_DELAY);
@@ -77,14 +113,29 @@ public class Player : MonoBehaviour, IDamageable {
         health -= bullet.Dmg_Value;
         bullet.Despawn();
 
-        GameManager.Instance.UpdateHealthBar(health / initialHealth);
         StartCoroutine(ShootDelay());
         StartCoroutine(ColorFlash());
         Knockback();
         CheckHealth();
     }
 
-    public void GotPowerup(Powerup powerup) {
-        
+    // Perform null checks and set values if effect's is not null
+    public void GotPowerup(PowerupEffect effect) {
+        if (effect.health != null) {
+            print("got health effect");
+            health = (float)effect.health;
+        }
+    
+        // if (effect.shield != null) shield = (float)effect.shield;        // TOOD: implement shield
+    
+        if (effect.bulletScaling != null) {
+            BulletScaling = (float)effect.bulletScaling;
+        }
+        if (effect.shipScaling != null) {
+            ShipScaling = (float)effect.shipScaling;
+        }
+        if (effect.shootPattern != null) {
+            ShootPattern = effect.shootPattern;
+        }
     }
 }

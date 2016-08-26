@@ -13,7 +13,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     public Sprite[] PlayerBulletSprites { get { return playerBulletSprites; } }
     private Sprite[] explosionFragmentSprites;
     public Sprite[] ExplosionFragmentSprites { get { return explosionFragmentSprites; } }
-
+    private Sprite[] powerupSprites;
+    public Sprite[] PowerupSprites { get { return powerupSprites; } }
 
     // Prefabs
     private GameObject _enemyPrefab;
@@ -79,7 +80,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemyBulletSprites = Resources.LoadAll<Sprite>("Sprites/enemy_bullet");
         playerBulletSprites = Resources.LoadAll<Sprite>("Sprites/player_bullet");
         explosionFragmentSprites = Resources.LoadAll<Sprite>("Sprites/explosion_fragments");
-        explosionFragmentSprites = Resources.LoadAll<Sprite>("Sprites/powerups");
+        powerupSprites = Resources.LoadAll<Sprite>("Sprites/powerups");
 
         // Populate prefabs
         _enemyPrefab = (GameObject)Resources.Load("Prefabs/Enemy", typeof(GameObject));
@@ -136,6 +137,8 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         player.SetActive(true);
         // player.GetComponent<PlayerShoot>().Shooting = false;
 
+        NewPowerupSpawnScore();
+
         enemySpawnTimer.Start();
         enemySpawnTimer_onFinish();
     }
@@ -172,16 +175,16 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         CreateEnemyWave();
     }
 
-    private float nextPowerupSpawnScore;
+    private float nextPowerupSpawnScore = 300;
 
-    private float GenerateNewSpawnScore() {
+    private float NewPowerupSpawnScore() {
         return Random.Range(playerScore + 700f, stage_advancement_score);
     }
 
     private void FixedUpdate() {
         if (playerScore >= nextPowerupSpawnScore) {
             // generate a new spawn score
-            nextPowerupSpawnScore = GenerateNewSpawnScore();
+            nextPowerupSpawnScore = NewPowerupSpawnScore();
 
             // spawn a powerup
             GameObject powerup = powerupPool.Borrow();
