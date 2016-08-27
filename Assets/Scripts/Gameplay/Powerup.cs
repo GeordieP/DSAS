@@ -26,7 +26,7 @@ public class Powerup : PooledEntity {
         powerupType = Random.Range(0, PowerupEffects.EffectTypes.Length);
 
         /* need powerup sprites.... for now use enemy sprites*/
-        GetComponent<SpriteRenderer>().sprite = GameManager.Instance.EnemySprites[powerupType];
+        GetComponent<SpriteRenderer>().sprite = GameManager.Instance.PowerupSprites[powerupType];
         effect = PowerupEffects.EffectTypes[powerupType];
 
     }
