@@ -1,9 +1,8 @@
 using UnityEngine;
 
 public class PlayerBullet : Bullet {
-    protected Vector3 moveDirection = Vector3.up;
-    
 	private void Start() {
+        moveDirection = Vector3.up;
         MOVE_SPEED = Balance.PLAYER_BULLET_INITIAL_SPEED;
         dmg_value = Balance.PLAYER_BULLET_BASE_DMG;
 	}
@@ -14,6 +13,11 @@ public class PlayerBullet : Bullet {
 
     public override void SetType(int typeIndex) {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.PlayerBulletSprites[typeIndex];
+    }
+
+    public override void Despawn() {
+        transform.rotation = Quaternion.Euler(Vector3.zero);
+        base.Despawn();
     }
 	
 	private void FixedUpdate() {
