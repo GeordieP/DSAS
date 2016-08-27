@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(CircleCollider2D))]
 public class Player : MonoBehaviour, IDamageable {
@@ -30,7 +31,6 @@ public class Player : MonoBehaviour, IDamageable {
     public float ShipScaling {
         get { return _shipScaling; }
         set {
-            print("setting ship scale " + value);
             _shipScaling = value;
             transform.localScale = Vector3.one * _shipScaling;
         }
@@ -54,7 +54,9 @@ public class Player : MonoBehaviour, IDamageable {
 
         originalColor = GetComponent<SpriteRenderer>().color;
         GameManager.Instance.UpdateHealthBar(health / initialHealth);
-    }
+
+        pickupEffectDurations = new List<Timer>();
+   }
 
     /*---
     * Implement IDamageable members
@@ -119,10 +121,11 @@ public class Player : MonoBehaviour, IDamageable {
         CheckHealth();
     }
 
+    private List<Timer> pickupEffectDurations;
+
     // Perform null checks and set values if effect's is not null
     public void GotPowerup(PowerupEffect effect) {
         if (effect.health != null) {
-            print("got health effect");
             health = (float)effect.health;
         }
     
@@ -131,11 +134,20 @@ public class Player : MonoBehaviour, IDamageable {
         if (effect.bulletScaling != null) {
             BulletScaling = (float)effect.bulletScaling;
         }
+
         if (effect.shipScaling != null) {
             ShipScaling = (float)effect.shipScaling;
         }
+
         if (effect.shootPattern != null) {
             ShootPattern = effect.shootPattern;
+        }
+
+        if (effect.duration != null) {
+            Timer effectTimer = TimerManager.Instance.CreateTimerOneshot((float)effect.duration);
+            effectTimer.onFinish += () => { print("effect over, reset stuff here"); };
+            effectTimer.Start();
+            pickupEffectDurations.Add(effectTimer);
         }
     }
 }

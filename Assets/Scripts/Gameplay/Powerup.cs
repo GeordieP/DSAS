@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class PowerupEffect {
-    public float? health, shield, bulletScaling, shipScaling;
+    public float? health, shield, bulletScaling, shipScaling, duration;
     public Powerup.PlayerShootPatternDelegate shootPattern;
 }
 
@@ -53,7 +53,8 @@ public static class PowerupEffects {
             shield = null,
             bulletScaling = null,
             shipScaling = null,
-            shootPattern = null
+            shootPattern = null,
+            duration = null
         },
 
         // shield effect
@@ -62,7 +63,8 @@ public static class PowerupEffects {
             shield = 200f,
             bulletScaling = null,
             shipScaling = null,
-            shootPattern = null
+            shootPattern = null,
+            duration = null
         },
 
         // 2x bullet scale effect
@@ -71,7 +73,8 @@ public static class PowerupEffects {
             shield = null,
             bulletScaling = 2f,
             shipScaling = null,
-            shootPattern = null
+            shootPattern = null,
+            duration = 20f  // seconds
         },
 
         // half size ship effect
@@ -80,7 +83,8 @@ public static class PowerupEffects {
             shield = null,
             bulletScaling = null,
             shipScaling = 0.25f,
-            shootPattern = null
+            shootPattern = null,
+            duration = 20f      // seconds
         },
 
         // different shoot pattern effect
@@ -89,7 +93,8 @@ public static class PowerupEffects {
             shield = null,
             bulletScaling = null,
             shipScaling = null,
-            shootPattern = TriFanUp_Shoot
+            shootPattern = TriFanUp_Shoot,
+            duration = 15f      // seconds
         }
     };
 
@@ -100,7 +105,7 @@ public static class PowerupEffects {
         for (int i = 0; i < 3; i++) {
             currentBullet = bullets[i].GetComponent<PlayerBullet>();
             float angle = 75 + 15 * i;
-            currentBullet.SetRotation(-angle);
+            currentBullet.SetRotation(angle);
 
             Vector3 moveDirection = new Vector3(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle), 0f);
             currentBullet.Spawn(origin, moveDirection);
