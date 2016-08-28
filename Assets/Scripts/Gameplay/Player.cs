@@ -9,6 +9,10 @@ public class Player : MonoBehaviour, IDamageable {
     public Color originalColor { get; set; }
     public float initialHealth { get; set; }
     
+    // hold active powerup duation timers and post-effect values to restore
+    private List<Timer> powerupEffectDurations;
+    private List<PowerupEffect> powerupEffectRestoreValues;
+
     private float _health;
     public float health {
         get { return _health; }
@@ -27,21 +31,17 @@ public class Player : MonoBehaviour, IDamageable {
         }
     }
 
-    private float _shipScaling;
     public float ShipScaling {
-        get { return _shipScaling; }
+        get { return transform.localScale.x; }
         set {
-            _shipScaling = value;
-            transform.localScale = Vector3.one * _shipScaling;
+            transform.localScale = Vector3.one * value;
         }
     }
 
-    private Powerup.PlayerShootPatternDelegate _shootPattern;
     public Powerup.PlayerShootPatternDelegate ShootPattern {
-        get { return _shootPattern; }
+        get { return GetComponent<PlayerShoot>().shootPattern; }
         set {
-            _shootPattern = value;
-            GetComponent<PlayerShoot>().shootPattern = _shootPattern;
+            GetComponent<PlayerShoot>().shootPattern = value;
         }
     }
 
@@ -55,7 +55,8 @@ public class Player : MonoBehaviour, IDamageable {
         originalColor = GetComponent<SpriteRenderer>().color;
         GameManager.Instance.UpdateHealthBar(health / initialHealth);
 
-        pickupEffectDurations = new List<Timer>();
+        powerupEffectDurations = new List<Timer>();
+        powerupEffectRestoreValues = new List<PowerupEffect>();
    }
 
     /*---
@@ -121,10 +122,15 @@ public class Player : MonoBehaviour, IDamageable {
         CheckHealth();
     }
 
-    private List<Timer> pickupEffectDurations;
-
     // Perform null checks and set values if effect's is not null
+    // Set up post-effect restore values (if applicable) and start restore timer
     public void GotPowerup(PowerupEffect effect) {
+        // initial value to the restore effect. Should get overwritten by another one if an effect is happening
+            // otherwise just here as a fallback
+        PowerupEffect restoreValuesEffect = new PowerupEffect {
+            bulletScaling = BulletScaling
+        };
+
         if (effect.health != null) {
             health = (float)effect.health;
         }
@@ -132,22 +138,44 @@ public class Player : MonoBehaviour, IDamageable {
         // if (effect.shield != null) shield = (float)effect.shield;        // TOOD: implement shield
     
         if (effect.bulletScaling != null) {
+            restoreValuesEffect = new PowerupEffect {
+                bulletScaling = BulletScaling
+            };
+
             BulletScaling = (float)effect.bulletScaling;
         }
 
         if (effect.shipScaling != null) {
+            restoreValuesEffect = new PowerupEffect {
+                shipScaling = ShipScaling
+            };
+
             ShipScaling = (float)effect.shipScaling;
+
         }
 
         if (effect.shootPattern != null) {
+            restoreValuesEffect = new PowerupEffect {
+                shootPattern = ShootPattern
+            };
+
             ShootPattern = effect.shootPattern;
         }
 
         if (effect.duration != null) {
             Timer effectTimer = TimerManager.Instance.CreateTimerOneshot((float)effect.duration);
-            effectTimer.onFinish += () => { print("effect over, reset stuff here"); };
+
+            effectTimer.onFinish += () => { 
+                GotPowerup(restoreValuesEffect);      // apply the values from the restoreValuesEffect to return to a 'normal' state
+
+                powerupEffectRestoreValues.Remove(restoreValuesEffect);
+                powerupEffectDurations.Remove(effectTimer);
+            };
+
             effectTimer.Start();
-            pickupEffectDurations.Add(effectTimer);
+
+            powerupEffectDurations.Add(effectTimer);                    // add this new timer to the list of timers
+            powerupEffectRestoreValues.Add(restoreValuesEffect);        // add this new restore effect to the list            
         }
     }
 }

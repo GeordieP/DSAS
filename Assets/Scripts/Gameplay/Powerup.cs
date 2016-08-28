@@ -50,49 +50,27 @@ public static class PowerupEffects {
         // health effect
         new PowerupEffect {
             health = Balance.PLAYER_INITIAL_HEALTH,
-            shield = null,
-            bulletScaling = null,
-            shipScaling = null,
-            shootPattern = null,
-            duration = null
         },
 
         // shield effect
         new PowerupEffect {
-            health = null,
-            shield = 200f,
-            bulletScaling = null,
-            shipScaling = null,
-            shootPattern = null,
-            duration = null
+            shield = 200f
         },
 
         // 2x bullet scale effect
         new PowerupEffect {
-            health = null,
-            shield = null,
             bulletScaling = 2f,
-            shipScaling = null,
-            shootPattern = null,
             duration = 20f  // seconds
         },
 
         // half size ship effect
         new PowerupEffect {
-            health = null,
-            shield = null,
-            bulletScaling = null,
             shipScaling = 0.25f,
-            shootPattern = null,
             duration = 20f      // seconds
         },
 
         // different shoot pattern effect
         new PowerupEffect {
-            health = null,
-            shield = null,
-            bulletScaling = null,
-            shipScaling = null,
             shootPattern = TriFanUp_Shoot,
             duration = 15f      // seconds
         }

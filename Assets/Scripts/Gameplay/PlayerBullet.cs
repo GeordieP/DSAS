@@ -17,6 +17,7 @@ public class PlayerBullet : Bullet {
 
     public override void Despawn() {
         transform.rotation = Quaternion.Euler(Vector3.zero);
+        moveDirection = Vector3.up;
         base.Despawn();
     }
 	
