@@ -1,6 +1,8 @@
 using UnityEngine;
 
 public class PlayerBullet : Bullet {
+    public static float _bulletScaling;
+
 	private void Start() {
         moveDirection = Vector3.up;
         MOVE_SPEED = Balance.PLAYER_BULLET_INITIAL_SPEED;
@@ -13,6 +15,16 @@ public class PlayerBullet : Bullet {
 
     public override void SetType(int typeIndex) {
         GetComponent<SpriteRenderer>().sprite = GameManager.Instance.PlayerBulletSprites[typeIndex];
+    }
+
+    public override void Spawn(Vector3 shooterPosition) {
+        transform.localScale = Vector3.one * _bulletScaling;
+        base.Spawn(shooterPosition);
+    }
+
+    public override void Spawn(Vector3 shooterPosition, Vector3 moveDirection) {
+        transform.localScale = Vector3.one * _bulletScaling;
+        base.Spawn(shooterPosition, moveDirection);
     }
 
     public override void Despawn() {

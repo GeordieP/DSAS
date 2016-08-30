@@ -22,12 +22,10 @@ public class Player : MonoBehaviour, IDamageable {
         }
     }
 
-    private float _bulletScaling;
     public float BulletScaling {
-        get { return _bulletScaling; }
+        get { return PlayerBullet._bulletScaling; }
         set {
-            _bulletScaling = value;
-            // TOOD: set bullet scaling in EnemyBullet
+            PlayerBullet._bulletScaling = value;
         }
     }
 
@@ -57,6 +55,8 @@ public class Player : MonoBehaviour, IDamageable {
 
         powerupEffectDurations = new List<Timer>();
         powerupEffectRestoreValues = new List<PowerupEffect>();
+
+        BulletScaling = 0.5f;       // set default bullet scaling
    }
 
     /*---

@@ -59,7 +59,7 @@ public static class PowerupEffects {
 
         // 2x bullet scale effect
         new PowerupEffect {
-            bulletScaling = 2f,
+            bulletScaling = 1f,
             duration = 20f  // seconds
         },
 
