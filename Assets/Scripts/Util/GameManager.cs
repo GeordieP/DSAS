@@ -105,7 +105,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         enemyPool = new GameObjectPool(Balance.POOL_SIZE_ENEMY, _enemyPrefab);
         enemyBulletPool = new GameObjectPool(Balance.POOL_SIZE_ENEMY_BULLET, _enemyBulletPrefab);
         playerBulletPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _playerBulletPrefab);
-        explosionFragmentPool = new GameObjectPool(Balance.POOL_SIZE_PLAYER_BULLET, _explosionFragmentPrefab);
+        explosionFragmentPool = new GameObjectPool(Balance.POOL_SIZE_EXPLOSION_FRAGMENT, _explosionFragmentPrefab);
         bossBulletPool = new GameObjectPool(Balance.POOL_SIZE_BOSS_BULLET, _bossBulletPrefab);
         powerupPool = new GameObjectPool(Balance.POOL_SIZE_POWERUP, _powerupPrefab);
 
@@ -199,12 +199,15 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     
     public void PlayerNuke() {
 
-        for (int i = 0; i < enemyPool.InUse.Count; i++) {
-            enemyPool.InUse[i].GetComponent<Enemy>().Dead();
-        }
+        enemySpawnTimer.Stop();
 
-        // enemyBulletPool.RestoreAll();
-        // enemyPool.RestoreAll();
+        GameObject[] toKill = enemyPool.GetInUse();
+
+        for (int i = 0; i < toKill.Length; i++) {
+            toKill[i].GetComponent<Enemy>().Dead();
+        }
+        enemySpawnTimer.Start();
+        
         // show nuke animation/effect
         // fade background color?
     }

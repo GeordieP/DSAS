@@ -35,6 +35,16 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	private void Update() {
+		// TODO: just for now use space to test nukes
+		if (Input.GetKey(KeyCode.Space)) {
+			if (!nukeTriggerDelayTimer.running)
+				nukeTriggerDelayTimer.Start();
+		} else {
+			nukeTriggerDelayTimer.Stop();
+		}
+
+
+/*
 		// user is touching screen
 		if (Input.touches.Length > 0) {
 			// more than one finger
@@ -67,7 +77,7 @@ public class PlayerInput : MonoBehaviour {
 
 			if (nukeTriggerDelayTimer.running)
 				nukeTriggerDelayTimer.Stop();
-		}
+		}*/
 	}
 
 	private void nukeTriggerDelayTimer_onFinish() {
