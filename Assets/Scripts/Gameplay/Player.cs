@@ -10,8 +10,10 @@ public class Player : MonoBehaviour, IDamageable {
     public float initialHealth { get; set; }
     
     // hold active powerup duation timers and post-effect values to restore
-    private List<Timer> powerupEffectDurations;
-    private List<PowerupEffect> powerupEffectRestoreValues;
+    private Dictionary<string, Timer> powerupEffectDurations;
+    private Dictionary<string, PowerupEffect> powerupEffectRestoreValues;
+    // private List<Timer> powerupEffectDurations;
+    // private List<PowerupEffect> powerupEffectRestoreValues;
 
     private float _health;
     public float health {
@@ -53,8 +55,8 @@ public class Player : MonoBehaviour, IDamageable {
         originalColor = GetComponent<SpriteRenderer>().color;
         GameManager.Instance.UpdateHealthBar(health / initialHealth);
 
-        powerupEffectDurations = new List<Timer>();
-        powerupEffectRestoreValues = new List<PowerupEffect>();
+        powerupEffectDurations = new Dictionary<string, Timer>();
+        powerupEffectRestoreValues = new Dictionary<string, PowerupEffect>();
 
         BulletScaling = 0.5f;       // set default bullet scaling
    }
@@ -131,6 +133,8 @@ public class Player : MonoBehaviour, IDamageable {
             bulletScaling = BulletScaling
         };
 
+        string effectType = "";
+
         if (effect.health != null) {
             health = (float)effect.health;
         }
@@ -142,6 +146,7 @@ public class Player : MonoBehaviour, IDamageable {
                 bulletScaling = BulletScaling
             };
 
+            effectType = "BulletScaling";
             BulletScaling = (float)effect.bulletScaling;
         }
 
@@ -150,8 +155,8 @@ public class Player : MonoBehaviour, IDamageable {
                 shipScaling = ShipScaling
             };
 
+            effectType = "ShipScaling";
             ShipScaling = (float)effect.shipScaling;
-
         }
 
         if (effect.shootPattern != null) {
@@ -159,6 +164,7 @@ public class Player : MonoBehaviour, IDamageable {
                 shootPattern = ShootPattern
             };
 
+            effectType = "ShootPattern";
             ShootPattern = effect.shootPattern;
         }
 
@@ -168,14 +174,27 @@ public class Player : MonoBehaviour, IDamageable {
             effectTimer.onFinish += () => { 
                 GotPowerup(restoreValuesEffect);      // apply the values from the restoreValuesEffect to return to a 'normal' state
 
-                powerupEffectRestoreValues.Remove(restoreValuesEffect);
-                powerupEffectDurations.Remove(effectTimer);
+                powerupEffectRestoreValues.Remove(effectType);
+                powerupEffectDurations[effectType].Stop();
+                powerupEffectDurations.Remove(effectType);
             };
 
             effectTimer.Start();
 
-            powerupEffectDurations.Add(effectTimer);                    // add this new timer to the list of timers
-            powerupEffectRestoreValues.Add(restoreValuesEffect);        // add this new restore effect to the list            
+            // add or update the timer for this effect type
+            if (powerupEffectDurations.ContainsKey(effectType)) {
+                powerupEffectDurations[effectType].Stop();
+                powerupEffectDurations[effectType] = effectTimer;
+            } else {
+                powerupEffectDurations.Add(effectType, effectTimer);
+            }
+
+            // add or update the restore value effect struct for this effect type
+            if (powerupEffectRestoreValues.ContainsKey(effectType)) {
+                powerupEffectRestoreValues[effectType] = restoreValuesEffect;
+            } else {
+                powerupEffectRestoreValues.Add(effectType, restoreValuesEffect);
+            }
         }
     }
 }

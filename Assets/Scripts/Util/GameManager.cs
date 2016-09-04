@@ -64,6 +64,7 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     // State variables
     private bool _loading;
     private bool _paused;
+    public bool BossWaveActive { get; set; }
 
     /*---
     * Startup / Initialization
@@ -144,8 +145,13 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     }
 
     private void CreateEnemyWave() {
+        if (BossWaveActive) return;
         int waveSize = Random.Range(Balance.ENEMY_WAVE_MIN_SIZE, Balance.ENEMY_WAVE_MAX_SIZE);
         int waveTypeIndex = Random.Range(0, EnemyWaves.WaveTypes.Length);
+
+        print("spawning wave");
+        print("available pool size: " + enemyPool.Available.Count);
+        print("inuse pool size: " + enemyPool.InUse.Count);
 
         GameObject[] enemies = enemyPool.Borrow(waveSize);
 
@@ -156,7 +162,6 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
         StartCoroutine(SpawnEnemyWave(enemies, EnemyWaves.WaveTypes[waveTypeIndex]._delayBetweenSpawns));
     }
-
 
     private IEnumerator SpawnEnemyWave(GameObject[] enemies, float delayBetweenSpawns) {
         for (int i = 0; i < enemies.Length; i++) {
@@ -206,8 +211,9 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
         for (int i = 0; i < toKill.Length; i++) {
             toKill[i].GetComponent<Enemy>().Dead();
         }
+
         enemySpawnTimer.Start();
-        
+
         // show nuke animation/effect
         // fade background color?
     }
@@ -276,10 +282,17 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
 
         // every 2 stages, spawn a boss 
         if (stage % 2 == 0) {
+            print("spawning a boss");
             // stop the enemy spawner
             SetEnemySpawnEnabled(false);
-            // wait for all the enemies to be dead before spawning the boss
+            // wait for all the enemies to be dead before spawning the boss 
+
+
+            // TODO: seems nukes actually arent returning everything to their pools
+
+
             enemyPool.onPoolFull += ScreenClear;
+            BossWaveActive = true;
         }
 
         if (stage_advancement_score * Balance.STAGE_ADVANCEMENT_SCORE_MULTIPLIER < Balance.STAGE_ADVANCEMENT_SCORE_CAP) {
@@ -308,7 +321,6 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     // access to the player object
     public void SetPlayerShoot(bool enabled) {
         player.GetComponent<PlayerShoot>().Shooting = enabled;
-        
     }
 
     // called by Pool Full event in enemy pool

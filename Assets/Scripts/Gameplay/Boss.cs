@@ -91,6 +91,7 @@ public abstract class Boss : MonoBehaviour, IDamageable {
         transform.position = new Vector3(0f, Balance.BossSpawnBounds.top, 0f);
         gameObject.SetActive(false);
 
+        GameManager.Instance.BossWaveActive = false;
         GameManager.Instance.SetEnemySpawnEnabled(true);
     }
 

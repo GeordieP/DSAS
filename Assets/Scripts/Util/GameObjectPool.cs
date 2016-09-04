@@ -13,20 +13,16 @@ public class GameObjectPool {
 
     private GameObject containerObject;         // GameObject used as a parent to all pooled objects in the scene
 
-    public GameObjectPool(int length, GameObject initialStateItem) {
+    public GameObjectPool(int size, GameObject initialStateItem) {
         _initialStateItem = initialStateItem;
 
         _inUse = new List<GameObject>();
         _available = new List<GameObject>();
 
-        containerObject = MonoBehaviour.Instantiate(new GameObject(), Vector3.zero, Quaternion.identity) as GameObject;
-        containerObject.name = _initialStateItem.name + "_pool";
-        
+		containerObject = new GameObject(_initialStateItem.name + "_pool");
 
-        GameObject temp;
-        for (int i = 0; i < length; i++) {
-            temp = SpawnOne();
-            _available.Add(temp);
+        for (int i = 0; i < size; i++) {
+            SpawnOne();
         }
     }
 
@@ -37,6 +33,7 @@ public class GameObjectPool {
         GameObject entity = MonoBehaviour.Instantiate(_initialStateItem, Vector3.zero, Quaternion.identity) as GameObject;
         entity.GetComponent<PooledEntity>().SetPool(this);
         entity.transform.parent = containerObject.transform;
+        _available.Add(entity);
         return entity;
     }
 

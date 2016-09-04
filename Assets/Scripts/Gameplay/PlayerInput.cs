@@ -35,51 +35,67 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	private void Update() {
-		// TODO: just for now use space to test nukes
-		if (Input.GetKey(KeyCode.Space)) {
-			if (!nukeTriggerDelayTimer.running)
-				nukeTriggerDelayTimer.Start();
-		} else {
-			nukeTriggerDelayTimer.Stop();
-		}
 
-
-/*
-		// user is touching screen
-		if (Input.touches.Length > 0) {
-			// more than one finger
-			if (Input.touches.Length > 1) {
-				// stop movement, start nuke timer
+		if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WindowsPlayer) {
+			if (Input.GetKey(KeyCode.Space)) {
 				MOVE_DIR = NONE;
 				SMOOTHING_TIME = SMOOTHING_TIME_DECELERATING;
 				if (!nukeTriggerDelayTimer.running)
 					nukeTriggerDelayTimer.Start();
 			} else {
-				// only one finger
-				// move appropriate direction and stop nuke timer if it's running
-				
-				if (Input.GetTouch(Input.touches.Length - 1).position.x < halfScreenWidth) {
+				if (Input.GetKey(KeyCode.A)) {
 					MOVE_DIR = LEFT;
-					TOUCH_POS_SPEED_SCALING = (halfScreenWidth - Input.GetTouch(Input.touches.Length - 1).position.x) / halfScreenWidth;
-				} else {
+					SMOOTHING_TIME = SMOOTHING_TIME_ACCELERATING;
+					TOUCH_POS_SPEED_SCALING = 1f;
+				} else if (Input.GetKey(KeyCode.D)) {
 					MOVE_DIR = RIGHT;
-					TOUCH_POS_SPEED_SCALING = (Input.GetTouch(Input.touches.Length - 1).position.x - halfScreenWidth) / halfScreenWidth;
+					SMOOTHING_TIME = SMOOTHING_TIME_ACCELERATING;
+					TOUCH_POS_SPEED_SCALING = 1f;
+				} else {
+					MOVE_DIR = NONE;
+					SMOOTHING_TIME = SMOOTHING_TIME_DECELERATING;
 				}
-				SMOOTHING_TIME = SMOOTHING_TIME_ACCELERATING;
+				if (nukeTriggerDelayTimer.running)
+					nukeTriggerDelayTimer.Stop();
+
+			}
+		} else {
+			// user is touching screen
+			if (Input.touches.Length > 0) {
+				// more than one finger
+				if (Input.touches.Length > 1) {
+					// stop movement, start nuke timer
+					MOVE_DIR = NONE;
+					SMOOTHING_TIME = SMOOTHING_TIME_DECELERATING;
+					if (!nukeTriggerDelayTimer.running)
+						nukeTriggerDelayTimer.Start();
+				} else {
+					// only one finger
+					// move appropriate direction and stop nuke timer if it's running
+
+					if (Input.GetTouch(Input.touches.Length - 1).position.x < halfScreenWidth) {
+						MOVE_DIR = LEFT;
+						TOUCH_POS_SPEED_SCALING = (halfScreenWidth - Input.GetTouch(Input.touches.Length - 1).position.x) / halfScreenWidth;
+					} else {
+						MOVE_DIR = RIGHT;
+						TOUCH_POS_SPEED_SCALING = (Input.GetTouch(Input.touches.Length - 1).position.x - halfScreenWidth) / halfScreenWidth;
+					}
+					SMOOTHING_TIME = SMOOTHING_TIME_ACCELERATING;
+
+					if (nukeTriggerDelayTimer.running)
+						nukeTriggerDelayTimer.Stop();
+				}
+			} else {
+				// no fingers on screen
+				MOVE_DIR = NONE;
+				SMOOTHING_TIME = SMOOTHING_TIME_DECELERATING;
 
 				if (nukeTriggerDelayTimer.running)
 					nukeTriggerDelayTimer.Stop();
 			}
-		} else {
-			// no fingers on screen
-			MOVE_DIR = NONE;
-			SMOOTHING_TIME = SMOOTHING_TIME_DECELERATING;
-
-			if (nukeTriggerDelayTimer.running)
-				nukeTriggerDelayTimer.Stop();
-		}*/
+		}
 	}
-
+	
 	private void nukeTriggerDelayTimer_onFinish() {
 		if (nukeChargeLevel < NUKE_MAX_CHARGE_LEVEL) return;
 		GameManager.Instance.PlayerNuke();
