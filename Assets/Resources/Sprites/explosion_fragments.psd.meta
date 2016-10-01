@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: e6d498998f7a29944acd96db070d0c06
-timeCreated: 1463454395
+guid: 8ecbbe92fc8618b40a16c059098c96fb
+timeCreated: 1475300472
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -33,7 +33,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: 0
+    filterMode: -1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -59,72 +59,74 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 4, y: 8}
-        - {x: -8, y: 0}
-        - {x: -8, y: -6}
-        - {x: -6, y: -8}
-        - {x: 0, y: -8}
-        - {x: 8, y: 3}
-        - {x: 8, y: 8}
+      - - {x: -16, y: 30}
+        - {x: -30, y: 18}
+        - {x: -30, y: -29}
+        - {x: -24, y: -30}
+        - {x: 18, y: -30}
+        - {x: 30, y: -19}
+        - {x: 30, y: 26}
+        - {x: 27, y: 30}
     - name: explosion_fragments_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 100
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 8, y: 8}
-        - {x: -8, y: 8}
-        - {x: -8, y: -8}
-        - {x: 8, y: -8}
+      - - {x: -30, y: 30}
+        - {x: -30, y: -30}
+        - {x: 26, y: -30}
+        - {x: 30, y: -23}
+        - {x: 30, y: 24}
+        - {x: 20, y: 30}
     - name: explosion_fragments_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 200
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -2, y: 5}
-        - {x: -5, y: 2}
-        - {x: -5, y: -2}
-        - {x: -2, y: -5}
-        - {x: 2, y: -5}
-        - {x: 5, y: -2}
-        - {x: 5, y: 2}
-        - {x: 2, y: 5}
+      - - {x: 27, y: 24}
+        - {x: 22, y: 27}
+        - {x: -22, y: 27}
+        - {x: -27, y: 22}
+        - {x: -27, y: -26}
+        - {x: -19, y: -27}
+        - {x: 27, y: -27}
     - name: explosion_fragments_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 300
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -1, y: 4}
-        - {x: -4, y: 1}
-        - {x: -4, y: -1}
-        - {x: -1, y: -4}
-        - {x: 1, y: -4}
-        - {x: 4, y: -1}
-        - {x: 4, y: 1}
-        - {x: 1, y: 4}
+      - - {x: -22, y: 26}
+        - {x: -26, y: 21}
+        - {x: -26, y: -24}
+        - {x: -24, y: -26}
+        - {x: 22, y: -26}
+        - {x: 26, y: -21}
+        - {x: 26, y: 13}
+        - {x: 23, y: 26}
     outline: []
   spritePackingTag: 
   userData: 

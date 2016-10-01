@@ -12,7 +12,7 @@ public abstract class PooledEntity : MonoBehaviour {
     }
 
     public virtual void ReturnToPool() {
-        myPool.Restore(gameObject);
+        myPool.RestoreUnlocked(gameObject);
     }
 
     public virtual void Despawn() {

@@ -291,6 +291,9 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
             // TODO: seems nukes actually arent returning everything to their pools
 
 
+            // print("spawning boss: available pool size: " + enemyPool.Available.Count);
+            // print("spawning boss: inuse pool size: " + enemyPool.InUse.Count);
+
             enemyPool.onPoolFull += ScreenClear;
             BossWaveActive = true;
         }
@@ -326,6 +329,11 @@ public class GameManager : PersistentUnitySingleton<GameManager> {
     // called by Pool Full event in enemy pool
     // when there are no enemies left alive
     public void ScreenClear() {
+
+
+        // print("screen clear: available pool size: " + enemyPool.Available.Count);
+        // print("screen clear: inuse pool size: " + enemyPool.InUse.Count);
+
         // stop player shooting
         SetPlayerShoot(false);
 

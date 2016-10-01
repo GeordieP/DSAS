@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: affadb916590d484bba340f95674993f
-timeCreated: 1462173512
+guid: 411ff81d7c5bb6b41b70ea6c7e625fbc
+timeCreated: 1475299344
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -35,7 +35,7 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
-    filterMode: 0
+    filterMode: -1
     aniso: 16
     mipBias: -1
     wrapMode: 1
@@ -61,112 +61,111 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -8, y: 2}
-        - {x: -14, y: 1}
-        - {x: -14, y: -23}
-        - {x: -13, y: -24}
-        - {x: 10, y: -24}
-        - {x: 14, y: -20}
-        - {x: 14, y: -4}
-        - {x: 11, y: 2}
+      - - {x: -30, y: 34}
+        - {x: -34, y: 28}
+        - {x: -34, y: -20}
+        - {x: -31, y: -34}
+        - {x: 30, y: -34}
+        - {x: 34, y: -33}
+        - {x: 34, y: 34}
     - name: enemy_bullet_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 100
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -12, y: -2}
-        - {x: -12, y: -20}
-        - {x: -11, y: -24}
-        - {x: 8, y: -24}
-        - {x: 12, y: -20}
-        - {x: 12, y: -2}
+      - - {x: -23, y: 31}
+        - {x: -32, y: 27}
+        - {x: -32, y: -18}
+        - {x: -31, y: -25}
+        - {x: -25, y: -32}
+        - {x: 19, y: -32}
+        - {x: 32, y: -29}
+        - {x: 32, y: 31}
     - name: enemy_bullet_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 200
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: 2, y: 10}
-        - {x: -3, y: 10}
-        - {x: -7, y: 5}
-        - {x: -10, y: -6}
-        - {x: -10, y: -24}
-        - {x: 10, y: -24}
-        - {x: 10, y: -3}
-        - {x: 9, y: 6}
+      - - {x: -27, y: 37}
+        - {x: -30, y: 32}
+        - {x: -30, y: -36}
+        - {x: -23, y: -38}
+        - {x: 30, y: -38}
+        - {x: 30, y: 37}
     - name: enemy_bullet_3
       rect:
         serializedVersion: 2
-        x: 144
+        x: 300
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -9, y: 6}
-        - {x: -14, y: -4}
-        - {x: -14, y: -24}
-        - {x: 14, y: -24}
-        - {x: 14, y: -8}
-        - {x: 8, y: 6}
+      - - {x: -31, y: 35}
+        - {x: -34, y: 34}
+        - {x: -34, y: -36}
+        - {x: 33, y: -36}
+        - {x: 34, y: -33}
+        - {x: 34, y: 34}
+        - {x: 33, y: 35}
     - name: enemy_bullet_4
       rect:
         serializedVersion: 2
-        x: 192
+        x: 400
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -8, y: 6}
-        - {x: -12, y: -1}
-        - {x: -12, y: -16}
-        - {x: -10, y: -20}
-        - {x: -6, y: -24}
-        - {x: 7, y: -24}
-        - {x: 12, y: -18}
-        - {x: 12, y: 3}
-        - {x: 4, y: 6}
+      - - {x: -28, y: 36}
+        - {x: -32, y: 28}
+        - {x: -32, y: -31}
+        - {x: -26, y: -36}
+        - {x: 27, y: -36}
+        - {x: 32, y: -30}
+        - {x: 32, y: 36}
     - name: enemy_bullet_5
       rect:
         serializedVersion: 2
-        x: 240
+        x: 500
         y: 0
-        width: 48
-        height: 48
+        width: 100
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -2, y: 10}
-        - {x: -8, y: 4}
-        - {x: -8, y: -22}
-        - {x: -6, y: -24}
-        - {x: 6, y: -24}
-        - {x: 8, y: -22}
-        - {x: 8, y: 4}
-        - {x: 2, y: 10}
+      - - {x: 20, y: 37}
+        - {x: -15, y: 37}
+        - {x: -29, y: 33}
+        - {x: -29, y: -25}
+        - {x: -23, y: -38}
+        - {x: 25, y: -38}
+        - {x: 29, y: -25}
+        - {x: 29, y: 24}
+        - {x: 27, y: 30}
     outline: []
   spritePackingTag: 
   userData: 
